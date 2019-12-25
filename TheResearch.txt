@@ -1,0 +1,8 @@
+slidetoggle()
+https://www.w3schools.com/jquery/eff_slidetoggle.asp
+})(jQuery);
+https://stackoverflow.com/questions/4621966/what-does-a-block-of-code-in-parentheses-mean-in-javascript-jquery?noredirect=1&lq=1
+barcode animation html css js
+https://freefrontend.com/css-barcodes/
+https://codepen.io/lexctk/pen/paQaBv?editors=1100
+https://codecanyon.net/item/product-grid-and-shop-grid-pure-css-showcase/22389392
