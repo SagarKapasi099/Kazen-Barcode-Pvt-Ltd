@@ -568,6 +568,108 @@ form,
  * # preloader
  *
  * ------------------------------------------------------------------- */
+
+
+ .center {
+ 	margin: auto auto;
+ 	text-align: center;
+ }
+
+ /* barcode container */
+ .anim-box {
+ 	position: relative;
+ 	width: 300px;
+ 	height: 100px;
+ 	padding: 25px 30px;
+ 	transition: transform .6s ease-out;
+  transform: translate(0%, 180%);
+ }
+
+ /* adds the 4 corners */
+ .anim-box:before, .anim-box:after, .anim-box>:first-child:before, .anim-box>:first-child:after {
+ 	position: absolute;
+ 	width: 10%; height: 15%;
+ 	border-color: white;
+ 	border-style: solid;
+ 	content: ' ';
+ }
+
+ /* top left corner */
+ .anim-box:before {
+ 	top: 0; left: 0;
+ 	border-width: 2px 0 0 2px;
+ }
+
+ /* top right corner */
+ .anim-box:after {
+ 	top: 0; right: 0;
+ 	border-width: 2px 2px 0 0;
+ }
+
+ /* bottom right corner */
+ .anim-box>:first-child:before {
+ 	bottom: 0; right: 0;
+ 	border-width: 0 2px 2px 0;
+ }
+
+ /* bottom left corner */
+ .anim-box>:first-child:after {
+ 	bottom: 0; left: 0;
+ 	border-width: 0 0 2px 2px;
+ }
+
+ /* barcode bars */
+ .anim-item {
+ 	display: inline-block;
+ 	background-color: white;
+ 	height: 100px;
+ }
+
+ .anim-item-sm {
+ 	width: 2px;
+ 	margin-right: 3px;
+ }
+
+ .anim-item-md {
+ 	width: 3px;
+ 	margin-right: 2px;
+ }
+
+ .anim-item-lg {
+ 	width: 5px;
+ 	margin-right: 5px;
+ }
+
+ /* animated laser beam */
+ .scanner {
+ 	width: 100%;
+ 	height: 3px;
+ 	background-color: red;
+   opacity: 0.7;
+   position:relative;
+   box-shadow: 0px 0px 8px 10px rgba(170, 11, 23, 0.49);
+   top:50%;
+   animation-name: scan;
+   animation-duration: 4s;
+   animation-timing-function: linear;
+   animation-iteration-count: infinite;
+ }
+
+ @keyframes scan {
+   0% {
+     box-shadow: 0px 0px 8px 10px rgba(170, 11, 23, 0.49);
+     top: 50%;
+   }
+   25% {
+     box-shadow: 0px 6px 8px 10px rgba(170, 11, 23, 0.49);
+     top: 5px;
+   }
+   75% {
+     box-shadow: 0px -6px 8px 10px rgba(170, 11, 23, 0.49);
+     top: 98%;
+   }
+ }
+
 #preloader {
   position: fixed;
   top: 0;
@@ -587,18 +689,18 @@ form,
 }
 
 #loader {
-  position: absolute;
+  /* position: absolute;
   left: 50%;
   top: 50%;
   width: 6px;
   height: 6px;
-  padding: 0;
-  display: inline-block;
-  -webkit-transform: translate3d(-50%, -50%, 0);
-  transform: translate3d(-50%, -50%, 0);
+  padding: 0; */
+  /* display: inline-block; */
+  /* -webkit-transform: translate3d(-50%, -50%, 0);
+  transform: translate3d(-50%, -50%, 0); */
 }
 
-#loader > div {
+/* #loader > div {
   content: "";
   background: #ffffff;
   width: 6px;
@@ -615,10 +717,10 @@ form,
 
 #loader > div:nth-of-type(3) {
   left: -15px;
-}
+} */
 
 /* dots jump */
-.dots-jump > div {
+/* .dots-jump > div {
   -webkit-animation: dots-jump 1.2s infinite ease;
   animation: dots-jump 1.2s infinite ease;
   animation-delay: 0.2s;
@@ -756,7 +858,7 @@ form,
     transform: scale(1);
   }
 
-}
+} */
 
 
 /* ===================================================================
@@ -1795,8 +1897,8 @@ input::-moz-focus-inner {
   height: 7.2rem;
   width: 100%;
   position: absolute;
-  top: 2.8rem;
   left: 0;
+  position: fixed;
 }
 
 /* -------------------------------------------------------------------
@@ -1841,6 +1943,16 @@ input::-moz-focus-inner {
 /* -------------------------------------------------------------------
  * ## main navigation
  * ------------------------------------------------------------------- */
+
+.half-black {
+  background: rgba(0, 0, 0, 0.5);
+}
+
+.site-logo h4 {
+  color:white;
+  margin:0;
+}
+
 .header-nav-wrap {
   z-index: 101;
   position: absolute;
@@ -1994,6 +2106,7 @@ input::-moz-focus-inner {
     display: none;
     height: auto;
     width: 100%;
+    height: 100%;
     background-color: black;
     padding: 14rem 4.4rem 6.4rem;
     position: absolute;
@@ -2407,7 +2520,7 @@ html.no-csstransitions .hero-content {
   }
 
   .hero-content h1 {
-    font-size: 7.2rem;
+    font-size: 5.2rem;
     margin-right: 0;
     margin-left: 0;
     margin-bottom: 4.8rem;
@@ -2518,8 +2631,8 @@ html.no-csstransitions .hero-content {
  *
  * ------------------------------------------------------------------- */
 .s-about {
-  padding-top: 19.6rem;
-  padding-bottom: 19.6rem;
+  padding-top: 9.6rem;
+  padding-bottom: 2.6rem;
   background-color: #3b0d11;
   color: rgba(255, 255, 255, 0.8);
 }
