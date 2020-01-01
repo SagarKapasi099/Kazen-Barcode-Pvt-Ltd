@@ -1946,6 +1946,7 @@ input::-moz-focus-inner {
 
 .half-black {
   background: rgba(0, 0, 0, 0.5);
+  backdrop-filter: blur(10px) saturate(125%);
 }
 
 .site-logo h4 {
