@@ -20,8 +20,17 @@ func main() {
 	r := mux.NewRouter()
 	//mux.Handle("/", http.FileServer(http.Dir("static")))
 	r.HandleFunc("/", HomeHandler)
+	r.HandleFunc("/about", AboutHandler)
 
 	log.Fatal(http.ListenAndServe(":8080", r))
+}
+
+func AboutHandler(w http.ResponseWriter, r *http.Request) {
+	w.WriteHeader(http.StatusOK)
+	err := tpl.ExecuteTemplate(w, "about", nil)
+	if err != nil {
+		log.Fatal(err)
+	}
 }
 
 func HomeHandler(w http.ResponseWriter, r *http.Request) {
