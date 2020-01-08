@@ -18,7 +18,7 @@ func main() {
 		log.Fatal(err)
 	}
 	r := mux.NewRouter()
-	//mux.Handle("/", http.FileServer(http.Dir("static")))
+	r.PathPrefix("/static/").Handler(http.StripPrefix("/static/", http.FileServer(http.Dir("static"))))
 	r.HandleFunc("/", HomeHandler)
 	r.HandleFunc("/about", AboutHandler)
 
