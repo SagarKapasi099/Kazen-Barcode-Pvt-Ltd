@@ -2649,11 +2649,16 @@ html.no-csstransitions .hero-content {
  * responsive:
  * connect
  * ------------------------------------------------------------------- */
+
+.connect-content .column {
+  margin-bottom: 6.4rem;
+}
+
 @media screen and (max-width:1000px) {
+
   .connect-content .column:first-child {
     padding-right: 2.2vw;
   }
-
   .connect-content .column:last-child {
     padding-left: 2.2vw;
   }
@@ -2674,10 +2679,6 @@ html.no-csstransitions .hero-content {
 
   .connect-content .column:last-child {
     padding-left: 16px;
-  }
-
-  .connect-content .column:first-child {
-    margin-bottom: 6.4rem;
   }
 
 }
