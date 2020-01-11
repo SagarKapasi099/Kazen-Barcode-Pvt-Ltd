@@ -2620,6 +2620,7 @@ html.no-csstransitions .hero-content {
 }
 
 .connect-content {
+  width: 95%;
   padding-bottom: 12rem;
   border-bottom: 1px solid rgba(0, 0, 0, 0.1);
 }
