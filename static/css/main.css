@@ -2632,14 +2632,6 @@ html.no-csstransitions .hero-content {
   flex-flow: column nowrap;
 }
 
-.connect-content .column:first-child {
-  padding-right: 2.4vw;
-}
-
-.connect-content .column:last-child {
-  padding-left: 2.4vw;
-}
-
 .connect-content .btn {
   margin-top: auto;
   margin-right: 0;

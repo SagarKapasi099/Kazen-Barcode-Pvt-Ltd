@@ -1,25 +1,17 @@
 @import url("https://fonts.googleapis.com/css?family=Lato:400,700");
-/* center container in the middle */
 
 .container {
     min-height: 100%;
-    display: grid;
     font-family: "Lato", sans-serif, sans-serif;
     position: relative;
-    overflow: hidden;
     box-shadow: 5px 5px 15px rgba(186, 126, 126, 0.5);
     border-radius: 10px;
 }
 
-.container img {
-    margin: auto;
-    max-width: 100%;
-    height: auto;
-    display: block;
-}
-
-.container div {
-    margin: 1em;
+@media screen and (min-width:601px) {
+    .container {
+        display: flex;
+    }
 }
 
 h1 {
@@ -38,34 +30,21 @@ h2 {
     display: none;
 }
 
-.one, .two, .three, .four {
-    position: absolute;
-    width: 7px;
-    height: 7px;
-    border-radius: 50%;
-    background: #E0C9CB;
+@media screen and (max-width:600px) {
+    .images {
+        margin: 1em auto !important;
+    }
 }
 
-.one {
-    left: 22%;
-}
-
-.two {
-    left: 27%;
-}
-
-.three {
-    left: 32%;
-}
-
-.four {
-    left: 37%;
+.images {
+     margin: auto 1em;
+    width: fit-content;
 }
 
 .product {
     height: 100%;
-    top: 10%;
-    left: 60%;
+    font-size: medium;
+    margin: 1em;
 }
 
 .desc {
