@@ -1,84 +1,86 @@
 {{define "home"}}
-{{template "header" .}}
-<!-- hero
+    {{template "header" .}}
+    <!-- hero
+        ================================================== -->
+    <section class="s-hero" data-parallax="scroll" data-image-src="static/images/hero-bg-3000.jpg"
+             data-natural-width=3000 data-natural-height=2000 data-position-y=center>
+
+        <div class="row hero-content">
+
+            <div class="column large-full hero-content__text">
+                <h1>
+                    We have an alliance with world-renowned Automatic Data Capture & Electronic Security solution
+                    providers.
+                </h1>
+
+                <div class="hero-content__buttons">
+                    <a href="events.html" class="btn btn--stroke">Products</a>
+                    <a href="about.html" class="btn btn--stroke">About Us</a>
+                </div>
+            </div> <!-- end hero-content__text -->
+
+        </div> <!-- end hero-content -->
+
+    </section> <!-- end s-hero -->
+
+
+    <!-- about
     ================================================== -->
-<section class="s-hero" data-parallax="scroll" data-image-src="static/images/hero-bg-3000.jpg" data-natural-width=3000 data-natural-height=2000 data-position-y=center>
+    <section id="about" class="s-about">
 
-    <div class="row hero-content">
+        <div class="row row-y-center about-content">
 
-        <div class="column large-full hero-content__text">
-            <h1>
-                We have an alliance with world-renowned Automatic Data Capture & Electronic Security solution providers.
-            </h1>
-
-            <div class="hero-content__buttons">
-                <a href="events.html" class="btn btn--stroke">Products</a>
-                <a href="about.html" class="btn btn--stroke">About Us</a>
+            <div class="column large-full medium-full">
+                <h3 class="subhead">About Kazen Barcode Pvt. Ltd.</h3>
+                <p class="lead">
+                    Kazen barcode Pvt. Ltd. has an alliance with world-renowned Automatic Data Capture
+                    & Electronic Security solution providers.<br><br>
+                    Kazen barcode Pvt. Ltd. offer about 10 years service portfolio that include support of
+                    all type of Barcode Equipments
+                    like SYMBOL, PSC, PERCON, WELCH ALLYN, DATALOGIC, DATAMAX, TEC, PAXAR, ZEBRA,
+                    METO, CITOH, ARGOX, etc.
+                </p>
+                <a href="about.html" class="btn btn--primary btn--about">Read More</a>
             </div>
-        </div> <!-- end hero-content__text -->
 
-    </div> <!-- end hero-content -->
+        </div> <!-- end about-content -->
 
-</section> <!-- end s-hero -->
+    </section> <!-- end s-about -->
 
+    <!-- connect
+    ================================================== -->
+    <section class="s-connect" id="products">
 
-<!-- about
-================================================== -->
-<section id="about" class="s-about">
+        <div class="row events-header">
+            <div class="column">
+                <h2 class="subhead">Products</h2>
+            </div>
+        </div> <!-- end event-header -->
 
-    <div class="row row-y-center about-content">
+        <div class="row connect-content">
+            {{range .Products}}
 
-        <div class="column large-full medium-full">
-            <h3 class="subhead">About Kazen Barcode Pvt. Ltd.</h3>
-            <p class="lead">
-                Kazen barcode Pvt. Ltd. has an alliance with world-renowned Automatic Data Capture
-                & Electronic Security solution providers.<br><br>
-                Kazen barcode Pvt. Ltd. offer about 10 years service portfolio that include support of
-                all type of Barcode Equipments
-                like SYMBOL, PSC, PERCON, WELCH ALLYN, DATALOGIC, DATAMAX, TEC, PAXAR, ZEBRA,
-                METO, CITOH, ARGOX, etc.
-            </p>
-            <a href="about.html" class="btn btn--primary btn--about">Read More</a>
-        </div>
-
-    </div> <!-- end about-content -->
-
-</section> <!-- end s-about -->
-
-<!-- connect
-================================================== -->
-<section class="s-connect" id="products">
-
-    <div class="row events-header">
-        <div class="column">
-            <h2 class="subhead">Products</h2>
-        </div>
-    </div> <!-- end event-header -->
-
-    <div class="row connect-content">
-        {{range .Products}}
-
-            <div class="column large-half tab-full">
-                <div class="container">
-                    <div class="images">
-                        <img src="{{.URL}}"/>
-                    </div>
-                    <div class="product">
-                        <h1>{{.Name}}</h1>
-                        <ul>
-                            {{range .Properties}}
-                                <li>{{.}}</li>
-                            {{end}}
-                        </ul>
+                <div class="column large-half tab-full">
+                    <div class="container">
+                        <div class="images">
+                            <img src="{{.URL}}"/>
+                        </div>
+                        <div class="product">
+                            <h1>{{.Name}}</h1>
+                            <ul>
+                                {{range .Properties}}
+                                    <li>{{.}}</li>
+                                {{end}}
+                            </ul>
+                        </div>
                     </div>
                 </div>
-            </div>
 
-        {{end}}
+            {{end}}
 
-    </div> <!-- end connect-content  -->
+        </div> <!-- end connect-content  -->
 
-</section> <!-- end s-connect -->
+    </section> <!-- end s-connect -->
 
-{{template "footer"}}
+    {{template "footer"}}
 {{end}}
