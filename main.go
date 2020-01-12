@@ -12,6 +12,7 @@ var templatesPath = "templates/*.html"
 var tpl *template.Template
 
 type Product struct {
+	Id         string
 	Name       string
 	URL        string
 	Properties []string
@@ -44,6 +45,7 @@ func HomeHandler(w http.ResponseWriter, r *http.Request) {
 
 	products := []Product{
 		{
+			"id-1",
 			"CP2140 / CP3140",
 			"https://web.archive.org/web/20181106170520im_/http://kazenbarcode.com/product_image/1cat2.jpg",
 			[]string{
@@ -56,6 +58,7 @@ func HomeHandler(w http.ResponseWriter, r *http.Request) {
 				"Zebra Emulation",
 			},
 		}, {
+			"id-2",
 			"CP2140 / CP3140",
 			"https://web.archive.org/web/20181106170520im_/http://kazenbarcode.com/product_image/1cat2.jpg",
 			[]string{
@@ -68,6 +71,7 @@ func HomeHandler(w http.ResponseWriter, r *http.Request) {
 				"Zebra Emulation",
 			},
 		}, {
+			"id-3",
 			"CP2140 / CP3140",
 			"https://web.archive.org/web/20181106170520im_/http://kazenbarcode.com/product_image/1cat2.jpg",
 			[]string{
@@ -80,6 +84,7 @@ func HomeHandler(w http.ResponseWriter, r *http.Request) {
 				"Zebra Emulation",
 			},
 		}, {
+			"id-4",
 			"CP2140 / CP3140",
 			"https://web.archive.org/web/20181106170520im_/http://kazenbarcode.com/product_image/1cat2.jpg",
 			[]string{
@@ -92,6 +97,7 @@ func HomeHandler(w http.ResponseWriter, r *http.Request) {
 				"Zebra Emulation",
 			},
 		}, {
+			"id-5",
 			"CP2140 / CP3140",
 			"https://web.archive.org/web/20181106170520im_/http://kazenbarcode.com/product_image/1cat2.jpg",
 			[]string{
