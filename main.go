@@ -12,14 +12,12 @@ var templatesPath = "templates/*.html"
 var tpl *template.Template
 
 type Product struct {
-	Name string
-	URL string
-	Price string
+	Name       string
+	URL        string
 	Properties []string
 }
 
 func main() {
-
 
 	var err error
 	tpl, err = template.ParseGlob(templatesPath)
@@ -48,7 +46,6 @@ func HomeHandler(w http.ResponseWriter, r *http.Request) {
 		{
 			"CP2140 / CP3140",
 			"https://web.archive.org/web/20181106170520im_/http://kazenbarcode.com/product_image/1cat2.jpg",
-			"Rs 399",
 			[]string{
 				"Printing Resolution: 203 DPI",
 				"Print Speed: 4 Inches per Second",
@@ -58,10 +55,9 @@ func HomeHandler(w http.ResponseWriter, r *http.Request) {
 				"Downloable Fonts….Movable Sensor",
 				"Zebra Emulation",
 			},
-		},{
+		}, {
 			"CP2140 / CP3140",
 			"https://web.archive.org/web/20181106170520im_/http://kazenbarcode.com/product_image/1cat2.jpg",
-			"Rs 399",
 			[]string{
 				"Printing Resolution: 203 DPI",
 				"Print Speed: 4 Inches per Second",
@@ -71,10 +67,9 @@ func HomeHandler(w http.ResponseWriter, r *http.Request) {
 				"Downloable Fonts….Movable Sensor",
 				"Zebra Emulation",
 			},
-		},{
+		}, {
 			"CP2140 / CP3140",
 			"https://web.archive.org/web/20181106170520im_/http://kazenbarcode.com/product_image/1cat2.jpg",
-			"Rs 399",
 			[]string{
 				"Printing Resolution: 203 DPI",
 				"Print Speed: 4 Inches per Second",
@@ -84,10 +79,9 @@ func HomeHandler(w http.ResponseWriter, r *http.Request) {
 				"Downloable Fonts….Movable Sensor",
 				"Zebra Emulation",
 			},
-		},{
+		}, {
 			"CP2140 / CP3140",
 			"https://web.archive.org/web/20181106170520im_/http://kazenbarcode.com/product_image/1cat2.jpg",
-			"Rs 399",
 			[]string{
 				"Printing Resolution: 203 DPI",
 				"Print Speed: 4 Inches per Second",
@@ -97,10 +91,9 @@ func HomeHandler(w http.ResponseWriter, r *http.Request) {
 				"Downloable Fonts….Movable Sensor",
 				"Zebra Emulation",
 			},
-		},{
+		}, {
 			"CP2140 / CP3140",
 			"https://web.archive.org/web/20181106170520im_/http://kazenbarcode.com/product_image/1cat2.jpg",
-			"Rs 399",
 			[]string{
 				"Printing Resolution: 203 DPI",
 				"Print Speed: 4 Inches per Second",
