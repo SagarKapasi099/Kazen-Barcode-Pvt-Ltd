@@ -230,6 +230,6 @@ button:hover {
     opacity: 1;
 }
 
-.fa {
+.fa, .button span {
     color: #ffffff;
 }
