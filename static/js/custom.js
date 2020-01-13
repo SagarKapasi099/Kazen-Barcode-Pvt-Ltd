@@ -1,3 +1,4 @@
+const countElement = document.getElementById('count');
 const buttons = document.getElementsByClassName("button");
 
 const buttonClickFunction = function () {
@@ -14,6 +15,7 @@ const buttonClickFunction = function () {
         localStorage.setItem("products", JSON.stringify(products));
         this.classList.add('success');
     }
+    updateCount(products.length);
 };
 
 for (let i = 0; i < buttons.length; i++) {
@@ -23,12 +25,22 @@ for (let i = 0; i < buttons.length; i++) {
 // Select All The Products From The Local Storage
 window.onload = function () {
     let products = JSON.parse(localStorage.getItem("products"));
-    if (products != null) {
-        const productButtons = document.querySelectorAll('[data-id]');
-        for (let i = 0; i < productButtons.length; ++i) {
-            if (products.includes(productButtons[i].getAttribute("data-id"))) {
-                productButtons[i].classList.add('success');
-            }
+    if (products == null) {
+        products = [];
+    }
+    const productButtons = document.querySelectorAll('[data-id]');
+    for (let i = 0; i < productButtons.length; ++i) {
+        if (products.includes(productButtons[i].getAttribute("data-id"))) {
+            productButtons[i].classList.add('success');
         }
     }
+    updateCount(products.length);
 };
+
+function updateCount(number) {
+    if (number > 0 && number != '' && number != null) {
+        countElement.innerHTML = number.toString();
+    } else {
+        countElement.innerHTML = "0";
+    }
+}

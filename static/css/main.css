@@ -3260,9 +3260,25 @@ html.no-csstransitions .hero-content {
     fill: #ffffff;
 }
 
+.ss-go-top a {
+    background-color: #ffffff !important;
+    color: #000000 !important;
+    box-shadow: 5px 5px 15px rgba(0, 0, 0, 0.5);
+}
+
 .ss-go-top a:hover {
-    background-color: #037c82;
-    color: #ffffff;
+    background-color: #3b0d11 !important;
+    color: white !important;
+    box-shadow: 5px 5px 15px rgba(0, 0, 0, 0.5);
+}
+
+#count {
+    background: #27ae60 !important;
+    color: white !important;
+    border-radius: 10%;
+    font-size: 1.5em;
+    float: right;
+    padding: 0 10%;
 }
 
 .ss-go-top.link-is-visible {
