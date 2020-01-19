@@ -816,7 +816,7 @@ select {
 }
 
 textarea {
-    min-height: 25.6rem;
+    min-height: 10.6rem;
 }
 
 input[type="email"]:focus,
@@ -3483,7 +3483,6 @@ html.no-csstransitions .hero-content {
     max-width: 800px;
     margin-left: auto;
     margin-right: auto;
-    margin-top: 6rem;
 }
 
 .event-thumb {
@@ -3507,6 +3506,7 @@ html.no-csstransitions .hero-content {
     font-family: "Open Sans", sans-serif;
     font-size: 1.7rem;
     line-height: 3.2rem;
+    counter-reset: products;
 }
 
 .event-meta li {
@@ -3523,7 +3523,8 @@ html.no-csstransitions .hero-content {
 }
 
 .event-meta strong::after {
-    content: " :";
+    counter-increment: products;
+    content: counter(products) " :";
 }
 
 /* -------------------------------------------------------------------
