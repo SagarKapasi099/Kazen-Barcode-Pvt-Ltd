@@ -190,6 +190,9 @@ func VerifyOTPHandler(w http.ResponseWriter, r *http.Request) {
 	fmt.Println(otpReceived)
 	// TODO: avoid brute force attack
 	// TODO: check database for OTP
+	// TODO: if products is greater than zero
+	showProducts := "false"
+
 	jsonResponse := ``
 	if otpReceived == otp {
 		// OTP matches
@@ -201,8 +204,7 @@ func VerifyOTPHandler(w http.ResponseWriter, r *http.Request) {
 				"buttonText": "Show Products With Prices"
 			},
 			"customerId": "`+customerId+`",
-			"url": "/showProducts",
-			"method": "post"
+			"showProducts": "`+showProducts+`"
 		}`
 	} else {
 		// OTP does not match

@@ -49,6 +49,11 @@ window.onload = function () {
     }
     updateCount(products.length);
     appendSelectedProductsList();
+    
+    if (products.length === 0) {
+        document.getElementById("superText").innerText = "Please feel free to contact us if you have any questions or comments about our services.";
+        document.getElementById("subText").innerText = "Please provide the following information so that we can route your request to the appropriate person and thus respond to you faster.";
+    }
 };
 
 function updateCount(number) {
@@ -257,14 +262,16 @@ document.addEventListener('click',function(e){
                 productsForm.action = "/products";
                 document.body.appendChild(productsForm);
 
-                let showProductsButton = document.createElement("input");
-                showProductsButton.setAttribute("name", "showProducts");
-                showProductsButton.setAttribute("id", "showProducts");
-                showProductsButton.setAttribute("value", "SHOW SELECTED PRODUCTS WITH PRICE");
-                showProductsButton.setAttribute("class", "btn btn--primary btn--large h-full-width");
-                showProductsButton.setAttribute("type", "submit");
+                if (jsonResponse.showProducts == true) {
+                    let showProductsButton = document.createElement("input");
+                    showProductsButton.setAttribute("name", "showProducts");
+                    showProductsButton.setAttribute("id", "showProducts");
+                    showProductsButton.setAttribute("value", "SHOW WITH PRICE");
+                    showProductsButton.setAttribute("class", "btn btn--primary btn--large h-full-width");
+                    showProductsButton.setAttribute("type", "submit");
 
-                document.getElementById("formDiv").appendChild(showProductsButton)
+                    document.getElementById("formDiv").appendChild(showProductsButton)
+                }
 
 
                 // alert( 'Yeah! Data sent and response loaded.' );
