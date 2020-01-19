@@ -182,7 +182,7 @@ document.getElementById("enquirySubmitBtn").addEventListener('click', function (
 
     // Define what happens in case of error
     XHR.addEventListener(' error', function (event) {
-        alert("Please Check Internet And Try Again.");
+        alert("Please Check Internet Connection And Try Again.");
         // alert( 'Oops! Something went wrong.' );
     });
 
@@ -260,7 +260,7 @@ document.addEventListener('click',function(e){
                 let showProductsButton = document.createElement("input");
                 showProductsButton.setAttribute("name", "showProducts");
                 showProductsButton.setAttribute("id", "showProducts");
-                showProductsButton.setAttribute("value", "SHOW PRODUCTS WITH PRICE");
+                showProductsButton.setAttribute("value", "SHOW SELECTED PRODUCTS WITH PRICE");
                 showProductsButton.setAttribute("class", "btn btn--primary btn--large h-full-width");
                 showProductsButton.setAttribute("type", "submit");
 
