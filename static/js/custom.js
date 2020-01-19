@@ -6,13 +6,26 @@ const buttonClickFunction = function () {
     if (products == null) {
         products = [];
     }
+
+    let productNames = JSON.parse(localStorage.getItem("productNames"));
+    if (productNames == null) {
+        productNames = [];
+    }
+
     if (this.classList.contains('success')) {
         products = products.filter(e => e !== this.getAttribute("data-id"));
         localStorage.setItem("products", JSON.stringify(products));
+
+        productNames = productNames.filter(e => e !== this.getAttribute("data-name")+"####"+this.getAttribute("data-id"));
+        localStorage.setItem("productNames", JSON.stringify(productNames));
+
         this.classList.remove('success');
     } else {
         products.push(this.getAttribute("data-id"));
         localStorage.setItem("products", JSON.stringify(products));
+
+        productNames.push(this.getAttribute("data-name")+"####"+this.getAttribute("data-id"));
+        localStorage.setItem("productNames", JSON.stringify(productNames));
         this.classList.add('success');
     }
     updateCount(products.length);
@@ -35,6 +48,7 @@ window.onload = function () {
         }
     }
     updateCount(products.length);
+    appendSelectedProductsList();
 };
 
 function updateCount(number) {
@@ -42,6 +56,16 @@ function updateCount(number) {
         countElement.innerHTML = number.toString();
     } else {
         countElement.innerHTML = "0";
+    }
+}
+
+// Add Products Name In View
+function appendSelectedProductsList() {
+    let productsList = document.getElementById("event-meta");
+    let productNames = JSON.parse(localStorage.getItem("productNames"));
+
+    for (let i = 0; i < productNames.length; ++i) {
+        productsList.innerHTML += "<li><strong></strong>"+productNames[i].split("####")['0']+"</li>";
     }
 }
 
