@@ -74,6 +74,11 @@ function appendSelectedProductsList() {
  */
 document.getElementById("enquirySubmitBtn").addEventListener('click', function (e) {
     e.preventDefault();
+    let number = document.getElementById("mobile_no");
+    if (number.value == null || number.value == "" || number.value.length !== 10) {
+        alert("Please Enter 10 Digit Mobile Number");
+        return;
+    }
     // debugger;
     /*!
   * Serialize all form data into an array
