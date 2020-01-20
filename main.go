@@ -27,6 +27,7 @@ type Product struct {
 	Name       string   `json:"name"`
 	URL        string   `json:"url"`
 	Properties []string `json:"properties"`
+	Price      int      `json:"price"`
 	Active     bool     `json:"active"`
 }
 
