@@ -84,17 +84,12 @@ document.getElementById("enquirySubmitBtn").addEventListener('click', function (
         alert("Please Enter 10 Digit Mobile Number");
         return;
     }
-    // debugger;
-    /*!
-  * Serialize all form data into an array
-  * (c) 2018 Chris Ferdinandi, MIT License, https://gomakethings.com
-  * @param  {Node}   form The form to serialize
-  * @return {String}      The serialized form data
-  */
+
     let form = document.getElementById('enquiryForm');
 
     // Setup our serialized data
     let formData = new FormData();
+    formData.append("id", localStorage.getItem("products"));
 
 
     // Loop through each field in the form
@@ -262,7 +257,7 @@ document.addEventListener('click',function(e){
                 productsForm.action = "/products";
                 document.body.appendChild(productsForm);
 
-                if (jsonResponse.showProducts == true) {
+                if (jsonResponse.showProducts === true) {
                     let showProductsButton = document.createElement("input");
                     showProductsButton.setAttribute("name", "showProducts");
                     showProductsButton.setAttribute("id", "showProducts");

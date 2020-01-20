@@ -2,8 +2,18 @@
 package main
 
 import (
+	"context"
+	"encoding/json"
+	"go.mongodb.org/mongo-driver/bson/primitive"
+	"go.mongodb.org/mongo-driver/mongo/readpref"
+	"math/rand"
+	"time"
+
 	"fmt"
 	"github.com/gorilla/mux"
+	"go.mongodb.org/mongo-driver/bson"
+	"go.mongodb.org/mongo-driver/mongo"
+	"go.mongodb.org/mongo-driver/mongo/options"
 	"html/template"
 	"log"
 	"net/http"
@@ -13,18 +23,20 @@ var templatesPath = "templates/*.html"
 var tpl *template.Template
 
 type Product struct {
-	Id         string
-	Name       string
-	URL        string
-	Properties []string
+	Id         string   `json:"id"`
+	Name       string   `json:"name"`
+	URL        string   `json:"url"`
+	Properties []string `json:"properties"`
+	Active     bool     `json:"active"`
 }
 
 type Enquiry struct {
-	Name     string `json:"name"`
-	Email    string `json:"email"`
-	Mobile   string `json:"mobile"`
-	Comments string `json:"comments"`
-	OTP      string `json:"otp"`
+	Name      string   `json:"name"`
+	Email     string   `json:"email"`
+	Mobile    string   `json:"mobile"`
+	Comments  string   `json:"comments"`
+	OTP       string   `json:"otp"`
+	ProductId []string `json:"product_id"`
 }
 
 func main() {
@@ -34,6 +46,16 @@ func main() {
 	if err != nil {
 		log.Fatal(err)
 	}
+
+	// checking to see if database connection is alive
+	c := GetClient()
+	pingError := c.Ping(context.Background(), readpref.Primary())
+	if pingError != nil {
+		log.Fatal("Couldn't connect to the database", err)
+	} else {
+		log.Println("Connected!")
+	}
+
 	r := mux.NewRouter()
 	r.PathPrefix("/static/").Handler(http.StripPrefix("/static/", http.FileServer(http.Dir("static"))))
 	r.HandleFunc("/", HomeHandler).Methods("GET")
@@ -45,6 +67,30 @@ func main() {
 	log.Fatal(http.ListenAndServe(":8080", r))
 }
 
+// GetClient returns a MongoDB Client Singleton
+func GetClient() *mongo.Client {
+	clientOptions := options.Client().ApplyURI("mongodb+srv://SagarKapasi099:3wqzTsSvNQkovuxi@projectautodidact-5vr5f.gcp.mongodb.net/test?retryWrites=true&w=majority")
+	client, err := mongo.NewClient(clientOptions)
+	if err != nil {
+		log.Fatal(err)
+	}
+	err = client.Connect(context.Background())
+	if err != nil {
+		log.Fatal(err)
+	}
+	return client
+}
+
+func GenerateOTP(length int) string {
+	const charset = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789"
+	var seededRand = rand.New(rand.NewSource(time.Now().UnixNano()))
+	b := make([]byte, length)
+	for i := range b {
+		b[i] = charset[seededRand.Intn(len(charset))]
+	}
+	return string(b)
+}
+
 func AboutHandler(w http.ResponseWriter, r *http.Request) {
 	w.WriteHeader(http.StatusOK)
 	err := tpl.ExecuteTemplate(w, "about", nil)
@@ -54,7 +100,24 @@ func AboutHandler(w http.ResponseWriter, r *http.Request) {
 }
 
 func HomeHandler(w http.ResponseWriter, r *http.Request) {
+	var products []Product
+	filter := bson.M{"active": true}
+	client := GetClient()
+	collection := client.Database("kbpl").Collection("enquiries")
+	cur, err := collection.Find(context.TODO(), filter)
+	if err != nil {
+		log.Fatal("Error on Finding all the documents", err)
+	}
 
+	for cur.Next(context.TODO()) {
+		var product Product
+		err = cur.Decode(product)
+		if err != nil {
+			log.Fatal("Error on Decoding the document", err)
+		}
+		products = append(products, product)
+	}
+	/*
 	products := []Product{
 		{
 			"id-1",
@@ -123,7 +186,7 @@ func HomeHandler(w http.ResponseWriter, r *http.Request) {
 			},
 		},
 	}
-
+*/
 	type Result struct {
 		Products []Product
 	}
@@ -133,7 +196,7 @@ func HomeHandler(w http.ResponseWriter, r *http.Request) {
 	}
 
 	w.WriteHeader(http.StatusOK)
-	err := tpl.ExecuteTemplate(w, "home", result)
+	err = tpl.ExecuteTemplate(w, "home", result)
 	if err != nil {
 		log.Fatal(err)
 	}
@@ -153,45 +216,70 @@ func EnquiryHandler(w http.ResponseWriter, r *http.Request) {
 	email := r.FormValue("email")
 	number := r.FormValue("number")
 	comments := r.FormValue("comments")
+	productIdsJson := r.FormValue("id")
+
+	var productIds []string
+	if err := json.Unmarshal([]byte(productIdsJson), &productIds); err != nil {
+		log.Println(err)
+	}
 
 	// TODO: generate OTP
-	otp := "2995"
+	otp := GenerateOTP(6)
 
-	currentEnquiry := Enquiry{name, email, number, comments, otp}
+	currentEnquiry := Enquiry{name, email, number, comments, otp, productIds}
 	fmt.Println(currentEnquiry)
 
-	// TODO: save to database
-	customerId := "cust-1" // customer id from database
+	client := GetClient()
+	collection := client.Database("kbpl").Collection("enquiries")
+	res, err := collection.InsertOne(context.TODO(), currentEnquiry)
+	if err != nil {
+		fmt.Println(err)
+	}
+	customerId := res.InsertedID.(primitive.ObjectID) // customer id from database
 
 	jsonResponse := `{
 		"success": true,
 		"message":{
-			"superText":"Please Enter OTP Sent On `+number+`",
+			"superText":"Please Enter OTP Sent On ` + number + `",
 			"subText": "",
 			"buttonText": "Verify"
 		},
-		"number": "`+number+`",
-		"customerId": "`+ customerId +`",
-		"url": "/verifyOTPHandler",
+		"number": "` + number + `",
+		"customerId": "` + customerId.Hex() + `",
 		"method": "post"
 	}`
 
-	_, err := fmt.Fprintf(w, jsonResponse)
+	n, err := fmt.Fprintf(w, jsonResponse)
 	if err != nil {
-		log.Fatal(err)
+		log.Fatal(n, err)
 	}
 }
 
 func VerifyOTPHandler(w http.ResponseWriter, r *http.Request) {
+	// TODO: avoid brute force attack
+
 	customerId := r.FormValue("customerId")
-	// TODO get number from id and get OTP from id
-	otp := "399"
+	primitiveValueOfEnquiryId, err := primitive.ObjectIDFromHex(customerId)
+	if err != nil {
+		log.Println(err)
+	}
+
+	// getting enquiry object from enquiryId
+	var enquiry Enquiry
+	client := GetClient().Database("kbpl").Collection("enquiries")
+	documentReturned := client.FindOne(context.TODO(), bson.M{"_id": primitiveValueOfEnquiryId})
+	err = documentReturned.Decode(&enquiry)
+	if err != nil {
+		log.Println(err)
+	}
+
+	otp := enquiry.OTP
 	otpReceived := r.FormValue("otp")
 	fmt.Println(otpReceived)
-	// TODO: avoid brute force attack
-	// TODO: check database for OTP
-	// TODO: if products is greater than zero
 	showProducts := "false"
+	if len(enquiry.ProductId) > 0 {
+		showProducts = "true"
+	}
 
 	jsonResponse := ``
 	if otpReceived == otp {
@@ -203,8 +291,8 @@ func VerifyOTPHandler(w http.ResponseWriter, r *http.Request) {
 				"subText": "It has been forwarded to the relevant department and will be dealt with as soon as possible.",
 				"buttonText": "Show Products With Prices"
 			},
-			"customerId": "`+customerId+`",
-			"showProducts": "`+showProducts+`"
+			"customerId": "` + customerId + `",
+			"showProducts": ` + showProducts + `
 		}`
 	} else {
 		// OTP does not match
@@ -214,12 +302,12 @@ func VerifyOTPHandler(w http.ResponseWriter, r *http.Request) {
 				"superText": "Something Went Wrong.",
 				"subText": ""
 			},
-			"customerId": "`+customerId+`"
+			"customerId": "` + customerId + `"
 		}`
 	}
-	_, err := fmt.Fprintf(w, jsonResponse)
+	n, err := fmt.Fprintf(w, jsonResponse)
 	if err != nil {
-		log.Fatal(err)
+		log.Fatal(n, err)
 	}
 }
 
