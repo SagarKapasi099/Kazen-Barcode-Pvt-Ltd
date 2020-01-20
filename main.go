@@ -104,7 +104,7 @@ func HomeHandler(w http.ResponseWriter, r *http.Request) {
 	var products []Product
 	filter := bson.M{"active": true}
 	client := GetClient()
-	collection := client.Database("kbpl").Collection("enquiries")
+	collection := client.Database("kbpl").Collection("products")
 	cur, err := collection.Find(context.TODO(), filter)
 	if err != nil {
 		log.Fatal("Error on Finding all the documents", err)
