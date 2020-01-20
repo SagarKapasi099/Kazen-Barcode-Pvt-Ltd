@@ -147,11 +147,11 @@ document.getElementById("enquirySubmitBtn").addEventListener('click', function (
         otpInputDiv.setAttribute("class", "form-field");
         otpInputDiv.appendChild(otpInput);
 
-        let customerId = document.createElement("input");
-        customerId.style.display = "none";
-        customerId.setAttribute("name", "customerId");
-        customerId.setAttribute("id", "customerId");
-        customerId.setAttribute("value", jsonResponse.customerId);
+        let enquiryId = document.createElement("input");
+        enquiryId.style.display = "none";
+        enquiryId.setAttribute("name", "enquiryId");
+        enquiryId.setAttribute("id", "enquiryId");
+        enquiryId.setAttribute("value", jsonResponse.enquiryId);
 
         let otpSubmitButton = document.createElement("input");
         otpSubmitButton.setAttribute("name", "otpSubmitBtn");
@@ -171,7 +171,7 @@ document.getElementById("enquirySubmitBtn").addEventListener('click', function (
 
         otpForm.append(otpInputDiv,
             document.createElement("br"),
-            customerId,
+            enquiryId,
             otpSubmitButton,
             document.createElement("br"),
             otpResendButton
@@ -217,13 +217,13 @@ document.addEventListener('click',function(e){
             return;
         }
 
-        let customerId = document.getElementById("customerId");
-        let customerIdValue = customerId.value;
+        let enquiryId = document.getElementById("enquiryId");
+        let enquiryIdValue = enquiryId.value;
 
         // Setup our serialized data
         let formData = new FormData();
         formData.append("otp", otpValue);
-        formData.append("customerId", customerIdValue);
+        formData.append("enquiryId", enquiryIdValue);
 
         const XHR = new XMLHttpRequest();
 
@@ -250,9 +250,9 @@ document.addEventListener('click',function(e){
                 let productsForm = document.createElement('form');
                 productsForm.setAttribute("id", "productsForm");
 
-                formData.append("customerId", jsonResponse.customerId);
+                formData.append("enquiryId", jsonResponse.enquiryId);
 
-                productsForm.append(customerId);
+                productsForm.append(enquiryId);
                 productsForm.method = "post";
                 productsForm.action = "/products";
                 document.body.appendChild(productsForm);

@@ -235,7 +235,7 @@ func EnquiryHandler(w http.ResponseWriter, r *http.Request) {
 	if err != nil {
 		fmt.Println(err)
 	}
-	customerId := res.InsertedID.(primitive.ObjectID) // customer id from database
+	enquiryId := res.InsertedID.(primitive.ObjectID) // customer id from database
 
 	jsonResponse := `{
 		"success": true,
@@ -245,7 +245,7 @@ func EnquiryHandler(w http.ResponseWriter, r *http.Request) {
 			"buttonText": "Verify"
 		},
 		"number": "` + number + `",
-		"customerId": "` + customerId.Hex() + `",
+		"enquiryId": "` + enquiryId.Hex() + `",
 		"method": "post"
 	}`
 
@@ -258,8 +258,8 @@ func EnquiryHandler(w http.ResponseWriter, r *http.Request) {
 func VerifyOTPHandler(w http.ResponseWriter, r *http.Request) {
 	// TODO: avoid brute force attack
 
-	customerId := r.FormValue("customerId")
-	primitiveValueOfEnquiryId, err := primitive.ObjectIDFromHex(customerId)
+	enquiryId := r.FormValue("enquiryId")
+	primitiveValueOfEnquiryId, err := primitive.ObjectIDFromHex(enquiryId)
 	if err != nil {
 		log.Println(err)
 	}
@@ -291,7 +291,7 @@ func VerifyOTPHandler(w http.ResponseWriter, r *http.Request) {
 				"subText": "It has been forwarded to the relevant department and will be dealt with as soon as possible.",
 				"buttonText": "Show Products With Prices"
 			},
-			"customerId": "` + customerId + `",
+			"enquiryId": "` + enquiryId + `",
 			"showProducts": ` + showProducts + `
 		}`
 	} else {
@@ -302,7 +302,7 @@ func VerifyOTPHandler(w http.ResponseWriter, r *http.Request) {
 				"superText": "Something Went Wrong.",
 				"subText": ""
 			},
-			"customerId": "` + customerId + `"
+			"enquiryId": "` + enquiryId + `"
 		}`
 	}
 	n, err := fmt.Fprintf(w, jsonResponse)
@@ -312,7 +312,7 @@ func VerifyOTPHandler(w http.ResponseWriter, r *http.Request) {
 }
 
 func ShowProductsHandler(w http.ResponseWriter, r *http.Request) {
-	fmt.Fprintf(w, r.FormValue("customerId"))
+	fmt.Fprintf(w, r.FormValue("enquiryId"))
 	// TODO extract a view from products grid and show the template here
 	fmt.Fprintf(w, "here are your products")
 }
