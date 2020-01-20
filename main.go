@@ -112,82 +112,13 @@ func HomeHandler(w http.ResponseWriter, r *http.Request) {
 
 	for cur.Next(context.TODO()) {
 		var product Product
-		err = cur.Decode(product)
+		err = cur.Decode(&product)
 		if err != nil {
 			log.Fatal("Error on Decoding the document", err)
 		}
 		products = append(products, product)
 	}
-	/*
-		products := []Product{
-			{
-				"id-1",
-				"CP2140 / CP3140",
-				"https://web.archive.org/web/20181106170520im_/http://kazenbarcode.com/product_image/1cat2.jpg",
-				[]string{
-					"Printing Resolution: 203 DPI",
-					"Print Speed: 4 Inches per Second",
-					"Ribbon Length: 300MTRS.",
-					"Interface: Serial(RS232), Parallel , USB",
-					"Memory : 8MB DRAM, 4MB Flash ROM",
-					"Downloable Fonts….Movable Sensor",
-					"Zebra Emulation",
-				},
-			}, {
-				"id-2",
-				"CP2140 / CP3140",
-				"https://web.archive.org/web/20181106170520im_/http://kazenbarcode.com/product_image/1cat2.jpg",
-				[]string{
-					"Printing Resolution: 203 DPI",
-					"Print Speed: 4 Inches per Second",
-					"Ribbon Length: 300MTRS.",
-					"Interface: Serial(RS232), Parallel , USB",
-					"Memory : 8MB DRAM, 4MB Flash ROM",
-					"Downloable Fonts….Movable Sensor",
-					"Zebra Emulation",
-				},
-			}, {
-				"id-3",
-				"CP2140 / CP3140",
-				"https://web.archive.org/web/20181106170520im_/http://kazenbarcode.com/product_image/1cat2.jpg",
-				[]string{
-					"Printing Resolution: 203 DPI",
-					"Print Speed: 4 Inches per Second",
-					"Ribbon Length: 300MTRS.",
-					"Interface: Serial(RS232), Parallel , USB",
-					"Memory : 8MB DRAM, 4MB Flash ROM",
-					"Downloable Fonts….Movable Sensor",
-					"Zebra Emulation",
-				},
-			}, {
-				"id-4",
-				"CP2140 / CP3140",
-				"https://web.archive.org/web/20181106170520im_/http://kazenbarcode.com/product_image/1cat2.jpg",
-				[]string{
-					"Printing Resolution: 203 DPI",
-					"Print Speed: 4 Inches per Second",
-					"Ribbon Length: 300MTRS.",
-					"Interface: Serial(RS232), Parallel , USB",
-					"Memory : 8MB DRAM, 4MB Flash ROM",
-					"Downloable Fonts….Movable Sensor",
-					"Zebra Emulation",
-				},
-			}, {
-				"id-5",
-				"CP2140 / CP3140",
-				"https://web.archive.org/web/20181106170520im_/http://kazenbarcode.com/product_image/1cat2.jpg",
-				[]string{
-					"Printing Resolution: 203 DPI",
-					"Print Speed: 4 Inches per Second",
-					"Ribbon Length: 300MTRS.",
-					"Interface: Serial(RS232), Parallel , USB",
-					"Memory : 8MB DRAM, 4MB Flash ROM",
-					"Downloable Fonts….Movable Sensor",
-					"Zebra Emulation",
-				},
-			},
-		}
-	*/
+
 	type Result struct {
 		Products []Product
 	}
