@@ -155,17 +155,15 @@ func EnquiryHandler(w http.ResponseWriter, r *http.Request) {
 		log.Println(err)
 	}
 
-	// TODO: generate OTP
 	otp := GenerateOTP(6)
 
 	currentEnquiry := Enquiry{name, email, number, comments, otp, productIds}
-	fmt.Println(currentEnquiry)
 
 	client := GetClient()
 	collection := client.Database("kbpl").Collection("enquiries")
 	res, err := collection.InsertOne(context.TODO(), currentEnquiry)
 	if err != nil {
-		fmt.Println(err)
+		log.Println(err)
 	}
 	enquiryId := res.InsertedID.(primitive.ObjectID) // customer id from database
 
@@ -207,7 +205,6 @@ func VerifyOTPHandler(w http.ResponseWriter, r *http.Request) {
 
 	otp := enquiry.OTP
 	otpReceived := r.FormValue("otp")
-	fmt.Println(otpReceived)
 	showProducts := "false"
 	if len(enquiry.ProductId) > 0 {
 		showProducts = "true"
@@ -287,12 +284,10 @@ func ShowProductsHandler(w http.ResponseWriter, r *http.Request) {
 
 	type Result struct {
 		Products []Product
-		Config Config
 	}
 
 	result := Result{
 		products,
-		Config{false},
 	}
 
 	w.WriteHeader(http.StatusOK)
