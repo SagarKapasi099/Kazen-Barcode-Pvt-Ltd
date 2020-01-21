@@ -23,21 +23,21 @@ var templatesPath = "templates/*.html"
 var tpl *template.Template
 
 type Product struct {
-	Id         string   `json:"id"`
-	Name       string   `json:"name"`
-	URL        string   `json:"url"`
-	Properties []string `json:"properties"`
-	Price      int      `json:"price"`
-	Active     bool     `json:"active"`
+	Id         string   `json:"_id" bson:"_id"`
+	Name       string   `json:"name" bson:"name"`
+	URL        string   `json:"url" bson:"url"`
+	Properties []string `json:"properties" bson:"properties"`
+	Price      int      `json:"price" bson:"price"`
+	Active     bool     `json:"active" bson:"active"`
 }
 
 type Enquiry struct {
-	Name      string   `json:"name"`
-	Email     string   `json:"email"`
-	Mobile    string   `json:"mobile"`
-	Comments  string   `json:"comments"`
-	OTP       string   `json:"otp"`
-	ProductId []string `json:"product_id"`
+	Name      string   `json:"name" bson:"name"`
+	Email     string   `json:"email" bson:"email"`
+	Mobile    string   `json:"mobile" bson:"mobile"`
+	Comments  string   `json:"comments" bson:"comments"`
+	OTP       string   `json:"otp" bson:"otp"`
+	ProductId []string `json:"product_id" bson:"product_id"`
 }
 
 func main() {
