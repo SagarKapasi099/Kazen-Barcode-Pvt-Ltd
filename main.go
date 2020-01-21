@@ -244,7 +244,60 @@ func VerifyOTPHandler(w http.ResponseWriter, r *http.Request) {
 }
 
 func ShowProductsHandler(w http.ResponseWriter, r *http.Request) {
-	fmt.Fprintf(w, r.FormValue("enquiryId"))
+	enquiryId := r.FormValue("enquiryId")
+
+	primitiveValueOfEnquiryId, err := primitive.ObjectIDFromHex(enquiryId)
+	if err != nil {
+		log.Println(err)
+	}
 	// TODO extract a view from products grid and show the template here
-	fmt.Fprintf(w, "here are your products")
+	// { _id : { $in : [ObjectId("5e27363e5e9f18b645d3e957")] } }
+	client := GetClient()
+	var enquiry Enquiry
+	EnquiryCollection := client.Database("kbpl").Collection("enquiries")
+
+	documentReturned := EnquiryCollection.FindOne(context.TODO(), bson.M{"_id": primitiveValueOfEnquiryId})
+	err = documentReturned.Decode(&enquiry)
+	if err != nil {
+		log.Println(err)
+	}
+
+	selectedProductsObjectIds := make([]primitive.ObjectID, len(enquiry.ProductId))
+	for i := range enquiry.ProductId {
+		selectedProductsObjectIds[i], err = primitive.ObjectIDFromHex(enquiry.ProductId[i])
+		log.Println(err)
+	}
+
+	var products []Product
+	filter := bson.M{"active": true, "_id": bson.M{"$in": selectedProductsObjectIds}}
+	ProductsCollection := client.Database("kbpl").Collection("products")
+	cur, err := ProductsCollection.Find(context.TODO(), filter)
+	if err != nil {
+		log.Fatal("Error on Finding all the documents", err)
+	}
+
+	for cur.Next(context.TODO()) {
+		var product Product
+		err = cur.Decode(&product)
+		if err != nil {
+			log.Fatal("Error on Decoding the document", err)
+		}
+		products = append(products, product)
+	}
+
+	type Result struct {
+		Products []Product
+		Config Config
+	}
+
+	result := Result{
+		products,
+		Config{false},
+	}
+
+	w.WriteHeader(http.StatusOK)
+	err = tpl.ExecuteTemplate(w, "products", result)
+	if err != nil {
+		log.Fatal(err)
+	}
 }
