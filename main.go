@@ -65,6 +65,13 @@ func main() {
 	r.HandleFunc("/enquiry", EnquiryHandler).Methods("POST")
 	r.HandleFunc("/verifyOTP", VerifyOTPHandler).Methods("POST")
 	r.HandleFunc("/products", ShowProductsHandler).Methods("POST")
+	
+	// Admin Section
+	r.HandleFunc("/manage", ManageHandler).Methods("GET")
+	r.HandleFunc("/administrator", AdministratorHandler).Methods("POST")
+	r.HandleFunc("/administrator/products", AdminProductsHandler).Methods("POST")
+	r.HandleFunc("/administrator/viewProduct", AdminViewProductHandler).Methods("POST")
+	r.HandleFunc("/administrator/saveProduct", AdminSaveProductHandler).Methods("POST")
 	log.Fatal(http.ListenAndServe(":8080", r))
 }
 
