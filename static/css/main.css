@@ -1845,7 +1845,7 @@ input::-moz-focus-inner {
 .header-nav {
     list-style: none;
     font-family: "Montserrat", sans-serif;
-    font-size: .9rem;
+    font-size: 1rem;
     line-height: 4.8rem;
     text-transform: uppercase;
     letter-spacing: .35rem;
@@ -1998,7 +1998,7 @@ input::-moz-focus-inner {
     .header-nav-wrap .header-nav {
         display: block;
         height: auto;
-        font-size: 10px;
+        font-size: 15px;
         margin: 0 0 4rem 0;
         padding-left: 0;
         border-top: 1px solid rgba(255, 255, 255, 0.06);
@@ -2008,7 +2008,7 @@ input::-moz-focus-inner {
         display: block;
         margin: 0;
         padding: 0;
-        border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+        border-bottom: 1px solid #3b0d11;
     }
 
     .header-nav-wrap .header-nav li a {
