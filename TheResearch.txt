@@ -20,3 +20,6 @@ https://web.archive.org/web/20141118185316/http://www.kazenbarcode.com/barcode-p
 https://www.freepik.com/premium-photo/warehouse-worker-are-holding-bar-code-scanner-with-scanning-product_3614922.htm#page=1&query=barcode%20scanner&position=40
 
 http://www.code2succeed.com/building-rest-api-with-go-using-mux/
+
+Basic Auth In Golang
+https://gist.github.com/elithrar/9146306#gistcomment-2145050
