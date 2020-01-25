@@ -115,12 +115,14 @@ func AuthMiddleware(next http.Handler) http.Handler {
 	jwtMiddleware := jwtmiddleware.New(jwtmiddleware.Options{
 		Extractor: func(r *http.Request) (string, error) {
 			accessTokenCookie, err := r.Cookie("access_token")
-			fmt.Println("the cookie incoming")
 			if err != nil {
 				return "", errors.New("Error Obtaining Cookie access_token")
 			}
 			jwtCookie := accessTokenCookie.Value
 			return jwtCookie, nil
+		},
+		ErrorHandler: func(w http.ResponseWriter, r *http.Request, errMsg string) {
+			http.RedirectHandler("manage", http.StatusSeeOther)
 		},
 		ValidationKeyGetter: func(token *jwt2.Token) (interface{}, error) {
 			return []byte(AppKey), nil
