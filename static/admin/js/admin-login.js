@@ -4,6 +4,26 @@ $(document).ready(function () {
     });
 });
 
+function displayDanger() {
+    let usernameInput = $('#username');
+    usernameInput.parent().addClass("has-danger");
+    usernameInput.parent().removeClass("has-success");
+
+    let passwordInput = $('#password');
+    passwordInput.parent().addClass("has-danger");
+    passwordInput.parent().removeClass("has-success");
+}
+
+function displaySuccess() {
+    let usernameInput = $('#username');
+    usernameInput.parent().removeClass("has-danger");
+    usernameInput.parent().addClass("has-success");
+
+    let passwordInput = $('#password');
+    passwordInput.parent().removeClass("has-danger");
+    passwordInput.parent().addClass("has-success");
+}
+
 $('#signIn').click(function (e) {
     e.preventDefault();
     let usernameInput = $('#username');
@@ -30,16 +50,12 @@ $('#signIn').click(function (e) {
 
     // Define what happens on successful data submission
     XHR.addEventListener('load', function (event) {
-
         let jsonResponse = JSON.parse(event.target.response);
-        debugger;
 
-        if (jsonResponse.error == null) {
-            alert("Username and Password does not match records\nPlease Try Again.");
-        } else if (jsonResponse.token == null || jsonResponse.token.length === 0){
-            alert("Please Check Internet Connection And Try Again.");
+        if (jsonResponse.token == null || jsonResponse.token.length === 0){
+            displayDanger();
         } else {
-            localStorage.setItem("jwt", jsonResponse.token);
+            displaySuccess();
             window.location = "administrator";
 
         }
@@ -47,7 +63,7 @@ $('#signIn').click(function (e) {
 
     // Define what happens in case of error
     XHR.addEventListener(' error', function (event) {
-        alert("Please Check Internet Connection And Try Again.");
+        displayDanger();
     });
 
     try {
@@ -59,11 +75,15 @@ $('#signIn').click(function (e) {
         };
 
         // Set up our request
-        XHR.open('POST', '/getToken', false);
+        XHR.open('POST', '/getToken', true);
 
         // Send our FormData object; HTTP headers are set automatically
         XHR.send(formData);
     } catch (e) {
-        alert("Please Check Internet Connection And Try Again.");
+        if (XHR.status === 401) {
+            displayDanger();
+        } else {
+            alert("Please Check Internet Connection And Try Again.");
+        }
     }
 });
