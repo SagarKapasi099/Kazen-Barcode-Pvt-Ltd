@@ -112,18 +112,14 @@ func AuthMiddleware(next http.Handler) http.Handler {
 	if len(AppKey) == 0 {
 		log.Fatal("HTTP server unable to start, expected an APP_KEY for JWT auth")
 	}
-	fmt.Println("starting")
 	jwtMiddleware := jwtmiddleware.New(jwtmiddleware.Options{
 		Extractor: func(r *http.Request) (string, error) {
 			accessTokenCookie, err := r.Cookie("access_token")
 			fmt.Println("the cookie incoming")
 			if err != nil {
-				fmt.Println("the cookie problemo")
 				return "", errors.New("Error Obtaining Cookie access_token")
 			}
 			jwtCookie := accessTokenCookie.Value
-			fmt.Println("cookie", jwtCookie)
-
 			return jwtCookie, nil
 		},
 		ValidationKeyGetter: func(token *jwt2.Token) (interface{}, error) {
