@@ -398,8 +398,8 @@ func GenerateJWT(w http.ResponseWriter, r *http.Request) {
 }
 
 func AdministratorHandler(w http.ResponseWriter, r *http.Request) {
-	n, err := fmt.Fprint(w, "it works")
+	err := tpl.ExecuteTemplate(w, "adminHome", nil)
 	if err != nil {
-		log.Println(n, err)
+		log.Println("error parsing template adminHome", err)
 	}
 }
