@@ -4,3 +4,14 @@ ADMIN SECTION:
     Enquiries
     Products
     Users
+
+WIDGETS:
+
+    SMS Remaining
+    Remaining Customers
+    Closed Customers In Last 15 Days
+    Active Products
+
+    Customer Graph (Last 15 Days)
+        Registered
+        Closed
