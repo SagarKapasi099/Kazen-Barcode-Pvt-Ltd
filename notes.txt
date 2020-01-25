@@ -1,0 +1,6 @@
+ADMIN SECTION:
+
+    Dashboard
+    Enquiries
+    Products
+    Users
