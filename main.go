@@ -4,8 +4,12 @@ package main
 import (
 	"context"
 	"encoding/json"
+	"errors"
+	jwtmiddleware "github.com/auth0/go-jwt-middleware"
+	jwt2 "github.com/dgrijalva/jwt-go"
 	"go.mongodb.org/mongo-driver/bson/primitive"
 	"go.mongodb.org/mongo-driver/mongo/readpref"
+	"io"
 	"math/rand"
 	"time"
 
@@ -21,6 +25,7 @@ import (
 
 var templatesPath = "templates/*.html"
 var tpl *template.Template
+const AppKey = "klshifhjKLHLHGl;sdjhfl'kshjfgkSghsFHJKSHGSHGslhgh"
 
 type Product struct {
 	Id         string   `json:"_id" bson:"_id"`
@@ -65,13 +70,14 @@ func main() {
 	r.HandleFunc("/enquiry", EnquiryHandler).Methods("POST")
 	r.HandleFunc("/verifyOTP", VerifyOTPHandler).Methods("POST")
 	r.HandleFunc("/products", ShowProductsHandler).Methods("POST")
-	
+
 	// Admin Section
 	r.HandleFunc("/manage", ManageHandler).Methods("GET")
-	r.HandleFunc("/administrator", AdministratorHandler).Methods("POST")
-	r.HandleFunc("/administrator/products", AdminProductsHandler).Methods("POST")
-	r.HandleFunc("/administrator/viewProduct", AdminViewProductHandler).Methods("POST")
-	r.HandleFunc("/administrator/saveProduct", AdminSaveProductHandler).Methods("POST")
+	r.HandleFunc("/getToken", GenerateJWT)
+	r.Handle("/administrator", AuthMiddleware(http.HandlerFunc(AdministratorHandler))).Methods("GET")
+	//r.HandleFunc("/administrator/products", AdminProductsHandler).Methods("POST")
+	//r.HandleFunc("/administrator/viewProduct", AdminViewProductHandler).Methods("POST")
+	//r.HandleFunc("/administrator/saveProduct", AdminSaveProductHandler).Methods("POST")
 	log.Fatal(http.ListenAndServe(":8080", r))
 }
 
@@ -97,6 +103,35 @@ func GenerateOTP(length int) string {
 		b[i] = charset[seededRand.Intn(len(charset))]
 	}
 	return string(b)
+}
+
+// AuthMiddleware is our middleware to check our token is valid. Returning
+// a 401 status to the client if it is not valid.
+func AuthMiddleware(next http.Handler) http.Handler {
+
+	if len(AppKey) == 0 {
+		log.Fatal("HTTP server unable to start, expected an APP_KEY for JWT auth")
+	}
+	fmt.Println("starting")
+	jwtMiddleware := jwtmiddleware.New(jwtmiddleware.Options{
+		Extractor: func(r *http.Request) (string, error) {
+			accessTokenCookie, err := r.Cookie("access_token")
+			fmt.Println("the cookie incoming")
+			if err != nil {
+				fmt.Println("the cookie problemo")
+				return "", errors.New("Error Obtaining Cookie access_token")
+			}
+			jwtCookie := accessTokenCookie.Value
+			fmt.Println("cookie", jwtCookie)
+
+			return jwtCookie, nil
+		},
+		ValidationKeyGetter: func(token *jwt2.Token) (interface{}, error) {
+			return []byte(AppKey), nil
+		},
+		SigningMethod: jwt2.SigningMethodHS256,
+	})
+	return jwtMiddleware.Handler(next)
 }
 
 func AboutHandler(w http.ResponseWriter, r *http.Request) {
@@ -301,5 +336,71 @@ func ShowProductsHandler(w http.ResponseWriter, r *http.Request) {
 	err = tpl.ExecuteTemplate(w, "products", result)
 	if err != nil {
 		log.Fatal(err)
+	}
+}
+
+func ManageHandler(w http.ResponseWriter, r *http.Request) {
+	err := tpl.ExecuteTemplate(w, "adminManager", nil)
+	if err != nil {
+		log.Println(err)
+	}
+}
+
+func GenerateJWT(w http.ResponseWriter, r *http.Request) {
+	w.Header().Add("Content-Type", "application/json")
+
+	// Check the credentials provided - if you store these in a database then
+	// this is where your query would go to check.
+	fmt.Println(r.FormValue("username"))
+	username := r.Form.Get("username")
+	password := r.Form.Get("password")
+	fmt.Println(username, password)
+	if username != "myusername" || password != "mypassword" {
+		w.WriteHeader(http.StatusUnauthorized)
+		n, err := io.WriteString(w, `{"error":"invalid_credentials"}`)
+		if err != nil {
+			log.Println(n, err)
+		}
+		return
+	}
+
+	validTime := time.Now().Add(time.Hour * time.Duration(1)).Unix()
+
+	// We are happy with the credentials, so build a token. We've given it
+	// an expiry of 1 hour.
+	token := jwt2.NewWithClaims(jwt2.SigningMethodHS256, jwt2.MapClaims{
+		"user": username,
+		"exp":  validTime,
+		"iat":  time.Now().Unix(),
+	})
+
+	tokenString, err := token.SignedString([]byte(AppKey))
+	if err != nil {
+		w.WriteHeader(http.StatusInternalServerError)
+		n, err := io.WriteString(w, `{"error":"token_generation_failed"}`)
+		log.Println(n, err)
+		return
+	}
+
+	cookie := http.Cookie{
+		Name: "access_token",
+		Value: tokenString,
+		Expires: time.Now().AddDate(0, 0, 1),
+		Path: "/",
+	}
+	http.SetCookie(w, &cookie)
+
+
+	n, err := io.WriteString(w, `{"token":"`+tokenString+`"}`)
+	if err != nil {
+		log.Println(n, err)
+	}
+	return
+}
+
+func AdministratorHandler(w http.ResponseWriter, r *http.Request) {
+	n, err := fmt.Fprint(w, "it works")
+	if err != nil {
+		log.Println(n, err)
 	}
 }
