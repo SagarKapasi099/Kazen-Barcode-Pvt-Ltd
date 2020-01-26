@@ -11,6 +11,7 @@ import (
 	"go.mongodb.org/mongo-driver/mongo/readpref"
 	"io"
 	"math/rand"
+	"strconv"
 	"time"
 
 	"fmt"
@@ -25,6 +26,7 @@ import (
 
 var templatesPath = "templates/*.html"
 var tpl *template.Template
+
 const AppKey = "klshifhjKLHLHGl;sdjhfl'kshjfgkSghsFHJKSHGSHGslhgh"
 
 type Product struct {
@@ -41,8 +43,15 @@ type Enquiry struct {
 	Email     string   `json:"email" bson:"email"`
 	Mobile    string   `json:"mobile" bson:"mobile"`
 	Comments  string   `json:"comments" bson:"comments"`
-	OTP       string   `json:"otp" bson:"otp"`
-	ProductId []string `json:"product_id" bson:"product_id"`
+	OTP       string   `json:"-" bson:"otp"`
+	ProductId []string `json:"-" bson:"product_id"`
+}
+
+type DataTableResponse struct {
+	Draw int `json:"draw"`
+	RecordsTotal int `json:"recordsTotal"`
+	RecordsFiltered int `json:"recordsFiltered"`
+	Data [][]string `json:"data"`
 }
 
 func main() {
@@ -75,9 +84,16 @@ func main() {
 	r.HandleFunc("/manage", ManageHandler).Methods("GET")
 	r.HandleFunc("/getToken", GenerateJWT)
 	r.Handle("/administrator", AuthMiddleware(http.HandlerFunc(AdministratorHandler))).Methods("GET")
-	//r.HandleFunc("/administrator/products", AdminProductsHandler).Methods("POST")
-	//r.HandleFunc("/administrator/viewProduct", AdminViewProductHandler).Methods("POST")
-	//r.HandleFunc("/administrator/saveProduct", AdminSaveProductHandler).Methods("POST")
+	// Enquiries
+	r.Handle("/administrator/enquiries", AuthMiddleware(http.HandlerFunc(AdminEnquiriesHandler))).Methods("GET")
+	r.Handle("/administrator/getEnquiriesJson", AuthMiddleware(http.HandlerFunc(AdminEnquiriesJsonHandler))).Methods("GET")
+	r.Handle("/administrator/viewEnquiry/{id}", AuthMiddleware(http.HandlerFunc(AdminViewEnquiryHandler))).Methods("GET")
+	r.Handle("/administrator/saveEnquiry", AuthMiddleware(http.HandlerFunc(AdminSaveEnquiryHandler))).Methods("POST")
+	// Products
+	r.Handle("/administrator/products", AuthMiddleware(http.HandlerFunc(AdminProductsHandler))).Methods("GET")
+	r.Handle("/administrator/getProductsJson", AuthMiddleware(http.HandlerFunc(AdminProductsJsonHandler))).Methods("GET")
+	r.Handle("/administrator/viewProduct/{id}", AuthMiddleware(http.HandlerFunc(AdminViewProductHandler))).Methods("GET")
+	r.Handle("/administrator/saveProduct", AuthMiddleware(http.HandlerFunc(AdminSaveProductHandler))).Methods("POST")
 	log.Fatal(http.ListenAndServe(":8080", r))
 }
 
@@ -382,13 +398,12 @@ func GenerateJWT(w http.ResponseWriter, r *http.Request) {
 	}
 
 	cookie := http.Cookie{
-		Name: "access_token",
-		Value: tokenString,
+		Name:    "access_token",
+		Value:   tokenString,
 		Expires: time.Now().AddDate(0, 0, 1),
-		Path: "/",
+		Path:    "/",
 	}
 	http.SetCookie(w, &cookie)
-
 
 	n, err := io.WriteString(w, `{"token":"`+tokenString+`"}`)
 	if err != nil {
@@ -401,5 +416,134 @@ func AdministratorHandler(w http.ResponseWriter, r *http.Request) {
 	err := tpl.ExecuteTemplate(w, "adminHome", nil)
 	if err != nil {
 		log.Println("error parsing template adminHome", err)
+	}
+}
+
+// Enquiries
+func AdminEnquiriesHandler(w http.ResponseWriter, r *http.Request) {
+	err := tpl.ExecuteTemplate(w, "adminEnquiries", nil)
+	if err != nil {
+		log.Println("error parsing template adminEnquiries", err)
+	}
+}
+
+func AdminEnquiriesJsonHandler(w http.ResponseWriter, r *http.Request) {
+	params := mux.Vars(r)
+	fmt.Println(params)
+
+	filter := bson.M{}
+
+	// getting all enquiries
+	var enquiries []Enquiry
+	client := GetClient()
+	collection := client.Database("kbpl").Collection("enquiries")
+
+	cur, err := collection.Find(context.TODO(), filter)
+	if err != nil {
+		log.Println("error getting all enquiries in adminEnquiriesJsonHandler", err)
+	}
+
+	if err = cur.All(context.TODO(), &enquiries); err != nil {
+		log.Fatal("error putting queries into &queries", err)
+	}
+
+	var dataField [][]string
+	for _, value := range enquiries {
+		dataField = append(dataField, []string{value.Name, value.Mobile, value.Email, value.Comments},
+		)
+	}
+
+	datatableResponse := DataTableResponse{
+		1,
+		len(dataField),
+		len(dataField),
+		dataField,
+	}
+
+	encodedEnquiries, err := json.Marshal(datatableResponse)
+	if err != nil {
+		log.Println("error marshalling golang enquiries", err)
+	}
+
+	n, err := fmt.Fprintf(w, string(encodedEnquiries))
+	if err != nil {
+		log.Println("error in fmt.Fprintf encodedEnquiries", n, encodedEnquiries)
+	}
+
+}
+
+func AdminViewEnquiryHandler(w http.ResponseWriter, r *http.Request) {
+	err := tpl.ExecuteTemplate(w, "adminEnquiries", nil)
+	if err != nil {
+		log.Println("error parsing template adminViewEnquiry", err)
+	}
+}
+
+func AdminSaveEnquiryHandler(w http.ResponseWriter, r *http.Request) {
+	err := tpl.ExecuteTemplate(w, "adminEnquiries", nil)
+	if err != nil {
+		log.Println("error parsing template adminSaveEnquiry", err)
+	}
+}
+
+// Products
+func AdminProductsHandler(w http.ResponseWriter, r *http.Request) {
+	err := tpl.ExecuteTemplate(w, "adminProducts", nil)
+	if err != nil {
+		log.Println("error parsing template adminProducts", err)
+	}
+}
+
+func AdminProductsJsonHandler(w http.ResponseWriter, r *http.Request) {
+	filter := bson.M{}
+
+	// getting all enquiries
+	var products []Product
+	client := GetClient()
+	collection := client.Database("kbpl").Collection("products")
+
+	cur, err := collection.Find(context.TODO(), filter)
+	if err != nil {
+		log.Println("error getting all products in adminProductsJsonHandler", err)
+	}
+
+	if err = cur.All(context.TODO(), &products); err != nil {
+		log.Fatal("error putting queries into &queries 2", err)
+	}
+
+	var dataField [][]string
+	for _, value := range products {
+		dataField = append(dataField, []string{value.Name, strconv.FormatInt(int64(value.Price), 10)})
+	}
+
+	datatableResponse := DataTableResponse{
+		1,
+		len(dataField),
+		len(dataField),
+		dataField,
+	}
+
+	encodedEnquiries, err := json.Marshal(datatableResponse)
+	if err != nil {
+		log.Println("error marshalling golang enquiries", err)
+	}
+
+	n, err := fmt.Fprintf(w, string(encodedEnquiries))
+	if err != nil {
+		log.Println("error in fmt.Fprintf encodedEnquiries", n, encodedEnquiries)
+	}
+}
+
+func AdminViewProductHandler(w http.ResponseWriter, r *http.Request) {
+	err := tpl.ExecuteTemplate(w, "adminProducts", nil)
+	if err != nil {
+		log.Println("error parsing template adminViewProduct", err)
+	}
+}
+
+func AdminSaveProductHandler(w http.ResponseWriter, r *http.Request) {
+	err := tpl.ExecuteTemplate(w, "adminProducts", nil)
+	if err != nil {
+		log.Println("error parsing template adminSaveProduct", err)
 	}
 }
