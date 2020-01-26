@@ -123,7 +123,7 @@ func AuthMiddleware(next http.Handler) http.Handler {
 			return jwtCookie, nil
 		},
 		ErrorHandler: func(w http.ResponseWriter, r *http.Request, errMsg string) {
-			http.Redirect(w, r, "manage", http.StatusSeeOther)
+			http.Redirect(w, r, "/manage", http.StatusSeeOther)
 		},
 		ValidationKeyGetter: func(token *jwt2.Token) (interface{}, error) {
 			return []byte(AppKey), nil
