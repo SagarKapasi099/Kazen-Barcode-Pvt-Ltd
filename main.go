@@ -502,7 +502,7 @@ func AdminEnquiriesJsonHandler(w http.ResponseWriter, r *http.Request) {
 	}
 
 	datatableResponse := DataTableResponse{
-		int(draw),
+		draw,
 		int(curCount),
 		int(curCount),
 		dataField,
