@@ -233,7 +233,11 @@ func EnquiryHandler(w http.ResponseWriter, r *http.Request) {
 
 	otp := GenerateOTP(6)
 
-	currentEnquiry := Enquiry{primitive.NewObjectID(), name, email, number, comments, otp, productIds, time.Now()}
+	loc, err := time.LoadLocation("Asia/Kolkata")
+	if err != nil {
+		log.Println("Getting Timezone Asia/Kolkata is causing error: ", err)
+	}
+	currentEnquiry := Enquiry{primitive.NewObjectID(), name, email, number, comments, otp, productIds, time.Now().In(loc)}
 
 	client := GetClient()
 	collection := client.Database("kbpl").Collection("enquiries")
@@ -462,6 +466,7 @@ func AdminEnquiriesHandler(w http.ResponseWriter, r *http.Request) {
 				"Mobile No",
 				"Email",
 				"Comments",
+				"Created On",
 				"Actions",
 			},
 		},
@@ -516,7 +521,7 @@ func AdminEnquiriesJsonHandler(w http.ResponseWriter, r *http.Request) {
 
 	var dataField [][]string
 	for _, value := range enquiries {
-		dataField = append(dataField, []string{value.Name, value.Mobile, value.Email, value.Comments, value.Id.Hex()},
+		dataField = append(dataField, []string{value.Name, value.Mobile, value.Email, value.Comments, value.CreatedDate.Format("2006-01-02 15:04:05"), value.Id.Hex()},
 		)
 	}
 
