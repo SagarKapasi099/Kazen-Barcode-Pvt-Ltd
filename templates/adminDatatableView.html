@@ -13,7 +13,7 @@
                 <thead>
                 <tr>
                     {{range .Columns}}
-                    <th>{{.}}</th>
+                        <th>{{.}}</th>
                     {{end}}
                 </tr>
                 </thead>
@@ -36,6 +36,31 @@
                     "url": "{{.ReadJson}}",
                     "async": true,
                 },
+                "columnDefs": [
+                    {
+
+                        "render": function (data, type, row) {
+                            let readURL = "{{.Read}}";
+                            if (row[row.length - 1].length > 0 && readURL.length > 0) {
+
+                                let viewHref = document.createElement("a");
+                                viewHref.classList = "btn btn-warning btn-link btn-icon btn-sm edit";
+                                viewHref.href = readURL + "/" + row[row.length - 1];
+
+                                let icon = document.createElement("i");
+                                icon.classList = "fa fa-eye";
+                                viewHref.appendChild(icon);
+
+                                let domStringRepresentationContainer = document.createElement("div");
+                                domStringRepresentationContainer.appendChild(viewHref);
+                                return domStringRepresentationContainer.innerHTML;
+
+                            }
+                            return data;
+                        },
+                        "targets": -1
+                    },
+                ],
 
 
             });

@@ -39,12 +39,14 @@ type Product struct {
 }
 
 type Enquiry struct {
-	Name      string   `json:"name" bson:"name"`
-	Email     string   `json:"email" bson:"email"`
-	Mobile    string   `json:"mobile" bson:"mobile"`
-	Comments  string   `json:"comments" bson:"comments"`
-	OTP       string   `json:"-" bson:"otp"`
-	ProductId []string `json:"-" bson:"product_id"`
+	Id          primitive.ObjectID `json:"id" bson:"_id"`
+	Name        string             `json:"name" bson:"name"`
+	Email       string             `json:"email" bson:"email"`
+	Mobile      string             `json:"mobile" bson:"mobile"`
+	Comments    string             `json:"comments" bson:"comments"`
+	OTP         string             `json:"-" bson:"otp"`
+	ProductId   []string           `json:"-" bson:"product_id"`
+	CreatedDate time.Time          `json:"created_date" bson:"created_date"`
 }
 
 type DataTableResponse struct {
@@ -227,7 +229,7 @@ func EnquiryHandler(w http.ResponseWriter, r *http.Request) {
 
 	otp := GenerateOTP(6)
 
-	currentEnquiry := Enquiry{name, email, number, comments, otp, productIds}
+	currentEnquiry := Enquiry{primitive.NewObjectID(), name, email, number, comments, otp, productIds, time.Now()}
 
 	client := GetClient()
 	collection := client.Database("kbpl").Collection("enquiries")
@@ -505,12 +507,12 @@ func AdminEnquiriesJsonHandler(w http.ResponseWriter, r *http.Request) {
 	}
 
 	if err = cur.All(context.TODO(), &enquiries); err != nil {
-		log.Fatal("error putting queries into &queries", err)
+		log.Println("error putting queries into &queries", err)
 	}
 
 	var dataField [][]string
 	for _, value := range enquiries {
-		dataField = append(dataField, []string{value.Name, value.Mobile, value.Email, value.Comments},
+		dataField = append(dataField, []string{value.Name, value.Mobile, value.Email, value.Comments, value.Id.Hex()},
 		)
 	}
 
