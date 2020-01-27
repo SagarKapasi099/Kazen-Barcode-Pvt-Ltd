@@ -34,7 +34,13 @@
                 "serverSide": true,
                 "ajax": {
                     "url": "{{.ReadJson}}",
+                    "type": "POST",
                     "async": true,
+                    "complete": function(xmlHttp) {
+                        if(xmlHttp.status === 401) {
+                            window.location = "/manage";
+                        }
+                    }
                 },
                 "columnDefs": [
                     {

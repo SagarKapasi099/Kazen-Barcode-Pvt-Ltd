@@ -101,12 +101,12 @@ func main() {
 	r.Handle("/administrator", AuthMiddleware(http.HandlerFunc(AdministratorHandler))).Methods("GET")
 	// Enquiries
 	r.Handle("/administrator/enquiries", AuthMiddleware(http.HandlerFunc(AdminEnquiriesHandler))).Methods("GET")
-	r.Handle("/administrator/getEnquiriesJson", AuthMiddleware(http.HandlerFunc(AdminEnquiriesJsonHandler))).Methods("GET")
+	r.Handle("/administrator/getEnquiriesJson", AuthMiddleware(http.HandlerFunc(AdminEnquiriesJsonHandler))).Methods("POST")
 	r.Handle("/administrator/viewEnquiry/{id}", AuthMiddleware(http.HandlerFunc(AdminViewEnquiryHandler))).Methods("GET")
 	r.Handle("/administrator/saveEnquiry", AuthMiddleware(http.HandlerFunc(AdminSaveEnquiryHandler))).Methods("POST")
 	// Products
 	r.Handle("/administrator/products", AuthMiddleware(http.HandlerFunc(AdminProductsHandler))).Methods("GET")
-	r.Handle("/administrator/getProductsJson", AuthMiddleware(http.HandlerFunc(AdminProductsJsonHandler))).Methods("GET")
+	r.Handle("/administrator/getProductsJson", AuthMiddleware(http.HandlerFunc(AdminProductsJsonHandler))).Methods("POST")
 	r.Handle("/administrator/viewProduct/{id}", AuthMiddleware(http.HandlerFunc(AdminViewProductHandler))).Methods("GET")
 	r.Handle("/administrator/saveProduct", AuthMiddleware(http.HandlerFunc(AdminSaveProductHandler))).Methods("POST")
 	log.Fatal(http.ListenAndServe(":8080", r))
@@ -154,7 +154,11 @@ func AuthMiddleware(next http.Handler) http.Handler {
 			return jwtCookie, nil
 		},
 		ErrorHandler: func(w http.ResponseWriter, r *http.Request, errMsg string) {
-			http.Redirect(w, r, "/manage", http.StatusSeeOther)
+			if r.Method == "POST" {
+				http.Error(w, "", http.StatusUnauthorized)
+			} else {
+				http.Redirect(w, r, "/manage", http.StatusSeeOther)
+			}
 		},
 		ValidationKeyGetter: func(token *jwt2.Token) (interface{}, error) {
 			return []byte(AppKey), nil
