@@ -2,7 +2,9 @@
     {{template "adminHeader"}}
     <div class="card">
         <div class="card-header">
-            <a href="{{.Add}}">{{.Add}}</a>
+            {{if .Add}}
+                <a href="{{.Add}}">{{.Add}}</a>
+            {{end}}
         </div>
         <div class="card-body">
             <table id="datatable"
@@ -10,10 +12,9 @@
                    aria-describedby="datatable_info" style="width: 100%;">
                 <thead>
                 <tr>
-                    <th>Name</th>
-                    <th>Mobile No</th>
-                    <th>Email</th>
-                    <th>Comments</th>
+                    {{range .Columns}}
+                    <th>{{.}}</th>
+                    {{end}}
                 </tr>
                 </thead>
             </table>

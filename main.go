@@ -48,19 +48,23 @@ type Enquiry struct {
 }
 
 type DataTableResponse struct {
-	Draw int `json:"draw"`
-	RecordsTotal int `json:"recordsTotal"`
-	RecordsFiltered int `json:"recordsFiltered"`
-	Data [][]string `json:"data"`
+	Draw            int        `json:"draw"`
+	RecordsTotal    int        `json:"recordsTotal"`
+	RecordsFiltered int        `json:"recordsFiltered"`
+	Data            [][]string `json:"data"`
 }
 
 type DatatableView struct {
-	Add template.URL
-	Create template.URL
+	Add      template.URL
+	Create   template.URL
 	ReadJson template.URL
-	Read template.URL
-	Update template.URL
+	Read     template.URL
+	Update   template.URL
 	MarkDone template.URL
+}
+
+type TableColumns struct {
+	Columns []string
 }
 
 func main() {
@@ -431,7 +435,7 @@ func AdministratorHandler(w http.ResponseWriter, r *http.Request) {
 // Enquiries
 func AdminEnquiriesHandler(w http.ResponseWriter, r *http.Request) {
 	datatableViewData := DatatableView{
-		template.URL("/administrator/addEnquiry"),
+		template.URL(""),
 		template.URL("/administrator/saveEnquiry"),
 		template.URL("/administrator/getEnquiriesJson"),
 		template.URL("/administrator/viewEnquiry"),
@@ -441,10 +445,20 @@ func AdminEnquiriesHandler(w http.ResponseWriter, r *http.Request) {
 
 	type Result struct {
 		DatatableView
+		TableColumns
 	}
 
 	data := Result{
 		datatableViewData,
+		TableColumns{
+			[]string{
+				"Name",
+				"Mobile No",
+				"Email",
+				"Comments",
+				"Actions",
+			},
+		},
 	}
 
 	err := tpl.ExecuteTemplate(w, "adminDatatableView", data)
