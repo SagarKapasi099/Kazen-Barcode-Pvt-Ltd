@@ -503,7 +503,6 @@ func AdminEnquiriesJsonHandler(w http.ResponseWriter, r *http.Request) {
 	if err != nil {
 		log.Println("error getting count for all enquiries in adminEnquiriesJsonHandler", err)
 	}
-	fmt.Println(curCount)
 
 	if err = cur.All(context.TODO(), &enquiries); err != nil {
 		log.Fatal("error putting queries into &queries", err)
