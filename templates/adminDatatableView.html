@@ -1,0 +1,45 @@
+{{define "adminDatatableView"}}
+    {{template "adminHeader"}}
+    <div class="card">
+        <div class="card-header">
+            <a href="{{.Add}}">{{.Add}}</a>
+        </div>
+        <div class="card-body">
+            <table id="datatable"
+                   class="table table-striped table-bordered dataTable dtr-inline collapsed" role="grid"
+                   aria-describedby="datatable_info" style="width: 100%;">
+                <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>Mobile No</th>
+                    <th>Email</th>
+                    <th>Comments</th>
+                </tr>
+                </thead>
+            </table>
+        </div>
+    </div>
+    <script>
+
+
+        window.onload = function () {
+            $('#datatable').DataTable({
+                "pagingType": "full_numbers",
+                "lengthMenu": [
+                    [10, 25, 50, -1],
+                    [10, 25, 50, "All"]
+                ],
+                "processing": true,
+                "serverSide": true,
+                "ajax": {
+                    "url": "{{.ReadJson}}",
+                    "async": true,
+                },
+
+
+            });
+        }
+
+    </script>
+    {{template "adminFooter"}}
+{{end}}

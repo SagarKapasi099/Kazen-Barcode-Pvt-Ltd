@@ -54,6 +54,15 @@ type DataTableResponse struct {
 	Data [][]string `json:"data"`
 }
 
+type DatatableView struct {
+	Add template.URL
+	Create template.URL
+	ReadJson template.URL
+	Read template.URL
+	Update template.URL
+	MarkDone template.URL
+}
+
 func main() {
 
 	var err error
@@ -421,27 +430,66 @@ func AdministratorHandler(w http.ResponseWriter, r *http.Request) {
 
 // Enquiries
 func AdminEnquiriesHandler(w http.ResponseWriter, r *http.Request) {
-	err := tpl.ExecuteTemplate(w, "adminEnquiries", nil)
+	datatableViewData := DatatableView{
+		template.URL("/administrator/addEnquiry"),
+		template.URL("/administrator/saveEnquiry"),
+		template.URL("/administrator/getEnquiriesJson"),
+		template.URL("/administrator/viewEnquiry"),
+		template.URL("/administrator/updateEnquiry"),
+		template.URL("/administrator/markDoneEnquiry"),
+	}
+
+	type Result struct {
+		DatatableView
+	}
+
+	data := Result{
+		datatableViewData,
+	}
+
+	err := tpl.ExecuteTemplate(w, "adminDatatableView", data)
 	if err != nil {
 		log.Println("error parsing template adminEnquiries", err)
 	}
 }
 
 func AdminEnquiriesJsonHandler(w http.ResponseWriter, r *http.Request) {
-	params := mux.Vars(r)
-	fmt.Println(params)
-
-	filter := bson.M{}
-
 	// getting all enquiries
 	var enquiries []Enquiry
 	client := GetClient()
 	collection := client.Database("kbpl").Collection("enquiries")
 
-	cur, err := collection.Find(context.TODO(), filter)
+	start, err := strconv.Atoi(r.FormValue("start"))
+	if err != nil {
+		// TODO replace with json response
+		log.Println("wrong start value for adminEnquiriesJsonHandler", err)
+	}
+
+	length, err := strconv.Atoi(r.FormValue("length"))
+	if err != nil {
+		// TODO replace with json response
+		log.Println("wrong length value for adminEnquiriesJsonHandler", err)
+	}
+
+	draw, err := strconv.Atoi(r.FormValue("draw"))
+	if err != nil {
+		// TODO replace with json response
+		log.Println("wrong draw value for adminEnquiriesJsonHandler", err)
+	}
+
+	filter := bson.M{}
+	filterOptions := options.Find()
+	filterOptions.SetSkip(int64(start))
+	filterOptions.SetLimit(int64(length))
+	cur, err := collection.Find(context.TODO(), filter, filterOptions)
 	if err != nil {
 		log.Println("error getting all enquiries in adminEnquiriesJsonHandler", err)
 	}
+	curCount, err := collection.CountDocuments(context.TODO(), filter, options.Count())
+	if err != nil {
+		log.Println("error getting count for all enquiries in adminEnquiriesJsonHandler", err)
+	}
+	fmt.Println(curCount)
 
 	if err = cur.All(context.TODO(), &enquiries); err != nil {
 		log.Fatal("error putting queries into &queries", err)
@@ -454,9 +502,9 @@ func AdminEnquiriesJsonHandler(w http.ResponseWriter, r *http.Request) {
 	}
 
 	datatableResponse := DataTableResponse{
-		1,
-		len(dataField),
-		len(dataField),
+		int(draw),
+		int(curCount),
+		int(curCount),
 		dataField,
 	}
 
@@ -473,7 +521,7 @@ func AdminEnquiriesJsonHandler(w http.ResponseWriter, r *http.Request) {
 }
 
 func AdminViewEnquiryHandler(w http.ResponseWriter, r *http.Request) {
-	err := tpl.ExecuteTemplate(w, "adminEnquiries", nil)
+	err := tpl.ExecuteTemplate(w, "adminDatatableView", nil)
 	if err != nil {
 		log.Println("error parsing template adminViewEnquiry", err)
 	}
