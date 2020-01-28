@@ -28,6 +28,8 @@ var templatesPath = "templates/*.html"
 var tpl *template.Template
 
 const AppKey = "klshifhjKLHLHGl;sdjhfl'kshjfgkSghsFHJKSHGSHGslhgh"
+const statusClosed = "c"
+const statusOpen   = "o"
 
 type Product struct {
 	Id         string   `json:"_id" bson:"_id"`
@@ -46,6 +48,7 @@ type Enquiry struct {
 	Comments    string             `json:"comments" bson:"comments"`
 	OTP         string             `json:"-" bson:"otp"`
 	ProductId   []string           `json:"-" bson:"product_id"`
+	Status      string             `json:"status" bson:"status"`
 	CreatedDate time.Time          `json:"created_date" bson:"created_date"`
 }
 
@@ -237,7 +240,7 @@ func EnquiryHandler(w http.ResponseWriter, r *http.Request) {
 	if err != nil {
 		log.Println("Getting Timezone Asia/Kolkata is causing error: ", err)
 	}
-	currentEnquiry := Enquiry{primitive.NewObjectID(), name, email, number, comments, otp, productIds, time.Now().In(loc)}
+	currentEnquiry := Enquiry{primitive.NewObjectID(), name, email, number, comments, otp, productIds, statusClosed, time.Now().In(loc)}
 
 	client := GetClient()
 	collection := client.Database("kbpl").Collection("enquiries")
@@ -467,6 +470,7 @@ func AdminEnquiriesHandler(w http.ResponseWriter, r *http.Request) {
 				"Email",
 				"Comments",
 				"Created On",
+				"Status",
 				"Actions",
 			},
 		},
@@ -521,8 +525,7 @@ func AdminEnquiriesJsonHandler(w http.ResponseWriter, r *http.Request) {
 
 	var dataField [][]string
 	for _, value := range enquiries {
-		dataField = append(dataField, []string{value.Name, value.Mobile, value.Email, value.Comments, value.CreatedDate.Format("2006-01-02 15:04:05"), value.Id.Hex()},
-		)
+		dataField = append(dataField, []string{value.Name, value.Mobile, value.Email, value.Comments, value.CreatedDate.Format("2006-01-02 15:04:05"), value.Status, value.Id.Hex()},)
 	}
 
 	datatableResponse := DataTableResponse{
