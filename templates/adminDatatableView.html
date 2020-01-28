@@ -50,6 +50,7 @@
                             if (row[row.length - 1].length > 0 && readURL.length > 0) {
 
                                 let viewHref = document.createElement("a");
+                                viewHref.target = "_blank";
                                 viewHref.classList = "btn btn-warning btn-link btn-icon btn-sm edit";
                                 viewHref.href = readURL + "/" + row[row.length - 1];
 

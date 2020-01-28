@@ -548,7 +548,50 @@ func AdminEnquiriesJsonHandler(w http.ResponseWriter, r *http.Request) {
 }
 
 func AdminViewEnquiryHandler(w http.ResponseWriter, r *http.Request) {
-	err := tpl.ExecuteTemplate(w, "adminDatatableView", nil)
+	params := mux.Vars(r)
+	id := params["id"]
+	if id == "" || len(id) == 0 {
+		http.Error(w, "Bad Request", http.StatusBadRequest)
+		return
+	}
+
+	client := GetClient()
+	collection := client.Database("kbpl").Collection("enquiries")
+
+	primitiveObjectFromHex, err := primitive.ObjectIDFromHex(id)
+	if err != nil {
+		log.Println("objectIdFromHexFailed", err)
+		http.Error(w, "Bad Request", http.StatusBadRequest)
+	}
+
+	filter := bson.M{"_id": primitiveObjectFromHex}
+	filterOptions := options.FindOne()
+
+	cur := collection.FindOne(context.TODO(), filter, filterOptions)
+
+	var enquiry Enquiry
+
+	if err := cur.Decode(&enquiry); err != nil {
+		log.Println("error decoding enquiry", err)
+		http.Error(w, "Bad Request (Code: ERRONEDECODE)", http.StatusBadRequest)
+		return
+	}
+
+	loc, err := time.LoadLocation("Asia/Kolkata")
+	if err != nil {
+		log.Println("Getting Timezone Asia/Kolkata is causing error in adminViewEnquiryHandler: ", err)
+	}
+	enquiry.CreatedDate = enquiry.CreatedDate.In(loc)
+
+	type Result struct {
+		Enquiry
+	}
+
+	result := Result{
+		enquiry,
+	}
+
+	err = tpl.ExecuteTemplate(w, "adminSingleView", result)
 	if err != nil {
 		log.Println("error parsing template adminViewEnquiry", err)
 	}
