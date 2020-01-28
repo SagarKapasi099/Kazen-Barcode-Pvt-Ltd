@@ -120,11 +120,11 @@ func GetClient() *mongo.Client {
 	clientOptions := options.Client().ApplyURI("mongodb+srv://SagarKapasi099:3wqzTsSvNQkovuxi@projectautodidact-5vr5f.gcp.mongodb.net/test?retryWrites=true&w=majority")
 	client, err := mongo.NewClient(clientOptions)
 	if err != nil {
-		log.Fatal(err)
+		log.Println("error creating mongo.NewClient()", err)
 	}
 	err = client.Connect(context.Background())
 	if err != nil {
-		log.Fatal(err)
+		log.Println(err)
 	}
 	return client
 }
