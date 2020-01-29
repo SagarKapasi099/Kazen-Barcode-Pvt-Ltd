@@ -29,7 +29,7 @@ var tpl *template.Template
 
 const AppKey = "klshifhjKLHLHGl;sdjhfl'kshjfgkSghsFHJKSHGSHGslhgh"
 const statusClosed = "c"
-const statusOpen   = "o"
+const statusOpen = "o"
 
 type Product struct {
 	Id         string   `json:"_id" bson:"_id"`
@@ -524,7 +524,7 @@ func AdminEnquiriesJsonHandler(w http.ResponseWriter, r *http.Request) {
 
 	var dataField [][]string
 	for _, value := range enquiries {
-		dataField = append(dataField, []string{value.Name, value.Mobile, value.Email, value.Comments, value.CreatedDate.Format("2006-01-02 15:04:05"), value.Status, value.Id.Hex()},)
+		dataField = append(dataField, []string{value.Name, value.Mobile, value.Email, value.Comments, value.CreatedDate.Format("2006-01-02 15:04:05"), value.Status, value.Id.Hex()}, )
 	}
 
 	datatableResponse := DataTableResponse{
