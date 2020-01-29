@@ -240,7 +240,7 @@ func EnquiryHandler(w http.ResponseWriter, r *http.Request) {
 	if err != nil {
 		log.Println("Getting Timezone Asia/Kolkata is causing error: ", err)
 	}
-	currentEnquiry := Enquiry{primitive.NewObjectID(), name, email, number, comments, otp, productIds, statusClosed, time.Now().In(loc)}
+	currentEnquiry := Enquiry{primitive.NewObjectID(), name, email, number, comments, otp, productIds, statusOpen, time.Now().In(loc)}
 
 	client := GetClient()
 	collection := client.Database("kbpl").Collection("enquiries")
