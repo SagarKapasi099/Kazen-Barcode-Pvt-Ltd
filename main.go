@@ -470,7 +470,6 @@ func AdminEnquiriesHandler(w http.ResponseWriter, r *http.Request) {
 				"Email",
 				"Comments",
 				"Created On",
-				"Status",
 				"Actions",
 			},
 		},
