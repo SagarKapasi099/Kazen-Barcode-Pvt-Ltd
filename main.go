@@ -509,6 +509,7 @@ func AdminEnquiriesJsonHandler(w http.ResponseWriter, r *http.Request) {
 	filterOptions := options.Find()
 	filterOptions.SetSkip(int64(start))
 	filterOptions.SetLimit(int64(length))
+	filterOptions.SetSort(bson.M{"created_date": -1})
 	cur, err := collection.Find(context.TODO(), filter, filterOptions)
 	if err != nil {
 		log.Println("error getting all enquiries in adminEnquiriesJsonHandler", err)
