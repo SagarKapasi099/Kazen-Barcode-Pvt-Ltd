@@ -106,7 +106,7 @@ func main() {
 	r.Handle("/administrator/enquiries", AuthMiddleware(http.HandlerFunc(AdminEnquiriesHandler))).Methods("GET")
 	r.Handle("/administrator/getEnquiriesJson", AuthMiddleware(http.HandlerFunc(AdminEnquiriesJsonHandler))).Methods("POST")
 	r.Handle("/administrator/viewEnquiry/{id}", AuthMiddleware(http.HandlerFunc(AdminViewEnquiryHandler))).Methods("GET")
-	r.Handle("/administrator/saveEnquiry", AuthMiddleware(http.HandlerFunc(AdminSaveEnquiryHandler))).Methods("POST")
+	r.Handle("/administrator/updateEnquiry", AuthMiddleware(http.HandlerFunc(AdminUpdateEnquiryHandler))).Methods("POST")
 	// Products
 	r.Handle("/administrator/products", AuthMiddleware(http.HandlerFunc(AdminProductsHandler))).Methods("GET")
 	r.Handle("/administrator/getProductsJson", AuthMiddleware(http.HandlerFunc(AdminProductsJsonHandler))).Methods("POST")
@@ -449,7 +449,7 @@ func AdministratorHandler(w http.ResponseWriter, r *http.Request) {
 func AdminEnquiriesHandler(w http.ResponseWriter, r *http.Request) {
 	datatableViewData := DatatableView{
 		template.URL(""),
-		template.URL("/administrator/saveEnquiry"),
+		template.URL(""),
 		template.URL("/administrator/getEnquiriesJson"),
 		template.URL("/administrator/viewEnquiry"),
 		template.URL("/administrator/updateEnquiry"),
@@ -597,10 +597,36 @@ func AdminViewEnquiryHandler(w http.ResponseWriter, r *http.Request) {
 	}
 }
 
-func AdminSaveEnquiryHandler(w http.ResponseWriter, r *http.Request) {
-	err := tpl.ExecuteTemplate(w, "adminEnquiries", nil)
+/**
+set the status to closed
+*/
+func AdminUpdateEnquiryHandler(w http.ResponseWriter, r *http.Request) {
+	id := r.FormValue("id")
+	status := r.FormValue("status")
+	if id == "" || (status != statusOpen && status != statusClosed) {
+		http.Error(w, "No Data Received", http.StatusBadRequest)
+		return
+	}
+
+	client := GetClient()
+	collection := client.Database("kbpl").Collection("enquiries")
+
+	opts := options.FindOneAndUpdate().SetUpsert(true)
+	objectIdFromHex, err := primitive.ObjectIDFromHex(id)
 	if err != nil {
-		log.Println("error parsing template adminSaveEnquiry", err)
+		log.Println("cannot convert id into objectId in updateEnquiryHandler", err)
+	}
+	filter := bson.D{{"_id", objectIdFromHex}}
+	update := bson.D{{"$set", bson.D{{"status", statusClosed}}}}
+	var updatedDocument bson.M
+	err = collection.FindOneAndUpdate(context.TODO(), filter, update, opts).Decode(&updatedDocument)
+	if err != nil {
+		log.Println("error updating enquiry", err)
+		// ErrNoDocuments means that the filter did not match any documents in the collection
+		if err == mongo.ErrNoDocuments {
+			log.Println("Error, there are no documents", err)
+			return
+		}
 	}
 }
 
