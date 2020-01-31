@@ -608,6 +608,16 @@ func AdminUpdateEnquiryHandler(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
+	var statusUpdate string
+	if status == statusClosed {
+		statusUpdate = statusClosed
+	} else if status == statusOpen {
+		statusUpdate = statusOpen
+	} else {
+		http.Error(w, "Valid Status Not Found", http.StatusBadRequest)
+		return
+	}
+
 	client := GetClient()
 	collection := client.Database("kbpl").Collection("enquiries")
 
@@ -617,7 +627,7 @@ func AdminUpdateEnquiryHandler(w http.ResponseWriter, r *http.Request) {
 		log.Println("cannot convert id into objectId in updateEnquiryHandler", err)
 	}
 	filter := bson.D{{"_id", objectIdFromHex}}
-	update := bson.D{{"$set", bson.D{{"status", statusClosed}}}}
+	update := bson.D{{"$set", bson.D{{"status", statusUpdate}}}}
 	var updatedDocument bson.M
 	err = collection.FindOneAndUpdate(context.TODO(), filter, update, opts).Decode(&updatedDocument)
 	if err != nil {
