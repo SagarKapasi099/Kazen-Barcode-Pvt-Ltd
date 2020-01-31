@@ -150,7 +150,7 @@ func AuthMiddleware(next http.Handler) http.Handler {
 		CredentialsOptional: true,
 		Extractor: func(r *http.Request) (string, error) {
 			accessTokenCookie, err := r.Cookie("access_token")
-			if err != nil {
+			if err != nil || accessTokenCookie.Value == "" {
 				return "", errors.New("Error Obtaining Cookie access_token")
 			}
 			jwtCookie := accessTokenCookie.Value
