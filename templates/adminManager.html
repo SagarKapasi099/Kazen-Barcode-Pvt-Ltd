@@ -1,0 +1,190 @@
+{{define "adminManager"}}
+    <html lang="en" class="perfect-scrollbar-off">
+    <head>
+        <meta charset="utf-8">
+        <link rel="apple-touch-icon" sizes="76x76" href="static/admin/img/apple-icon.png">
+        <link rel="icon" type="image/png" href="static/admin/img/favicon.png">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+        <title>
+            Kazen Barcode Pvt Ltd - Admin Panel
+        </title>
+        <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0, shrink-to-fit=no"
+              name="viewport">
+
+        <link href="https://fonts.googleapis.com/css?family=Montserrat:400,700,200" rel="stylesheet">
+        <link href="https://maxcdn.bootstrapcdn.com/font-awesome/latest/css/font-awesome.min.css" rel="stylesheet">
+
+        <link href="static/admin/css/bootstrap.min.css" rel="stylesheet">
+        <link href="static/admin/css/paper-dashboard.css?v=2.0.0" rel="stylesheet">
+
+        <link href="static/admin/demo/demo.css" rel="stylesheet">
+        <style type="text/css">
+            @-webkit-keyframes chartjs-render-animation {
+                from {
+                    opacity: 0.99
+                }
+                to {
+                    opacity: 1
+                }
+            }
+
+            @keyframes chartjs-render-animation {
+                from {
+                    opacity: 0.99
+                }
+                to {
+                    opacity: 1
+                }
+            }
+
+            .chartjs-render-monitor {
+                -webkit-animation: chartjs-render-animation 0.001s;
+                animation: chartjs-render-animation 0.001s;
+            }</style>
+        <style type="text/css">
+            @-webkit-keyframes chartjs-render-animation {
+                from {
+                    opacity: 0.99
+                }
+                to {
+                    opacity: 1
+                }
+            }
+
+            @keyframes chartjs-render-animation {
+                from {
+                    opacity: 0.99
+                }
+                to {
+                    opacity: 1
+                }
+            }
+
+            .chartjs-render-monitor {
+                -webkit-animation: chartjs-render-animation 0.001s;
+                animation: chartjs-render-animation 0.001s;
+            }</style>
+        <style type="text/css">/* Chart.js */
+            @-webkit-keyframes chartjs-render-animation {
+                from {
+                    opacity: 0.99
+                }
+                to {
+                    opacity: 1
+                }
+            }
+
+            @keyframes chartjs-render-animation {
+                from {
+                    opacity: 0.99
+                }
+                to {
+                    opacity: 1
+                }
+            }
+
+            .chartjs-render-monitor {
+                -webkit-animation: chartjs-render-animation 0.001s;
+                animation: chartjs-render-animation 0.001s;
+            }</style>
+    </head>
+
+    <body class="">
+    <div class="wrapper" style="background-color:#f4f3ef">
+
+        <div class="main-panel" style="width:100% !important">
+
+            <nav class="navbar navbar-expand-lg navbar-absolute fixed-top bg-white" style="
+    position: fixed;
+">
+                <div class="container-fluid">
+                    <div class="navbar-wrapper">
+                        <div class="navbar-toggle" style="display:none">
+                            <button type="button" class="navbar-toggler">
+                                <span class="navbar-toggler-bar bar1"></span>
+                                <span class="navbar-toggler-bar bar2"></span>
+                                <span class="navbar-toggler-bar bar3"></span>
+                            </button>
+                        </div>
+                        <a class="navbar-brand" href="#pablo">Kazen Barcode Pvt Ltd - Admin Panel</a>
+                    </div>
+
+
+                </div>
+            </nav>
+
+
+            <div class="content" style="min-height:inherit;">
+
+                <div class="row" style="padding-top:4em">
+                    <div class="container">
+                        <div class="card card-user">
+
+                            <div class="card-body">
+                                <div class="author">
+                                    <a>
+                                        <img class="avatar border-gray" src="/static/images/avatars/avatar.svg" alt="...">
+                                        <h5 class="title"></h5>
+                                    </a>
+
+                                </div>
+                                <form>
+                                    <div class="col-md-6 mx-auto">
+                                        <div class="form-group">
+                                            <label>USERNAME</label>
+                                            <input type="text" class="form-control" id="username" placeholder="username" value="">
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-6 mx-auto">
+                                        <div class="form-group">
+                                            <label>PASSWORD</label>
+                                            <input type="password" autocomplete="off" class="form-control" id="password" placeholder="password" value="">
+                                        </div>
+                                    </div>
+
+
+                                    <div class="row">
+                                        <div class="update ml-auto mr-auto">
+                                            <button id="signIn" class="btn btn-primary btn-round">Sign In</button>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="update ml-auto mr-auto">
+                                            <button id="switchUser" style="display:none" class="btn btn-warning btn-round">Switch User
+                                            </button>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+    </div>
+
+    <script src="/static/admin/js/core/jquery.min.js"></script>
+    <script src="/static/admin/js/core/popper.min.js"></script>
+    <script src="/static/admin/js/core/bootstrap.min.js"></script>
+    <script src="/static/admin/js/plugins/perfect-scrollbar.jquery.min.js"></script>
+
+    <script src="https://maps.googleapis.com/maps/api/js?key=YOUR_KEY_HERE"></script>
+
+    <script src="/static/admin/js/plugins/chartjs.min.js"></script>
+
+    <script src="/static/admin/js/plugins/bootstrap-notify.js"></script>
+
+    <script src="/static/admin/js/paper-dashboard.min.js?v=2.0.0" type="text/javascript"></script>
+
+    <script src="/static/admin/js/admin-login.js"></script>
+
+
+    </body>
+    </html>
+{{end}}

@@ -1,0 +1,136 @@
+{{define "adminDatatableView"}}
+    {{template "adminHeader"}}
+    <div class="card">
+        <div class="card-header">
+            {{if .Add}}
+                <a href="{{.Add}}">{{.Add}}</a>
+            {{end}}
+        </div>
+        <div class="card-body">
+            <table id="datatable"
+                   class="table table-striped table-bordered dataTable dtr-inline collapsed" role="grid"
+                   aria-describedby="datatable_info" style="width: 100%;">
+                <thead>
+                <tr>
+                    {{range .Columns}}
+                        <th>{{.}}</th>
+                    {{end}}
+                </tr>
+                </thead>
+            </table>
+        </div>
+    </div>
+    <script>
+
+
+        window.onload = function () {
+            $('#datatable').DataTable({
+                "pagingType": "full_numbers",
+                "lengthMenu": [
+                    [10, 25, 50, -1],
+                    [10, 25, 50, "All"]
+                ],
+                "processing": true,
+                "serverSide": true,
+                "responsive": true,
+                "ajax": {
+                    "url": "{{.ReadJson}}",
+                    "type": "POST",
+                    "async": true,
+                    "complete": function (xmlHttp) {
+                        if (xmlHttp.status === 401) {
+                            window.location = "/manage";
+                        }
+                    }
+                },
+                "drawCallback": function () {
+                    $('.bootstrap-switch').each(function () {
+                        let $this = $(this);
+                        let data_on_label = $this.data('on-label') || '';
+                        let data_off_label = $this.data('off-label') || '';
+
+                        $this.bootstrapSwitch({
+                            onText: data_on_label,
+                            offText: data_off_label
+                        });
+                    });
+                    $('.bootstrap-switch').on('switchChange.bootstrapSwitch', function(event, state) {
+                        let status = "c";
+                        if (state) {
+                            status = "o";
+                        }
+
+                        let id = $(this).data("id");
+                        if (id != '' && id != null) {
+                            let request = $.ajax({
+                                url: "{{.Update}}",
+                                method: "POST",
+                                data: { id : id, status: status },
+                                dataType: "json"
+                            });
+
+                            request.done(function() {
+                                alert("Status Changed");
+                            });
+
+                            request.fail(function( jqXHR, textStatus ) {
+                                if (jqXHR.status == 401) {
+                                    window.location = "/manage";
+                                }
+                                alert( "Request failed: " + textStatus );
+                            });
+                        }
+                    });
+                },
+                "columnDefs": [
+                    {
+
+                        "render": function (data, type, row) {
+                            let readURL = "{{.Read}}";
+                            if (row[row.length - 1].length > 0 && readURL.length > 0) {
+
+                                let viewHref = document.createElement("a");
+                                viewHref.target = "_blank";
+                                viewHref.classList = "btn btn-warning btn-link btn-icon btn-sm edit";
+                                viewHref.href = readURL + "/" + row[row.length - 1];
+
+                                let icon = document.createElement("i");
+                                icon.classList = "fa fa-eye";
+                                viewHref.appendChild(icon);
+
+                                // closedSwitch
+                                let resolvedSwitch = document.createElement("input");
+                                resolvedSwitch.classList = "bootstrap-switch";
+                                resolvedSwitch.type = "checkbox";
+                                resolvedSwitch.setAttribute("data-toggle", "switch");
+                                let is_open_or_close = row[row.length - 2];
+                                if (is_open_or_close !== "c") {
+                                    resolvedSwitch.setAttribute("checked", "");
+                                }
+                                resolvedSwitch.setAttribute("data-on-color", "default");
+
+                                resolvedSwitch.setAttribute("data-on-label", "Open");
+                                resolvedSwitch.setAttribute("data-off-label", "Closed");
+                                resolvedSwitch.setAttribute("data-on-value", "o");
+                                resolvedSwitch.setAttribute("data-off-value", "c");
+
+                                resolvedSwitch.setAttribute("data-id", row[row.length - 1]);
+
+                                let domStringRepresentationContainer = document.createElement("div");
+                                domStringRepresentationContainer.appendChild(viewHref);
+                                domStringRepresentationContainer.appendChild(resolvedSwitch);
+                                return domStringRepresentationContainer.innerHTML;
+
+                            }
+                            return data;
+                        },
+                        "targets": -1
+                    },
+                ],
+
+
+            });
+        };
+    </script>
+    {{template "adminFooter"}}
+{{end}}

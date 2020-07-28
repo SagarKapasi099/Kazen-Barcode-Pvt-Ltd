@@ -4,9 +4,14 @@ package main
 import (
 	"context"
 	"encoding/json"
+	"errors"
+	jwtmiddleware "github.com/auth0/go-jwt-middleware"
+	jwt2 "github.com/dgrijalva/jwt-go"
 	"go.mongodb.org/mongo-driver/bson/primitive"
 	"go.mongodb.org/mongo-driver/mongo/readpref"
+	"io"
 	"math/rand"
+	"strconv"
 	"time"
 
 	"fmt"
@@ -22,6 +27,10 @@ import (
 var templatesPath = "templates/*.html"
 var tpl *template.Template
 
+const AppKey = "klshifhjKLHLHGl;sdjhfl'kshjfgkSghsFHJKSHGSHGslhgh"
+const statusClosed = "c"
+const statusOpen = "o"
+
 type Product struct {
 	Id         string   `json:"_id" bson:"_id"`
 	Name       string   `json:"name" bson:"name"`
@@ -32,12 +41,35 @@ type Product struct {
 }
 
 type Enquiry struct {
-	Name      string   `json:"name" bson:"name"`
-	Email     string   `json:"email" bson:"email"`
-	Mobile    string   `json:"mobile" bson:"mobile"`
-	Comments  string   `json:"comments" bson:"comments"`
-	OTP       string   `json:"otp" bson:"otp"`
-	ProductId []string `json:"product_id" bson:"product_id"`
+	Id          primitive.ObjectID `json:"id" bson:"_id"`
+	Name        string             `json:"name" bson:"name"`
+	Email       string             `json:"email" bson:"email"`
+	Mobile      string             `json:"mobile" bson:"mobile"`
+	Comments    string             `json:"comments" bson:"comments"`
+	OTP         string             `json:"-" bson:"otp"`
+	ProductId   []string           `json:"-" bson:"product_id"`
+	Status      string             `json:"status" bson:"status"`
+	CreatedDate time.Time          `json:"created_date" bson:"created_date"`
+}
+
+type DataTableResponse struct {
+	Draw            int        `json:"draw"`
+	RecordsTotal    int        `json:"recordsTotal"`
+	RecordsFiltered int        `json:"recordsFiltered"`
+	Data            [][]string `json:"data"`
+}
+
+type DatatableView struct {
+	Add      template.URL
+	Create   template.URL
+	ReadJson template.URL
+	Read     template.URL
+	Update   template.URL
+	MarkDone template.URL
+}
+
+type TableColumns struct {
+	Columns []string
 }
 
 func main() {
@@ -65,6 +97,21 @@ func main() {
 	r.HandleFunc("/enquiry", EnquiryHandler).Methods("POST")
 	r.HandleFunc("/verifyOTP", VerifyOTPHandler).Methods("POST")
 	r.HandleFunc("/products", ShowProductsHandler).Methods("POST")
+
+	// Admin Section
+	r.HandleFunc("/manage", ManageHandler).Methods("GET")
+	r.HandleFunc("/getToken", GenerateJWT)
+	r.Handle("/administrator", AuthMiddleware(http.HandlerFunc(AdministratorHandler))).Methods("GET")
+	// Enquiries
+	r.Handle("/administrator/enquiries", AuthMiddleware(http.HandlerFunc(AdminEnquiriesHandler))).Methods("GET")
+	r.Handle("/administrator/getEnquiriesJson", AuthMiddleware(http.HandlerFunc(AdminEnquiriesJsonHandler))).Methods("POST")
+	r.Handle("/administrator/viewEnquiry/{id}", AuthMiddleware(http.HandlerFunc(AdminViewEnquiryHandler))).Methods("GET")
+	r.Handle("/administrator/updateEnquiry", AuthMiddleware(http.HandlerFunc(AdminUpdateEnquiryHandler))).Methods("POST")
+	// Products
+	r.Handle("/administrator/products", AuthMiddleware(http.HandlerFunc(AdminProductsHandler))).Methods("GET")
+	r.Handle("/administrator/getProductsJson", AuthMiddleware(http.HandlerFunc(AdminProductsJsonHandler))).Methods("POST")
+	r.Handle("/administrator/viewProduct/{id}", AuthMiddleware(http.HandlerFunc(AdminViewProductHandler))).Methods("GET")
+	r.Handle("/administrator/saveProduct", AuthMiddleware(http.HandlerFunc(AdminSaveProductHandler))).Methods("POST")
 	log.Fatal(http.ListenAndServe(":8080", r))
 }
 
@@ -73,23 +120,55 @@ func GetClient() *mongo.Client {
 	clientOptions := options.Client().ApplyURI("mongodb+srv://SagarKapasi099:3wqzTsSvNQkovuxi@projectautodidact-5vr5f.gcp.mongodb.net/test?retryWrites=true&w=majority")
 	client, err := mongo.NewClient(clientOptions)
 	if err != nil {
-		log.Fatal(err)
+		log.Println("error creating mongo.NewClient()", err)
 	}
 	err = client.Connect(context.Background())
 	if err != nil {
-		log.Fatal(err)
+		log.Println(err)
 	}
 	return client
 }
 
 func GenerateOTP(length int) string {
-	const charset = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789"
+	const charset = "0123456789"
 	var seededRand = rand.New(rand.NewSource(time.Now().UnixNano()))
 	b := make([]byte, length)
 	for i := range b {
 		b[i] = charset[seededRand.Intn(len(charset))]
 	}
 	return string(b)
+}
+
+// AuthMiddleware is our middleware to check our token is valid. Returning
+// a 401 status to the client if it is not valid.
+func AuthMiddleware(next http.Handler) http.Handler {
+
+	if len(AppKey) == 0 {
+		log.Fatal("HTTP server unable to start, expected an APP_KEY for JWT auth")
+	}
+	jwtMiddleware := jwtmiddleware.New(jwtmiddleware.Options{
+		CredentialsOptional: true,
+		Extractor: func(r *http.Request) (string, error) {
+			accessTokenCookie, err := r.Cookie("access_token")
+			if err != nil || accessTokenCookie.Value == "" {
+				return "", errors.New("Error Obtaining Cookie access_token")
+			}
+			jwtCookie := accessTokenCookie.Value
+			return jwtCookie, nil
+		},
+		ErrorHandler: func(w http.ResponseWriter, r *http.Request, errMsg string) {
+			if r.Method == "POST" {
+				http.Error(w, "", http.StatusUnauthorized)
+			} else {
+				http.Redirect(w, r, "/manage", http.StatusSeeOther)
+			}
+		},
+		ValidationKeyGetter: func(token *jwt2.Token) (interface{}, error) {
+			return []byte(AppKey), nil
+		},
+		SigningMethod: jwt2.SigningMethodHS256,
+	})
+	return jwtMiddleware.Handler(next)
 }
 
 func AboutHandler(w http.ResponseWriter, r *http.Request) {
@@ -157,7 +236,11 @@ func EnquiryHandler(w http.ResponseWriter, r *http.Request) {
 
 	otp := GenerateOTP(6)
 
-	currentEnquiry := Enquiry{name, email, number, comments, otp, productIds}
+	loc, err := time.LoadLocation("Asia/Kolkata")
+	if err != nil {
+		log.Println("Getting Timezone Asia/Kolkata is causing error: ", err)
+	}
+	currentEnquiry := Enquiry{primitive.NewObjectID(), name, email, number, comments, otp, productIds, statusOpen, time.Now().In(loc)}
 
 	client := GetClient()
 	collection := client.Database("kbpl").Collection("enquiries")
@@ -294,5 +377,327 @@ func ShowProductsHandler(w http.ResponseWriter, r *http.Request) {
 	err = tpl.ExecuteTemplate(w, "products", result)
 	if err != nil {
 		log.Fatal(err)
+	}
+}
+
+func ManageHandler(w http.ResponseWriter, r *http.Request) {
+	err := tpl.ExecuteTemplate(w, "adminManager", nil)
+	if err != nil {
+		log.Println(err)
+	}
+}
+
+func GenerateJWT(w http.ResponseWriter, r *http.Request) {
+	w.Header().Add("Content-Type", "application/json")
+
+	// Check the credentials provided - if you store these in a database then
+	// this is where your query would go to check.
+	fmt.Println(r.FormValue("username"))
+	username := r.Form.Get("username")
+	password := r.Form.Get("password")
+	fmt.Println(username, password)
+	if username != "myusername" || password != "mypassword" {
+		w.WriteHeader(http.StatusUnauthorized)
+		n, err := io.WriteString(w, `{"error":"invalid_credentials"}`)
+		if err != nil {
+			log.Println(n, err)
+		}
+		return
+	}
+
+	validTime := time.Now().Add(time.Hour * time.Duration(1)).Unix()
+
+	// We are happy with the credentials, so build a token. We've given it
+	// an expiry of 1 hour.
+	token := jwt2.NewWithClaims(jwt2.SigningMethodHS256, jwt2.MapClaims{
+		"user": username,
+		"exp":  validTime,
+		"iat":  time.Now().Unix(),
+	})
+
+	tokenString, err := token.SignedString([]byte(AppKey))
+	if err != nil {
+		w.WriteHeader(http.StatusInternalServerError)
+		n, err := io.WriteString(w, `{"error":"token_generation_failed"}`)
+		log.Println(n, err)
+		return
+	}
+
+	cookie := http.Cookie{
+		Name:    "access_token",
+		Value:   tokenString,
+		Expires: time.Now().AddDate(0, 0, 1),
+		Path:    "/",
+	}
+	http.SetCookie(w, &cookie)
+
+	n, err := io.WriteString(w, `{"token":"`+tokenString+`"}`)
+	if err != nil {
+		log.Println(n, err)
+	}
+	return
+}
+
+func AdministratorHandler(w http.ResponseWriter, r *http.Request) {
+	err := tpl.ExecuteTemplate(w, "adminHome", nil)
+	if err != nil {
+		log.Println("error parsing template adminHome", err)
+	}
+}
+
+// Enquiries
+func AdminEnquiriesHandler(w http.ResponseWriter, r *http.Request) {
+	datatableViewData := DatatableView{
+		template.URL(""),
+		template.URL(""),
+		template.URL("/administrator/getEnquiriesJson"),
+		template.URL("/administrator/viewEnquiry"),
+		template.URL("/administrator/updateEnquiry"),
+		template.URL("/administrator/markDoneEnquiry"),
+	}
+
+	type Result struct {
+		DatatableView
+		TableColumns
+	}
+
+	data := Result{
+		datatableViewData,
+		TableColumns{
+			[]string{
+				"Name",
+				"Mobile No",
+				"Email",
+				"Comments",
+				"Created On",
+				"Actions",
+			},
+		},
+	}
+
+	err := tpl.ExecuteTemplate(w, "adminDatatableView", data)
+	if err != nil {
+		log.Println("error parsing template adminEnquiries", err)
+	}
+}
+
+func AdminEnquiriesJsonHandler(w http.ResponseWriter, r *http.Request) {
+	// getting all enquiries
+	var enquiries []Enquiry
+	client := GetClient()
+	collection := client.Database("kbpl").Collection("enquiries")
+
+	start, err := strconv.Atoi(r.FormValue("start"))
+	if err != nil {
+		// TODO replace with json response
+		log.Println("wrong start value for adminEnquiriesJsonHandler", err)
+	}
+
+	length, err := strconv.Atoi(r.FormValue("length"))
+	if err != nil {
+		// TODO replace with json response
+		log.Println("wrong length value for adminEnquiriesJsonHandler", err)
+	}
+
+	draw, err := strconv.Atoi(r.FormValue("draw"))
+	if err != nil {
+		// TODO replace with json response
+		log.Println("wrong draw value for adminEnquiriesJsonHandler", err)
+	}
+
+	filter := bson.M{}
+	filterOptions := options.Find()
+	filterOptions.SetSkip(int64(start))
+	filterOptions.SetLimit(int64(length))
+	filterOptions.SetSort(bson.M{"created_date": -1})
+	cur, err := collection.Find(context.TODO(), filter, filterOptions)
+	if err != nil {
+		log.Println("error getting all enquiries in adminEnquiriesJsonHandler", err)
+	}
+	curCount, err := collection.CountDocuments(context.TODO(), filter, options.Count())
+	if err != nil {
+		log.Println("error getting count for all enquiries in adminEnquiriesJsonHandler", err)
+	}
+
+	if err = cur.All(context.TODO(), &enquiries); err != nil {
+		log.Println("error putting queries into &queries", err)
+	}
+
+	var dataField [][]string
+	for _, value := range enquiries {
+		dataField = append(dataField, []string{value.Name, value.Mobile, value.Email, value.Comments, value.CreatedDate.Format("2006-01-02 15:04:05"), value.Status, value.Id.Hex()})
+	}
+
+	datatableResponse := DataTableResponse{
+		draw,
+		int(curCount),
+		int(curCount),
+		dataField,
+	}
+
+	encodedEnquiries, err := json.Marshal(datatableResponse)
+	if err != nil {
+		log.Println("error marshalling golang enquiries", err)
+	}
+
+	n, err := fmt.Fprintf(w, string(encodedEnquiries))
+	if err != nil {
+		log.Println("error in fmt.Fprintf encodedEnquiries", n, encodedEnquiries)
+	}
+
+}
+
+func AdminViewEnquiryHandler(w http.ResponseWriter, r *http.Request) {
+	params := mux.Vars(r)
+	id := params["id"]
+	if id == "" || len(id) == 0 {
+		http.Error(w, "Bad Request", http.StatusBadRequest)
+		return
+	}
+
+	client := GetClient()
+	collection := client.Database("kbpl").Collection("enquiries")
+
+	primitiveObjectFromHex, err := primitive.ObjectIDFromHex(id)
+	if err != nil {
+		log.Println("objectIdFromHexFailed", err)
+		http.Error(w, "Bad Request", http.StatusBadRequest)
+	}
+
+	filter := bson.M{"_id": primitiveObjectFromHex}
+	filterOptions := options.FindOne()
+
+	cur := collection.FindOne(context.TODO(), filter, filterOptions)
+
+	var enquiry Enquiry
+
+	if err := cur.Decode(&enquiry); err != nil {
+		log.Println("error decoding enquiry", err)
+		http.Error(w, "Bad Request (Code: ERRONEDECODE)", http.StatusBadRequest)
+		return
+	}
+
+	loc, err := time.LoadLocation("Asia/Kolkata")
+	if err != nil {
+		log.Println("Getting Timezone Asia/Kolkata is causing error in adminViewEnquiryHandler: ", err)
+	}
+	enquiry.CreatedDate = enquiry.CreatedDate.In(loc)
+
+	type Result struct {
+		Enquiry
+	}
+
+	result := Result{
+		enquiry,
+	}
+
+	err = tpl.ExecuteTemplate(w, "adminSingleView", result)
+	if err != nil {
+		log.Println("error parsing template adminViewEnquiry", err)
+	}
+}
+
+/**
+set the status to closed
+*/
+func AdminUpdateEnquiryHandler(w http.ResponseWriter, r *http.Request) {
+	id := r.FormValue("id")
+	status := r.FormValue("status")
+	if id == "" || (status != statusOpen && status != statusClosed) {
+		http.Error(w, "No Data Received", http.StatusBadRequest)
+		return
+	}
+
+	var statusUpdate string
+	if status == statusClosed {
+		statusUpdate = statusClosed
+	} else if status == statusOpen {
+		statusUpdate = statusOpen
+	} else {
+		http.Error(w, "Valid Status Not Found", http.StatusBadRequest)
+		return
+	}
+
+	client := GetClient()
+	collection := client.Database("kbpl").Collection("enquiries")
+
+	opts := options.FindOneAndUpdate().SetUpsert(true)
+	objectIdFromHex, err := primitive.ObjectIDFromHex(id)
+	if err != nil {
+		log.Println("cannot convert id into objectId in updateEnquiryHandler", err)
+	}
+	filter := bson.D{{"_id", objectIdFromHex}}
+	update := bson.D{{"$set", bson.D{{"status", statusUpdate}}}}
+	var updatedDocument bson.M
+	err = collection.FindOneAndUpdate(context.TODO(), filter, update, opts).Decode(&updatedDocument)
+	if err != nil {
+		log.Println("error updating enquiry", err)
+		// ErrNoDocuments means that the filter did not match any documents in the collection
+		if err == mongo.ErrNoDocuments {
+			log.Println("Error, there are no documents", err)
+			return
+		}
+	}
+}
+
+// Products
+func AdminProductsHandler(w http.ResponseWriter, r *http.Request) {
+	err := tpl.ExecuteTemplate(w, "adminProducts", nil)
+	if err != nil {
+		log.Println("error parsing template adminProducts", err)
+	}
+}
+
+func AdminProductsJsonHandler(w http.ResponseWriter, r *http.Request) {
+	filter := bson.M{}
+
+	// getting all enquiries
+	var products []Product
+	client := GetClient()
+	collection := client.Database("kbpl").Collection("products")
+
+	cur, err := collection.Find(context.TODO(), filter)
+	if err != nil {
+		log.Println("error getting all products in adminProductsJsonHandler", err)
+	}
+
+	if err = cur.All(context.TODO(), &products); err != nil {
+		log.Fatal("error putting queries into &queries 2", err)
+	}
+
+	var dataField [][]string
+	for _, value := range products {
+		dataField = append(dataField, []string{value.Name, strconv.FormatInt(int64(value.Price), 10)})
+	}
+
+	datatableResponse := DataTableResponse{
+		1,
+		len(dataField),
+		len(dataField),
+		dataField,
+	}
+
+	encodedEnquiries, err := json.Marshal(datatableResponse)
+	if err != nil {
+		log.Println("error marshalling golang enquiries", err)
+	}
+
+	n, err := fmt.Fprintf(w, string(encodedEnquiries))
+	if err != nil {
+		log.Println("error in fmt.Fprintf encodedEnquiries", n, encodedEnquiries)
+	}
+}
+
+func AdminViewProductHandler(w http.ResponseWriter, r *http.Request) {
+	err := tpl.ExecuteTemplate(w, "adminProducts", nil)
+	if err != nil {
+		log.Println("error parsing template adminViewProduct", err)
+	}
+}
+
+func AdminSaveProductHandler(w http.ResponseWriter, r *http.Request) {
+	err := tpl.ExecuteTemplate(w, "adminProducts", nil)
+	if err != nil {
+		log.Println("error parsing template adminSaveProduct", err)
 	}
 }

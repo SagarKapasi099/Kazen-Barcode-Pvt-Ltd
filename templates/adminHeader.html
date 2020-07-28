@@ -1,0 +1,91 @@
+{{define "adminHeader"}}
+    <!doctype html>
+    <html lang="en">
+    <head>
+        <title>Kazen Barcode Pvt Ltd - Admin Panel</title>
+        <!-- Required meta tags -->
+        <meta charset="utf-8">
+        <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport" />
+
+        <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+
+        <!--     Fonts and icons     -->
+        <link href="https://fonts.googleapis.com/css?family=Montserrat:400,700,200" rel="stylesheet" />
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/latest/css/font-awesome.min.css" />
+        <!-- JQuery -->
+        <script src="https://demos.creative-tim.com/paper-dashboard-2-pro/assets/js/core/jquery.min.js" type="text/javascript"></script>
+
+        <!-- CSS Files -->
+        <link href="https://demos.creative-tim.com/paper-dashboard-2-pro/assets/css/bootstrap.min.css" rel="stylesheet" />
+        <link href="https://demos.creative-tim.com/paper-dashboard-2-pro/assets/css/paper-dashboard.min.css" rel="stylesheet" />
+
+    </head>
+
+    <body class="">
+    <div class="wrapper ">
+        <div class="sidebar" data-color="white" data-active-color="danger">
+            <!--
+              Tip 1: You can change the color of the sidebar using: data-color="blue | green | orange | red | yellow"
+          -->
+            <div class="logo">
+                <a href="/administrator" class="simple-text logo-mini">
+                    <div class="logo-image-small">
+                        <i class="nc-icon nc-circle-10" style="font-size: 2em"></i>
+                    </div>
+                </a>
+                <a href="http://www.creative-tim.com" class="simple-text logo-normal">
+                    USERNAME
+                </a>
+            </div>
+            <div class="sidebar-wrapper">
+                <ul class="nav">
+                    <li>
+                        <a href="/administrator">
+                            <i class="nc-icon nc-chart-bar-32"></i>
+                            <p>Dashboard</p>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="/administrator/enquiries">
+                            <i class="nc-icon nc-paper"></i>
+                            <p>Enquiries</p>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="/administrator/products">
+                            <i class="nc-icon nc-app"></i>
+                            <p>Products</p>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="/administrator/users">
+                            <i class="nc-icon nc-single-02"></i>
+                            <p>Users</p>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+        <div class="main-panel">
+            <!-- Navbar -->
+            <nav class="navbar navbar-expand-lg navbar-absolute fixed-top navbar-transparent">
+                <div class="container-fluid">
+                    <div class="navbar-wrapper">
+                        <div class="navbar-toggle">
+                            <button type="button" class="navbar-toggler">
+                                <span class="navbar-toggler-bar bar1"></span>
+                                <span class="navbar-toggler-bar bar2"></span>
+                                <span class="navbar-toggler-bar bar3"></span>
+                            </button>
+                        </div>
+                        <a class="navbar-brand" href="/administrator">Kazen Barcode Pvt Ltd - Admin Panel</a>
+                    </div>
+                </div>
+            </nav>
+            <!-- End Navbar -->
+            <!-- <div class="panel-header panel-header-sm">
+
+
+      </div> -->
+            <div class="content">
+{{end}}
