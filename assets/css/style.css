@@ -144,12 +144,13 @@ header {
 header img {
     margin-top: 0.4rem;
     padding-left: 20px;
+    max-width: 80%;
     max-height: 45px;
 }
 
 header nav, nav button {
     justify-content: flex-end;
-    font-size: 0.6rem;
+    font-size: 0.8rem;
     letter-spacing: .2rem;
     margin-top: auto;
     margin-bottom: auto;
@@ -177,7 +178,7 @@ nav ul > li {
 
     header img {
         z-index: 600;
-        margin-right: 20px;
+        padding-left: unset;
     }
 
     .hamburger-menu {
@@ -262,14 +263,6 @@ header a, header p {
 }
 
 /*
- * Page
- */
-
-body {
-    background-color: #f8f8ff;
-}
-
-/*
  * Video Background
  */
 .bg-video-wrap {
@@ -298,13 +291,12 @@ video {
     z-index: 2;
 }
 
-h1 {
+.bg-video-wrap h1 {
     font-family: 'Montserrat', sans-serif;
     text-align: center;
     color: #fff;
     position: absolute;
-    top: 0;
-    bottom: 4.5rem;
+    top: 14rem;
     left: 0;
     right: 0;
     margin: auto;
@@ -316,7 +308,8 @@ h1 {
 }
 
 .h1-main {
-    font-weight:bold;
+    font-weight: bold;
+    margin-bottom: 4rem;
 }
 
 h1 span {
@@ -326,17 +319,162 @@ h1 span {
 
 @media screen and (max-width: 768px) {
     h1 {
-        bottom: 7.5rem;
+        top: 13rem;
         max-width: 100%;
+    }
+
+    .h1-main {
+        margin-bottom: 2rem;
     }
 }
 
 @media (max-width: 575.98px) {
     h1 {
-        bottom: 16rem;
+        top: 20% !important;
     }
 
     h1 span {
-        font-size: 2rem;
+        font-size: 80% !important;
     }
+
+    .h1-main {
+        margin-bottom: 1.2rem;
+    }
+
+    .h1-sub {
+        font-size: 1.5rem;
+        padding-top: 10px;
+    }
+}
+
+/*
+ * Page
+ */
+
+body {
+    background-color: #FFFFFF;
+}
+
+.section-null {
+    margin: 0 !important;
+    padding: 0 !important;
+}
+
+section, footer {
+    padding: 4rem;
+    font-family: 'Rubik', sans-serif;
+}
+
+footer {
+    font-size: 1.8rem;
+}
+
+@media screen and (max-width: 768px) {
+    section, footer {
+        font-size: 1.2rem;
+        padding: 1rem;
+    }
+}
+
+.section-about, footer {
+    background-color: #4a0e13;
+    color: white;
+}
+
+.section-heading {
+    color: #f3762d;
+}
+
+.section-carousel {
+    overflow: hidden;
+}
+
+.icon svg {
+    display: inline;
+    width: 16.3px;
+    height: 13.45px;
+    overflow: hidden;
+    margin-right: 0.2rem;
+}
+
+@media screen and (max-width: 768px) {
+    .glider-next, .glider-prev {
+        padding: 3rem;
+        margin: 0 2rem 0 2rem;
+    }
+}
+
+/*
+ * Footer layout
+ */
+
+.p-main, .p-sub {
+    display: inline-block;
+}
+
+.p-sub {
+    font-size: 1.2rem;
+    margin-top: 0.2rem;
+    font-weight: lighter;
+    display: block;
+}
+
+
+.sub-heading {
+    color: orange;
+}
+
+.p-top {
+    padding-top: 20px;
+}
+
+footer a {
+    color: white;
+}
+
+.clickable {
+    text-decoration: underline;
+}
+
+.grid-wrapper {
+    display: grid;
+    grid-gap: 20px;
+    grid-template-columns: repeat(2, [col] 100px );
+    grid-template-rows: repeat(2, [row] auto  );
+}
+
+.a {
+    grid-column: col / span 3;
+    grid-row: row;
+}
+
+.b {
+    grid-column: col 4 / span 2;
+    grid-row: row;
+}
+
+@media screen and (max-width: 768px) {
+    .a {
+        grid-column: col / span 4;
+        grid-row: row 1;
+    }
+
+    .b {
+        grid-column: col / span 4;
+        grid-row: row 2;
+    }
+
+    footer {
+        text-align: center;
+    }
+}
+
+.e {
+    grid-column: col / span 4;
+    grid-row: row 3;
+}
+
+.f {
+    grid-column: col / span 4;
+    grid-row: row 4;
 }

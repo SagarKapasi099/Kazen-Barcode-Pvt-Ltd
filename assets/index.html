@@ -11,10 +11,15 @@
     <!-- navbar font -->
     <link rel="preconnect" href="https://fonts.gstatic.com">
     <link href="https://fonts.googleapis.com/css2?family=B612&display=swap" rel="stylesheet">
-    <link rel="preconnect" href="https://fonts.gstatic.com">
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Rubik:wght@300;400&display=swap" rel="stylesheet">
+
 
     <script src="js/main.js"></script>
+
+    <!-- image scroll -->
+    <link rel="stylesheet" href="css/glider.min.css">
+    <script src="js/glider.min.js"></script>
 
     <!-- the below three lines are a fix to get HTML5 semantic elements working in old versions of Internet Explorer-->
     <!--[if lt IE 9]>
@@ -58,7 +63,7 @@
 <!-- Here is our main header that is used across all the pages of our website -->
 
 <header>
-    <img src="https://www.docker.com/sites/default/files/d8/2019-07/horizontal-logo-monochromatic-white.png" alt="Logo">
+    <img src="images/logo.png" alt="Logo">
     <nav>
         <ul>
             <li>
@@ -108,84 +113,90 @@
 <!-- Here is our page's main content -->
 <main>
 
-    <section>
+    <section class="section-null">
         <div class="bg-video-wrap">
-            <video src="https://designsupply-web.com/samplecontent/vender/codepen/20181014.mp4" loop muted autoplay>
+            <video src="video/background-video.mp4" loop muted autoplay>
             </video>
             <div class="overlay">
             </div>
             <h1>
                 <span class="h1-main">For anything and everything in BARCODING</span>
                 <span class="h1-sub">Stretching the value of your money with BARCODES</span>
-                <span class="h1-sub">With more than 18 years of service experience</span>
+                <span class="h1-sub">More than 18 years of service experience</span>
+                <span class="h1-sub">Directors having more than 25 years of barcode/AIDC field experience</span>
             </h1>
         </div>
     </section>
 
     <!-- It contains an article -->
-    <section class="about">
-        <h2>Article heading</h2>
+    <section class="section-about">
+        <h2 class="section-heading">Total Solutions For</h2>
+        <ul>
+            <li>Barcode System</li>
+            <li>Electronic Article Surveillance</li>
+            <li>RFID</li>
+        </ul>
+    </section>
 
-        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Donec a diam lectus. Set sit amet ipsum mauris.
-            Maecenas congue ligula as quam viverra nec consectetur ant hendrerit. Donec et mollis dolor. Praesent et
-            diam eget libero egestas mattis sit amet vitae augue. Nam tincidunt congue enim, ut porta lorem lacinia
-            consectetur.</p>
+    <section class="section-carousel">
+        <div class="glider-contain">
+            <div class="glider">
+                <div>your content 1</div>
+                <div>your content 2</div>
+                <div>your content 3</div>
+                <div>your content 4</div>
+                <div>your content 5</div>
+                <div>your content 6</div>
+                <div>your content 7</div>
+                <div>your content 8</div>
+                <div>your content 9</div>
+                <div>your content 10</div>
+                <div>your content 11</div>
+                <div>your content 12</div>
+                <div>your content 13</div>
+            </div>
 
-        <h3>subsection</h3>
-
-        <p>Donec ut librero sed accu vehicula ultricies a non tortor. Lorem ipsum dolor sit amet, consectetur
-            adipisicing elit. Aenean ut gravida lorem. Ut turpis felis, pulvinar a semper sed, adipiscing id dolor.</p>
-
-        <p>Pelientesque auctor nisi id magna consequat sagittis. Curabitur dapibus, enim sit amet elit pharetra
-            tincidunt feugiat nist imperdiet. Ut convallis libero in urna ultrices accumsan. Donec sed odio eros.</p>
-
-        <h2>Article heading</h2>
-
-        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Donec a diam lectus. Set sit amet ipsum mauris.
-            Maecenas congue ligula as quam viverra nec consectetur ant hendrerit. Donec et mollis dolor. Praesent et
-            diam eget libero egestas mattis sit amet vitae augue. Nam tincidunt congue enim, ut porta lorem lacinia
-            consectetur.</p>
-
-        <h3>subsection</h3>
-
-        <p>Donec ut librero sed accu vehicula ultricies a non tortor. Lorem ipsum dolor sit amet, consectetur
-            adipisicing elit. Aenean ut gravida lorem. Ut turpis felis, pulvinar a semper sed, adipiscing id dolor.</p>
-
-        <p>Pelientesque auctor nisi id magna consequat sagittis. Curabitur dapibus, enim sit amet elit pharetra
-            tincidunt feugiat nist imperdiet. Ut convallis libero in urna ultrices accumsan. Donec sed odio eros.</p>
-
-        <h2>Article heading</h2>
-
-        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Donec a diam lectus. Set sit amet ipsum mauris.
-            Maecenas congue ligula as quam viverra nec consectetur ant hendrerit. Donec et mollis dolor. Praesent et
-            diam eget libero egestas mattis sit amet vitae augue. Nam tincidunt congue enim, ut porta lorem lacinia
-            consectetur.</p>
-
-        <h3>subsection</h3>
-
-        <p>Donec ut librero sed accu vehicula ultricies a non tortor. Lorem ipsum dolor sit amet, consectetur
-            adipisicing elit. Aenean ut gravida lorem. Ut turpis felis, pulvinar a semper sed, adipiscing id dolor.</p>
-
-        <p>Pelientesque auctor nisi id magna consequat sagittis. Curabitur dapibus, enim sit amet elit pharetra
-            tincidunt feugiat nist imperdiet. Ut convallis libero in urna ultrices accumsan. Donec sed odio eros.</p>
-
-        <h3>Another subsection</h3>
-
-        <p>Donec viverra mi quis quam pulvinar at malesuada arcu rhoncus. Cum soclis natoque penatibus et manis dis
-            parturient montes, nascetur ridiculus mus. In rutrum accumsan ultricies. Mauris vitae nisi at sem facilisis
-            semper ac in est.</p>
-
-        <p>Vivamus fermentum semper porta. Nunc diam velit, adipscing ut tristique vitae sagittis vel odio. Maecenas
-            convallis ullamcorper ultricied. Curabitur ornare, ligula semper consectetur sagittis, nisi diam iaculis
-            velit, is fringille sem nunc vet mi.</p>
+            <button aria-label="Previous" class="glider-prev">«</button>
+            <button aria-label="Next" class="glider-next">»</button>
+            <div role="tablist" class="dots"></div>
+        </div>
     </section>
 
 </main>
 
 <!-- And here is our main footer that is used across all the pages of our website -->
 
-<footer>
-    <p>©Copyright 2050 by nobody. All rights reversed.</p>
+<footer class="grid-wrapper">
+    <div class="a">
+        <span class="p-main">Manjit A. Gandhi</span>
+        <span class="p-sub">Director</span>
+        <a href="tel:+91 9820282355" class="p-sub clickable"><span class="icon icon-phone"></span>+91 9820282355</a>
+        <a href="mailto:manjit@kazenbarcode.com" class="p-sub"><span class="icon icon-mail"></span>manjit@kazenbarcode.com</a>
+        <a href="https://kazenbarcode.com" class="p-sub clickable"><span class="icon icon-website"></span>kazenbarcode.com</a>
+    </div>
+    <div class="b">
+        <div>
+            <span class="p-main sub-heading">Technical Support</span>
+            <a href="tel:9004882355" class="p-sub"><span class="icon icon-phone"></span>9004882355</a>
+        </div>
+
+        <div class="p-top">
+            <span class="sub-heading">Sales Enquiry / Order</span>
+            <a href="tel:9920304105" class="p-sub"><span class="icon icon-phone"></span>9920304105</a>
+            <a href="tel:9320004105" class="p-sub"><span class="icon icon-phone"></span>9320004105</a>
+        </div>
+    </div>
+
+    <div class="e">
+        <span class="sub-heading">Registered Office and Factory</span>
+        <span class="p-sub">Gala no 4 and 5, Dattani industrial estate, Near Prakash Dal Mill,</span>
+        <span class="p-sub">Western Express Highway, Vasai Phata, Pelhar, Vasai (East), PALGHAR - 401208</span>
+    </div>
+
+    <div class="f">
+        <span class="p-sub">©Copyright 2020. Kazen Barcode Pvt Ltd</span>
+        <span class="p-sub">Developed by Sagar Kapasi</span>
+    </div>
 </footer>
 
 </body>
