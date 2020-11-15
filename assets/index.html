@@ -1,28 +1,31 @@
 <!DOCTYPE html>
 <html>
-  <head>
+<head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
     <title>Kazen Barcode Pvt Ltd</title>
-    <link href="https://fonts.googleapis.com/css?family=Open+Sans+Condensed:300|Sonsie+One" rel="stylesheet" type="text/css">
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans+Condensed:300|Sonsie+One" rel="stylesheet"
+          type="text/css">
     <link rel="stylesheet" href="css/style.css">
     <!-- navbar font -->
     <link rel="preconnect" href="https://fonts.gstatic.com">
     <link href="https://fonts.googleapis.com/css2?family=B612&display=swap" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap" rel="stylesheet">
 
     <script src="js/main.js"></script>
 
     <!-- the below three lines are a fix to get HTML5 semantic elements working in old versions of Internet Explorer-->
     <!--[if lt IE 9]>
-      <script src="https://cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv.js"></script>
     <![endif]-->
-  </head>
+</head>
 
-  <body>
+<body>
 
-    <div id="preloader">
-      <div id="loader">
+<div id="preloader">
+    <div id="loader">
         <div></div>
         <div class='barcode-line-scanner'></div>
         <div class='barcode-line barcode-medium'></div>
@@ -50,85 +53,140 @@
         <div class='barcode-line barcode-small'></div>
         <div class='barcode-line barcode-medium'></div>
         <div></div>
-      </div>
     </div>
-    <!-- Here is our main header that is used across all the pages of our website -->
+</div>
+<!-- Here is our main header that is used across all the pages of our website -->
 
-    <header>
-      <img src="https://www.docker.com/sites/default/files/d8/2019-07/horizontal-logo-monochromatic-white.png" alt="Logo">
-      <nav>
+<header>
+    <img src="https://www.docker.com/sites/default/files/d8/2019-07/horizontal-logo-monochromatic-white.png" alt="Logo">
+    <nav>
         <ul>
-          <li><a href="#">HOME</a></li>
-          <li><a href="#">ABOUT US</a></li>
-          <li><a href="#">PRODUCTS</a></li>
-          <li><a href="#">CONTACT US</a></li>
+            <li>
+                <div class="dropdown">
+                    <div>
+                        <p class="dropbtn">HOME ></p>
+                        <div class="dropdown-content">
+                            <a href="#">OUR HISTORY</a>
+                            <a href="#">OUR ACCOMPLISHMENT</a>
+                            <a href="#">CONTACT US</a>
+                        </div>
+                    </div>
+                </div>
+            </li>
+            <li>
+                <div class="dropdown">
+                    <div>
+                        <p class="dropbtn">SOLUTIONS ></p>
+                        <div class="dropdown-content">
+                            <a href="#">MEDICAL PHARMA</a>
+                            <a href="#">INDUSTRIAL</a>
+                            <a href="#">TURN KEY PROJECTS</a>
+                            <a href="#">RETAIL</a>
+                        </div>
+                    </div>
+                </div>
+            </li>
+            <li>
+                <div class="dropdown">
+                    <div>
+                        <p class="dropbtn">HARDWARE ></p>
+                        <div class="dropdown-content">
+                            <a href="#">PRINTERS</a>
+                            <a href="#">SCANNER</a>
+                            <a href="#">POS</a>
+                            <a href="#">AIOS</a>
+                        </div>
+                    </div>
+                </div>
+            </li>
+            <li><a href="#">SOFTWARE</a></li>
         </ul>
-      </nav>
-      <button class="hamburger-menu">Menu</button>
-    </header>
+    </nav>
+    <button class="hamburger-menu">Menu</button>
+</header>
 
-    <!-- Here is our page's main content -->
-    <main>
+<!-- Here is our page's main content -->
+<main>
 
-      <!-- It contains an article -->
-      <article>
+    <section>
+        <div class="bg-video-wrap">
+            <video src="https://designsupply-web.com/samplecontent/vender/codepen/20181014.mp4" loop muted autoplay>
+            </video>
+            <div class="overlay">
+            </div>
+            <h1>
+                <span class="h1-main">For anything and everything in BARCODING</span>
+                <span class="h1-sub">Stretching the value of your money with BARCODES</span>
+                <span class="h1-sub">With more than 18 years of service experience</span>
+            </h1>
+        </div>
+    </section>
+
+    <!-- It contains an article -->
+    <section class="about">
         <h2>Article heading</h2>
 
-        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Donec a diam lectus. Set sit amet ipsum mauris. Maecenas congue ligula as quam viverra nec consectetur ant hendrerit. Donec et mollis dolor. Praesent et diam eget libero egestas mattis sit amet vitae augue. Nam tincidunt congue enim, ut porta lorem lacinia consectetur.</p>
+        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Donec a diam lectus. Set sit amet ipsum mauris.
+            Maecenas congue ligula as quam viverra nec consectetur ant hendrerit. Donec et mollis dolor. Praesent et
+            diam eget libero egestas mattis sit amet vitae augue. Nam tincidunt congue enim, ut porta lorem lacinia
+            consectetur.</p>
 
         <h3>subsection</h3>
 
-        <p>Donec ut librero sed accu vehicula ultricies a non tortor. Lorem ipsum dolor sit amet, consectetur adipisicing elit. Aenean ut gravida lorem. Ut turpis felis, pulvinar a semper sed, adipiscing id dolor.</p>
+        <p>Donec ut librero sed accu vehicula ultricies a non tortor. Lorem ipsum dolor sit amet, consectetur
+            adipisicing elit. Aenean ut gravida lorem. Ut turpis felis, pulvinar a semper sed, adipiscing id dolor.</p>
 
-        <p>Pelientesque auctor nisi id magna consequat sagittis. Curabitur dapibus, enim sit amet elit pharetra tincidunt feugiat nist imperdiet. Ut convallis libero in urna ultrices accumsan. Donec sed odio eros.</p>
-
-        <h2>Article heading</h2>
-
-        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Donec a diam lectus. Set sit amet ipsum mauris. Maecenas congue ligula as quam viverra nec consectetur ant hendrerit. Donec et mollis dolor. Praesent et diam eget libero egestas mattis sit amet vitae augue. Nam tincidunt congue enim, ut porta lorem lacinia consectetur.</p>
-
-        <h3>subsection</h3>
-
-        <p>Donec ut librero sed accu vehicula ultricies a non tortor. Lorem ipsum dolor sit amet, consectetur adipisicing elit. Aenean ut gravida lorem. Ut turpis felis, pulvinar a semper sed, adipiscing id dolor.</p>
-
-        <p>Pelientesque auctor nisi id magna consequat sagittis. Curabitur dapibus, enim sit amet elit pharetra tincidunt feugiat nist imperdiet. Ut convallis libero in urna ultrices accumsan. Donec sed odio eros.</p>
+        <p>Pelientesque auctor nisi id magna consequat sagittis. Curabitur dapibus, enim sit amet elit pharetra
+            tincidunt feugiat nist imperdiet. Ut convallis libero in urna ultrices accumsan. Donec sed odio eros.</p>
 
         <h2>Article heading</h2>
 
-        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Donec a diam lectus. Set sit amet ipsum mauris. Maecenas congue ligula as quam viverra nec consectetur ant hendrerit. Donec et mollis dolor. Praesent et diam eget libero egestas mattis sit amet vitae augue. Nam tincidunt congue enim, ut porta lorem lacinia consectetur.</p>
+        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Donec a diam lectus. Set sit amet ipsum mauris.
+            Maecenas congue ligula as quam viverra nec consectetur ant hendrerit. Donec et mollis dolor. Praesent et
+            diam eget libero egestas mattis sit amet vitae augue. Nam tincidunt congue enim, ut porta lorem lacinia
+            consectetur.</p>
 
         <h3>subsection</h3>
 
-        <p>Donec ut librero sed accu vehicula ultricies a non tortor. Lorem ipsum dolor sit amet, consectetur adipisicing elit. Aenean ut gravida lorem. Ut turpis felis, pulvinar a semper sed, adipiscing id dolor.</p>
+        <p>Donec ut librero sed accu vehicula ultricies a non tortor. Lorem ipsum dolor sit amet, consectetur
+            adipisicing elit. Aenean ut gravida lorem. Ut turpis felis, pulvinar a semper sed, adipiscing id dolor.</p>
 
-        <p>Pelientesque auctor nisi id magna consequat sagittis. Curabitur dapibus, enim sit amet elit pharetra tincidunt feugiat nist imperdiet. Ut convallis libero in urna ultrices accumsan. Donec sed odio eros.</p>
+        <p>Pelientesque auctor nisi id magna consequat sagittis. Curabitur dapibus, enim sit amet elit pharetra
+            tincidunt feugiat nist imperdiet. Ut convallis libero in urna ultrices accumsan. Donec sed odio eros.</p>
+
+        <h2>Article heading</h2>
+
+        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Donec a diam lectus. Set sit amet ipsum mauris.
+            Maecenas congue ligula as quam viverra nec consectetur ant hendrerit. Donec et mollis dolor. Praesent et
+            diam eget libero egestas mattis sit amet vitae augue. Nam tincidunt congue enim, ut porta lorem lacinia
+            consectetur.</p>
+
+        <h3>subsection</h3>
+
+        <p>Donec ut librero sed accu vehicula ultricies a non tortor. Lorem ipsum dolor sit amet, consectetur
+            adipisicing elit. Aenean ut gravida lorem. Ut turpis felis, pulvinar a semper sed, adipiscing id dolor.</p>
+
+        <p>Pelientesque auctor nisi id magna consequat sagittis. Curabitur dapibus, enim sit amet elit pharetra
+            tincidunt feugiat nist imperdiet. Ut convallis libero in urna ultrices accumsan. Donec sed odio eros.</p>
 
         <h3>Another subsection</h3>
 
-        <p>Donec viverra mi quis quam pulvinar at malesuada arcu rhoncus. Cum soclis natoque penatibus et manis dis parturient montes, nascetur ridiculus mus. In rutrum accumsan ultricies. Mauris vitae nisi at sem facilisis semper ac in est.</p>
+        <p>Donec viverra mi quis quam pulvinar at malesuada arcu rhoncus. Cum soclis natoque penatibus et manis dis
+            parturient montes, nascetur ridiculus mus. In rutrum accumsan ultricies. Mauris vitae nisi at sem facilisis
+            semper ac in est.</p>
 
-        <p>Vivamus fermentum semper porta. Nunc diam velit, adipscing ut tristique vitae sagittis vel odio. Maecenas convallis ullamcorper ultricied. Curabitur ornare, ligula semper consectetur sagittis, nisi diam iaculis velit, is fringille sem nunc vet mi.</p>
-      </article>
+        <p>Vivamus fermentum semper porta. Nunc diam velit, adipscing ut tristique vitae sagittis vel odio. Maecenas
+            convallis ullamcorper ultricied. Curabitur ornare, ligula semper consectetur sagittis, nisi diam iaculis
+            velit, is fringille sem nunc vet mi.</p>
+    </section>
 
-      <!-- the aside content can also be nested within the main content -->
-      <aside>
-        <h2>Related</h2>
+</main>
 
-        <ul>
-          <li><a href="#">Oh I do like to be beside the seaside</a></li>
-          <li><a href="#">Oh I do like to be beside the sea</a></li>
-          <li><a href="#">Although in the North of England</a></li>
-          <li><a href="#">It never stops raining</a></li>
-          <li><a href="#">Oh well...</a></li>
-        </ul>
-      </aside>
+<!-- And here is our main footer that is used across all the pages of our website -->
 
-    </main>
+<footer>
+    <p>©Copyright 2050 by nobody. All rights reversed.</p>
+</footer>
 
-    <!-- And here is our main footer that is used across all the pages of our website -->
-
-    <footer>
-      <p>©Copyright 2050 by nobody. All rights reversed.</p>
-    </footer>
-
-  </body>
+</body>
 </html>

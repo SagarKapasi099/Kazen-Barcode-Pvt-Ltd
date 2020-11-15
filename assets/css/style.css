@@ -123,7 +123,6 @@ html, body {
 
 body {
     font-size: 1.5rem;
-    margin-top: 4.8rem;
 }
 
 header {
@@ -134,17 +133,21 @@ header {
     position: fixed;
     display: flex;
     justify-content: space-between;
-    background: rgba(0, 0, 0, 0.5);
-    backdrop-filter: blur(10px) saturate(125%);
     padding: 0.6rem;
 }
 
+.blur {
+    background: rgba(0, 0, 0, 0.5);
+    backdrop-filter: blur(10px) saturate(125%);
+}
+
 header img {
+    margin-top: 0.4rem;
     padding-left: 20px;
     max-height: 45px;
 }
 
-header nav {
+header nav, nav button {
     justify-content: flex-end;
     font-size: 0.6rem;
     letter-spacing: .2rem;
@@ -187,11 +190,11 @@ nav ul > li {
         display: block;
     }
 
-    nav ul {
-        margin-top: 10rem;
+    nav ul, nav button {
+        margin-top: 8rem;
         left: 0;
         display: flex;
-        gap: 5rem;
+        gap: 2.5rem;
         font-size: 1rem;
         flex-direction: column;
     }
@@ -210,11 +213,130 @@ nav ul > li {
     justify-content: unset;
 }
 
-header a {
+header a, header p {
     display: inline;
     text-decoration: none;
     font-family: 'B612', sans-serif;
     color: white;
     text-transform: uppercase;
     margin-right: 20px;
+}
+
+/*
+ * header files
+ */
+
+/* Dropdown Button */
+
+.dropbtn {
+    cursor: pointer;
+}
+
+.dropdown-content {
+    display: none;
+    margin-left: 0.5rem;
+}
+
+.dropdown-content a {
+    display: block;
+    margin-left: 1rem;
+    margin-top: 20px;
+    margin-bottom: 20px;
+    border-bottom: 1px solid #7d1c24;
+}
+
+@media screen and (min-width: 768px) {
+    .display {
+        position: absolute;
+        top: 100%;
+        float: left;
+        max-width: fit-content;
+        text-align: left;
+        background-color: black;
+        margin-left: -8rem;
+    }
+}
+
+.display {
+    display: inline;
+}
+
+/*
+ * Page
+ */
+
+body {
+    background-color: #f8f8ff;
+}
+
+/*
+ * Video Background
+ */
+.bg-video-wrap {
+    position: relative;
+    overflow: hidden;
+    width: 100%;
+    height: 90vh;
+    background: url(https://designsupply-web.com/samplecontent/vender/codepen/20181014.png) no-repeat center center/cover;
+}
+
+video {
+    min-width: 100%;
+    min-height: 90vh;
+    z-index: 1;
+}
+
+.overlay {
+    width: 100%;
+    height: 90vh;
+    position: absolute;
+    top: 0;
+    left: 0;
+    background-color: black;
+    opacity: 0.5;
+    background-size: 3px 3px;
+    z-index: 2;
+}
+
+h1 {
+    font-family: 'Montserrat', sans-serif;
+    text-align: center;
+    color: #fff;
+    position: absolute;
+    top: 0;
+    bottom: 4.5rem;
+    left: 0;
+    right: 0;
+    margin: auto;
+    z-index: 3;
+    max-width: 80%;
+    width: 100%;
+    height: 50px;
+    font-weight: 100;
+}
+
+.h1-main {
+    font-weight:bold;
+}
+
+h1 span {
+    margin-bottom: 5px;
+    display: block;
+}
+
+@media screen and (max-width: 768px) {
+    h1 {
+        bottom: 7.5rem;
+        max-width: 100%;
+    }
+}
+
+@media (max-width: 575.98px) {
+    h1 {
+        bottom: 16rem;
+    }
+
+    h1 span {
+        font-size: 2rem;
+    }
 }
