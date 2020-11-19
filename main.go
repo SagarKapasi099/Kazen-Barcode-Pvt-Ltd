@@ -90,7 +90,7 @@ func main() {
 	}
 
 	r := mux.NewRouter()
-	r.PathPrefix("/static/").Handler(http.StripPrefix("/static/", http.FileServer(http.Dir("static"))))
+	r.PathPrefix("/assets/").Handler(http.StripPrefix("/assets/", http.FileServer(http.Dir("assets"))))
 	r.HandleFunc("/", HomeHandler).Methods("GET")
 	r.HandleFunc("/about", AboutHandler).Methods("GET")
 	r.HandleFunc("/contact", ContactUsHandler).Methods("GET")

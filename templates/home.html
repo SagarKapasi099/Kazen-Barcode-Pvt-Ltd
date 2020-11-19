@@ -1,91 +1,54 @@
 {{define "home"}}
     {{template "header"}}
-    <!-- hero
-        ================================================== -->
-    <section class="s-hero" data-parallax="scroll" data-image-src="static/images/hero-bg-3000.jpg"
-             data-natural-width=3000 data-natural-height=2000 data-position-y=center>
 
-        <div class="row hero-content">
+    <section class="section-null">
+        <div class="bg-video-wrap">
+            <video src="video/background-video.mp4" loop muted autoplay>
+            </video>
+            <div class="overlay">
+            </div>
+            <h1>
+                <span class="h1-main">For anything and everything in BARCODING</span>
+                <span class="h1-sub">Stretching the value of your money with BARCODES</span>
+                <span class="h1-sub">More than 18 years of service experience</span>
+                <span class="h1-sub">Directors having more than 25 years of barcode/AIDC field experience</span>
+            </h1>
+        </div>
+    </section>
 
-            <div class="column large-full hero-content__text">
-                <h1>
-                    We have an alliance with world-renowned Automatic Data Capture & Electronic Security solution
-                    providers.
-                </h1>
+    <!-- It contains an article -->
+    <section class="section-about">
+        <h2 class="section-heading">Total Solutions For</h2>
+        <ul>
+            <li>Barcode System</li>
+            <li>Electronic Article Surveillance</li>
+            <li>RFID</li>
+        </ul>
+    </section>
 
-                <div class="hero-content__buttons">
-                    <a href="/#products" class="btn btn--stroke">Products</a>
-                    <a href="about" class="btn btn--stroke">About Us</a>
-                </div>
-            </div> <!-- end hero-content__text -->
-
-        </div> <!-- end hero-content -->
-
-    </section> <!-- end s-hero -->
-
-
-    <!-- about
-    ================================================== -->
-    <section id="about" class="s-about">
-
-        <div class="row row-y-center about-content">
-
-            <div class="column large-full medium-full">
-                <h3 class="subhead">About Kazen Barcode Pvt. Ltd.</h3>
-                <p class="lead">
-                    Kazen barcode Pvt. Ltd. offer about 10 years service portfolio that include support of
-                    all type of Barcode Equipments
-                    like SYMBOL, PSC, PERCON, WELCH ALLYN, DATALOGIC, DATAMAX, TEC, PAXAR, ZEBRA,
-                    METO, CITOH, ARGOX, etc.
-                </p>
-                <a href="about" class="btn btn--primary btn--about">Read More</a>
+    <section class="section-carousel">
+        <div class="glider-contain">
+            <div class="glider">
+                <div>your content 1</div>
+                <div>your content 2</div>
+                <div>your content 3</div>
+                <div>your content 4</div>
+                <div>your content 5</div>
+                <div>your content 6</div>
+                <div>your content 7</div>
+                <div>your content 8</div>
+                <div>your content 9</div>
+                <div>your content 10</div>
+                <div>your content 11</div>
+                <div>your content 12</div>
+                <div>your content 13</div>
             </div>
 
-        </div> <!-- end about-content -->
-
-    </section> <!-- end s-about -->
-
-    <!-- connect
-    ================================================== -->
-    <section class="s-connect" id="products">
-
-        <div class="row events-header">
-            <div class="column">
-                <h2 class="subhead">Products</h2>
-            </div>
-        </div> <!-- end event-header -->
-
-        <div class="row connect-content">
-            {{range .Products}}
-
-                <div class="column large-half tab-full">
-                    <div class="container">
-                        <div class="images">
-                            <img src="{{.URL}}"/>
-                        </div>
-                        <div class="product">
-                            <h1>{{.Name}}</h1>
-                            <ul>
-                                {{range .Properties}}
-                                    <li>{{.}}</li>
-                                {{end}}
-                            </ul>
-                            <a class="button" data-id="{{.Id}}" data-name="{{.Name}}" role="button">
-                                <span>Interested</span>
-                                <div class="icon">
-                                    <i class="fa fa-remove"></i>
-                                    <i class="fa fa-check"></i>
-                                </div>
-                            </a>
-                        </div>
-                    </div>
-                </div>
-
-            {{end}}
-
-        </div> <!-- end connect-content  -->
-
-    </section> <!-- end s-connect -->
+            <button aria-label="Previous" class="glider-prev">«</button>
+            <button aria-label="Next" class="glider-next">»</button>
+            <div role="tablist" class="dots"></div>
+        </div>
+    </section>
 
     {{template "footer"}}
 {{end}}

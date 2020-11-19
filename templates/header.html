@@ -1,90 +1,115 @@
 {{define "header"}}
-    <!DOCTYPE html>
-    <html class="no-js" lang="en">
-    <head>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-        <!--- basic page needs
-        ================================================== -->
-        <meta charset="utf-8">
-        <title>Kazen Barcode Pvt Ltd</title>
-        <meta name="description" content="">
-        <meta name="author" content="">
+    <title>Kazen Barcode Pvt Ltd</title>
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans+Condensed:300|Sonsie+One" rel="stylesheet"
+          type="text/css">
+    <link rel="stylesheet" href="/assets/css/style.css">
+    <!-- navbar font -->
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=B612&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Rubik:wght@300;400&display=swap" rel="stylesheet">
 
-        <!-- mobile specific metas
-        ================================================== -->
-        <meta name="viewport" content="width=device-width, initial-scale=1">
 
-        <!-- CSS
-        ================================================== -->
-        <link rel="stylesheet" href="static/css/base.css">
-        <link rel="stylesheet" href="static/css/main.css">
-        <link rel="stylesheet" href="static/css/custom.css">
-        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
-        <link href='https://fonts.googleapis.com/css?family=Lato' rel='stylesheet'>
+    <script src="/assets/js/main.js"></script>
 
-        <!-- script
-        ================================================== -->
-        <script src="static/js/modernizr.js"></script>
+    <!-- image scroll -->
+    <link rel="stylesheet" href="/assets/css/glider.min.css">
+    <script src="/assets/js/glider.min.js"></script>
 
-        <!-- favicons
-        ================================================== -->
-        <link rel="apple-touch-icon" href="static/favicon.ico">
-        <link rel="icon" href="static/favicon.ico">
+    <!-- the below three lines are a fix to get HTML5 semantic elements working in old versions of Internet Explorer-->
+    <!--[if lt IE 9]>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv.js"></script>
+    <![endif]-->
+</head>
 
-    </head>
+<body>
 
-    <body id="top">
-
-    <!-- preloader
-    ================================================== -->
-    <div id="preloader">
-        <div id="loader" class='anim-box center' style="box-sizing: content-box !important">
-            <!-- empty first child used for corners -->
-            <div></div>
-            <div class='scanner'></div>
-            <div class='anim-item anim-item-sm'></div>
-            <div class='anim-item anim-item-lg'></div>
-            <div class='anim-item anim-item-lg'></div>
-            <div class='anim-item anim-item-sm'></div>
-            <div class='anim-item anim-item-lg'></div>
-            <div class='anim-item anim-item-sm'></div>
-            <div class='anim-item anim-item-md'></div>
-            <div class='anim-item anim-item-sm'></div>
-            <div class='anim-item anim-item-md'></div>
-            <div class='anim-item anim-item-lg'></div>
-            <div class='anim-item anim-item-sm'></div>
-            <div class='anim-item anim-item-sm'></div>
-            <div class='anim-item anim-item-lg'></div>
-            <div class='anim-item anim-item-sm'></div>
-            <div class='anim-item anim-item-lg'></div>
-            <div class='anim-item anim-item-sm'></div>
-            <div class='anim-item anim-item-lg'></div>
-            <div class='anim-item anim-item-sm'></div>
-            <div class='anim-item anim-item-md'></div>
-        </div>
+<div id="preloader">
+    <div id="loader">
+        <div></div>
+        <div class='barcode-line-scanner'></div>
+        <div class='barcode-line barcode-medium'></div>
+        <div class='barcode-line barcode-small'></div>
+        <div class='barcode-line barcode-medium'></div>
+        <div class='barcode-line barcode-medium'></div>
+        <div class='barcode-line barcode-small'></div>
+        <div class='barcode-line barcode-small'></div>
+        <div class='barcode-line barcode-medium'></div>
+        <div class='barcode-line barcode-small'></div>
+        <div class='barcode-line barcode-medium'></div>
+        <div class='barcode-line barcode-long'></div>
+        <div class='barcode-line barcode-medium'></div>
+        <div class='barcode-line barcode-small'></div>
+        <div class='barcode-line barcode-long'></div>
+        <div class='barcode-line barcode-medium'></div>
+        <div class='barcode-line barcode-small'></div>
+        <div class='barcode-line barcode-small'></div>
+        <div class='barcode-line barcode-small'></div>
+        <div class='barcode-line barcode-medium'></div>
+        <div class='barcode-line barcode-small'></div>
+        <div class='barcode-line barcode-medium'></div>
+        <div class='barcode-line barcode-small'></div>
+        <div class='barcode-line barcode-small'></div>
+        <div class='barcode-line barcode-small'></div>
+        <div class='barcode-line barcode-medium'></div>
+        <div></div>
     </div>
+</div>
+<!-- Here is our main header that is used across all the pages of our website -->
 
+<header>
+    <img src="/assets/images/logo.png" alt="Logo">
+    <nav>
+        <ul>
+            <li>
+                <div class="dropdown">
+                    <div>
+                        <p class="dropbtn">HOME ></p>
+                        <div class="dropdown-content">
+                            <a href="#">OUR HISTORY</a>
+                            <a href="#">OUR ACCOMPLISHMENT</a>
+                            <a href="#">CONTACT US</a>
+                        </div>
+                    </div>
+                </div>
+            </li>
+            <li>
+                <div class="dropdown">
+                    <div>
+                        <p class="dropbtn">SOLUTIONS ></p>
+                        <div class="dropdown-content">
+                            <a href="#">MEDICAL PHARMA</a>
+                            <a href="#">INDUSTRIAL</a>
+                            <a href="#">TURN KEY PROJECTS</a>
+                            <a href="#">RETAIL</a>
+                        </div>
+                    </div>
+                </div>
+            </li>
+            <li>
+                <div class="dropdown">
+                    <div>
+                        <p class="dropbtn">HARDWARE ></p>
+                        <div class="dropdown-content">
+                            <a href="/category/#">PRINTERS</a>
+                            <a href="/category/#">SCANNER</a>
+                            <a href="/category/#">POS</a>
+                            <a href="/category/#">AIOS</a>
+                        </div>
+                    </div>
+                </div>
+            </li>
+            <li><a href="#">SOFTWARE</a></li>
+        </ul>
+    </nav>
+    <button class="hamburger-menu">Menu</button>
+</header>
 
-    <!-- header
-    ================================================== -->
-    <header class="s-header">
-
-        <div class="header-logo">
-            <a class="site-logo" href="/">
-                <h4>Kazen Barcode Pvt. Ltd.</h4>
-            </a>
-        </div>
-
-        <nav class="header-nav-wrap">
-            <ul class="header-nav">
-                <li class="current"><a href="/" title="Home">Home</a></li>
-                <li><a href="about" title="About">About</a></li>
-                <li><a href="/#products" title="Products">Products</a></li>
-                <li><a href="contact" title="Contact us">Contact Us</a></li>
-            </ul>
-        </nav>
-
-        <a class="header-menu-toggle" href="#0"><span>Menu</span></a>
-
-    </header> <!-- end s-header -->
+<main>
 {{end}}
