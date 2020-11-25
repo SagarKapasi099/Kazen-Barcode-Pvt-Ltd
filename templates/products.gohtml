@@ -1,0 +1,72 @@
+{{define "products"}}
+    {{template "header"}}
+
+    {{if eq .Title "Enquired Products With Prices"}}
+        <style>
+            .button {
+                display: none;
+            }
+        </style>
+    {{end}}
+
+    <section class="section-null">
+        <div class="bg-video-wrap">
+            <div class="overlay">
+            </div>
+            <h1><span class="h1-main">{{.Title}}</span></h1>
+        </div>
+    </section>
+
+    <section id="products">
+
+        <div class="row events-header">
+            <div class="column">
+                {{if not .Products}}
+                    <h2 class="subhead">Sorry, currently there are no {{.Title}} available</h2>
+                {{end}}
+            </div>
+        </div>
+
+        <div class="products-container">
+            {{range .Products}}
+
+                <div class="product-container hover-card">
+
+                    <div class="images">
+                        <img src="{{.URL}}" alt="{{.Name}} Image"/>
+                    </div>
+                    <div class="product">
+                        <h3>{{.Name}}</h3>
+                        {{if eq $.Title "Enquired Products With Prices"}}
+                            <h4>Rs {{.Price}}</h4>
+                        {{end}}
+                        <ul>
+                            {{range .Properties}}
+                                <li>{{.}}</li>
+                            {{end}}
+                        </ul>
+                        <a class="button" data-id="{{.Id}}" data-name="{{.Name}}" role="button">
+                            <span>Interested</span>
+                            <div class="icon">
+                                <i class="fa fa-remove">X</i>
+                                <i class="fa fa-check">✓</i>
+                            </div>
+                        </a>
+                    </div>
+
+                </div>
+
+            {{end}}
+
+        </div>
+
+    </section>
+    {{if eq $.Title "Enquired Products With Prices"}}
+        <script>
+            window.addEventListener('load', function () { // show hide barcode onload
+                localStorage.clear();
+            });
+        </script>
+    {{end}}
+    {{template "footer"}}
+{{end}}

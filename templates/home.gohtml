@@ -1,11 +1,11 @@
 {{define "home"}}
-    {{template "header"}}
+    {{ template "header" }}
 
     <section class="section-null">
-        <div class="bg-video-wrap">
+        <div class="bg-video-wrap hero">
             <video src="video/background-video.mp4" loop muted autoplay>
             </video>
-            <div class="overlay">
+            <div class="overlay hero">
             </div>
             <h1>
                 <span class="h1-main">For anything and everything in BARCODING</span>
@@ -29,19 +29,36 @@
     <section class="section-carousel">
         <div class="glider-contain">
             <div class="glider">
-                <div>your content 1</div>
-                <div>your content 2</div>
-                <div>your content 3</div>
-                <div>your content 4</div>
-                <div>your content 5</div>
-                <div>your content 6</div>
-                <div>your content 7</div>
-                <div>your content 8</div>
-                <div>your content 9</div>
-                <div>your content 10</div>
-                <div>your content 11</div>
-                <div>your content 12</div>
-                <div>your content 13</div>
+
+
+                {{range .Products}}
+
+                    <div class="product-container hover-card">
+
+                        <div class="images">
+                            <img src="{{.URL}}"/>
+                        </div>
+                        <div class="product">
+                            <h3>{{.Name}}</h3>
+                            <h4>Rs {{.Price}}</h4>
+                            <ul>
+                                {{range .Properties}}
+                                    <li>{{.}}</li>
+                                {{end}}
+                            </ul>
+                            <a class="button" data-id="{{.Id}}" data-name="{{.Name}}" role="button">
+                                <span>Interested</span>
+                                <div class="icon">
+                                    <i class="fa fa-remove">X</i>
+                                    <i class="fa fa-check">✓</i>
+                                </div>
+                            </a>
+                        </div>
+
+                    </div>
+
+                {{end}}
+
             </div>
 
             <button aria-label="Previous" class="glider-prev">«</button>

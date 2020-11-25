@@ -72,9 +72,10 @@
                     <div>
                         <p class="dropbtn">HOME ></p>
                         <div class="dropdown-content">
+                            <a href="/">HOMEPAGE</a>
                             <a href="#">OUR HISTORY</a>
                             <a href="#">OUR ACCOMPLISHMENT</a>
-                            <a href="#">CONTACT US</a>
+                            <a href="/contact">CONTACT US</a>
                         </div>
                     </div>
                 </div>
@@ -97,10 +98,9 @@
                     <div>
                         <p class="dropbtn">HARDWARE ></p>
                         <div class="dropdown-content">
-                            <a href="/category/#">PRINTERS</a>
-                            <a href="/category/#">SCANNER</a>
-                            <a href="/category/#">POS</a>
-                            <a href="/category/#">AIOS</a>
+                            {{ range headers.ProductType.Text }}
+                                <a href="/products/{{.}}">{{.}}</a>
+                            {{end}}
                         </div>
                     </div>
                 </div>
@@ -112,4 +112,4 @@
 </header>
 
 <main>
-{{end}}
+    {{end}}

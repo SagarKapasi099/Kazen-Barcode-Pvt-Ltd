@@ -1,7 +1,8 @@
-window.onload = function () { // show hide barcode onload
+window.addEventListener('load', function () { // show hide barcode onload
+    console.log("start");
     document.getElementById("preloader").style.display = "none";
     document.getElementsByTagName("BODY")[0].style.overflow = "unset";
-}
+});
 
 document.addEventListener('DOMContentLoaded', function () {
 
@@ -76,9 +77,13 @@ function hide_all_dropdowns() {
 
 
 window.addEventListener('load', function () {
-    new Glider(document.querySelector('.glider'), {
+    let gliderElement = document.querySelector('.glider');
+    if(gliderElement == null) {
+        return;
+    }
+    new Glider(gliderElement, {
         slidesToScroll: 2,
-        slidesToShow: 5,
+        slidesToShow: 2,
         draggable: true,
         dots: '.dots',
         arrows: {
@@ -86,4 +91,10 @@ window.addEventListener('load', function () {
             next: '.glider-next'
         }
     });
-})
+});
+
+document.addEventListener("DOMContentLoaded", function(event) {
+    document.querySelectorAll('img').forEach(function(img){
+        img.onerror = function(){this.style.display='none';};
+    })
+});
