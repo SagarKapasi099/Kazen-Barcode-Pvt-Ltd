@@ -6,6 +6,7 @@ import (
 	"database/sql"
 	"encoding/json"
 	"errors"
+	"os"
 	jwtmiddleware "github.com/auth0/go-jwt-middleware"
 	jwt2 "github.com/dgrijalva/jwt-go"
 	_ "github.com/go-sql-driver/mysql"
@@ -95,7 +96,7 @@ func main() {
 	c := GetClient()
 	pingError := c.Ping(context.Background(), readpref.Primary())
 	if pingError != nil {
-		log.Fatal("Couldn't connect to the database", err)
+		log.Println("Couldn't connect to the database", err)
 	} else {
 		log.Println("Connected!")
 	}
@@ -118,6 +119,7 @@ func main() {
 	r := mux.NewRouter()
 	r.PathPrefix("/assets/").Handler(http.StripPrefix("/assets/", http.FileServer(http.Dir("assets"))))
 	r.HandleFunc("/", HomeHandler).Methods("GET")
+	r.HandleFunc("/index.html.var", HomeHandler).Methods("GET") // apache reverse proxy calls this url for index
 	r.HandleFunc("/about", AboutHandler).Methods("GET")
 	r.HandleFunc("/contact", ContactUsHandler).Methods("GET")
 	r.HandleFunc("/enquiry", EnquiryHandler).Methods("POST")
@@ -162,7 +164,7 @@ func GetClient() *mongo.Client {
 // GetMySQLClient returns a MySQL Client Singleton
 func getMySQLClient(logMessage string) (*sql.DB, error) {
 	fmt.Printf("G E N E R A T E D %v\n", logMessage)
-	db, err := sql.Open("mysql", "root:i'maprogrammer@tcp(localhost:3306)/kbpl")
+	db, err := sql.Open("mysql", os.Getenv("KBPL_DATABASE_USER")+":"+os.Getenv("KBPL_DATABASE_PASSWORD")+"@tcp(127.0.0.1:3306)/kbpl")
 	if err != nil {
 		log.Println("error opening MySQL on port 3306")
 		return nil, err
