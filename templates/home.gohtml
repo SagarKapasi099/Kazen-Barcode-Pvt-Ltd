@@ -27,45 +27,61 @@
     </section>
 
     <section class="section-carousel">
-        <div class="glider-contain">
-            <div class="glider">
+
+        {{if .Products}}
+            <div class="glider-contain">
+                <div class="glider">
 
 
-                {{range .Products}}
+                    {{range .Products}}
 
-                    <div class="product-container hover-card">
+                        <div class="hover-card">
 
-                        <div class="images">
-                            <img src="{{.URL}}"/>
-                        </div>
-                        <div class="product">
                             <h3>{{.Name}}</h3>
-                            <h4>Rs {{.Price}}</h4>
-                            <ul>
-                                {{range .Properties}}
-                                    <li>{{.}}</li>
-                                {{end}}
-                            </ul>
-                            <a class="button" data-id="{{.Id}}" data-name="{{.Name}}" role="button">
-                                <span>Interested</span>
-                                <div class="icon">
-                                    <i class="fa fa-remove">X</i>
-                                    <i class="fa fa-check">✓</i>
+
+                            <div class="product-container">
+                                <div class="images">
+                                    <img src="{{.URL}}"/>
                                 </div>
-                            </a>
+                                <div class="product">
+
+                                    <h4>Rs {{.Price}}</h4>
+                                    <ul>
+                                        {{range .Properties}}
+                                            <li>{{.}}</li>
+                                        {{end}}
+                                    </ul>
+                                    <a class="button" data-id="{{.Id}}" data-name="{{.Name}}" role="button">
+                                        <span>Interested</span>
+                                        <div class="icon">
+                                            <i class="fa fa-remove">X</i>
+                                            <i class="fa fa-check">✓</i>
+                                        </div>
+                                    </a>
+                                </div>
+                            </div>
+
                         </div>
+                    {{end}}
 
-                    </div>
 
-                {{end}}
+                </div>
 
+                <button aria-label="Previous" class="glider-prev">«</button>
+                <button aria-label="Next" class="glider-next">»</button>
+                <div role="tablist" class="dots"></div>
             </div>
-
-            <button aria-label="Previous" class="glider-prev">«</button>
-            <button aria-label="Next" class="glider-next">»</button>
-            <div role="tablist" class="dots"></div>
-        </div>
+        {{end}}
     </section>
+
+    <script>
+        window.addEventListener('load', function () {
+            window.setTimeout(function () {
+                modal.style.display = "block";
+            }, 4000);
+        });
+    </script>
+
 
     {{template "footer"}}
 {{end}}

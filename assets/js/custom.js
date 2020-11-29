@@ -54,8 +54,8 @@ window.addEventListener('load', function () {
     appendSelectedProductsList();
 
     if (products.length === 0) {
-        document.getElementById("superText").innerText = "Please feel free to contact us if you have any questions or comments about our services.";
-        document.getElementById("subText").innerText = "Please provide the following information so that we can route your request to the appropriate person and thus respond to you faster.";
+        document.getElementById("mainInfo").innerText = "Please feel free to contact us if you have any questions or comments about our services.";
+        document.getElementById("minorInfo").innerText = "Please provide the following information so that we can route your request to the appropriate person and thus respond to you faster.";
     }
 });
 
@@ -130,8 +130,8 @@ if(document.getElementById("enquirySubmitBtn") !== null) {
         XHR.addEventListener('load', function (event) {
 
             let jsonResponse = JSON.parse(event.target.response);
-            document.getElementById("superText").innerText = jsonResponse.message.superText;
-            document.getElementById("subText").innerText = jsonResponse.message.subText;
+            document.getElementById("mainInfo").innerText = jsonResponse.message.superText;
+            document.getElementById("minorInfo").innerText = jsonResponse.message.subText;
 
             document.getElementById("enquiryForm").style.display = "none";
 
@@ -175,7 +175,7 @@ if(document.getElementById("enquirySubmitBtn") !== null) {
             otpResendButton.setAttribute("id", "otpResendBtn");
             otpResendButton.setAttribute("value", "Resend OTP");
 
-            document.getElementById("formDiv").appendChild(otpForm);
+            document.getElementById("form-container").appendChild(otpForm);
 
             otpForm.append(otpInputDiv,
                 document.createElement("br"),
@@ -247,8 +247,8 @@ document.addEventListener('click',function(e){
 
                 document.getElementById("otpForm").style.display = "none";
 
-                document.getElementById("superText").innerText = jsonResponse.message.superText;
-                document.getElementById("subText").innerText = jsonResponse.message.subText;
+                document.getElementById("mainInfo").innerText = jsonResponse.message.superText;
+                document.getElementById("minorInfo").innerText = jsonResponse.message.subText;
 
                 try {
                     document.getElementById("productsForm").remove();
@@ -274,7 +274,7 @@ document.addEventListener('click',function(e){
                     showProductsButton.setAttribute("class", "btn btn--primary btn--large h-full-width");
                     showProductsButton.setAttribute("type", "submit");
 
-                    document.getElementById("formDiv").appendChild(showProductsButton)
+                    document.getElementById("form-container").appendChild(showProductsButton)
                 }
 
 

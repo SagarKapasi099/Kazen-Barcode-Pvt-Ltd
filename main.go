@@ -424,33 +424,35 @@ func EnquiryHandler(w http.ResponseWriter, r *http.Request) {
 	}
 
 	// insert into enquiry product mapping
-	sqlStr := "INSERT INTO enquiry_product_mapping(e_id, p_id) VALUES "
-	vals := []interface{}{}
+	if len(productIds) > 0 {
+		sqlStr := "INSERT INTO enquiry_product_mapping(e_id, p_id) VALUES "
+		vals := []interface{}{}
 
-	for _, row := range productIds {
-		sqlStr += "(?, ?),"
-		vals = append(vals, enquiryId, row)
-		log.Println(vals)
-	}
-	//trim the last ,
-	sqlStr = sqlStr[0 : len(sqlStr)-1]
-	log.Println(sqlStr)
-	//prepare the statement
-	stmtEPM, err := db.Prepare(sqlStr)
-	if err != nil {
-		success = false
-		log.Println("Error preparing sql statement for stmtEPM (enquiry_product_mapping)", err)
-	}
+		for _, row := range productIds {
+			sqlStr += "(?, ?),"
+			vals = append(vals, enquiryId, row)
+			log.Println(vals)
+		}
+		//trim the last ,
+		sqlStr = sqlStr[0 : len(sqlStr)-1]
+		log.Println(sqlStr)
+		//prepare the statement
+		stmtEPM, err := db.Prepare(sqlStr)
+		if err != nil {
+			success = false
+			log.Println("Error preparing sql statement for stmtEPM (enquiry_product_mapping)", err)
+		}
 
-	//format all vals at once
-	resEPM, err := stmtEPM.Exec(vals...)
-	if err != nil {
-		success = false
-		log.Println("Error executing sql statement resEMP for stmtEPM (enquiry_product_mapping) resEPM's Value:", resEPM, err)
-	}
-	err = stmtEPM.Close()
-	if err != nil {
-		log.Println("cannot close stmtEPM enquiryHandler 12345", err)
+		//format all vals at once
+		resEPM, err := stmtEPM.Exec(vals...)
+		if err != nil {
+			success = false
+			log.Println("Error executing sql statement resEMP for stmtEPM (enquiry_product_mapping) resEPM's Value:", resEPM, err)
+		}
+		err = stmtEPM.Close()
+		if err != nil {
+			log.Println("cannot close stmtEPM enquiryHandler 12345", err)
+		}
 	}
 
 	if success {

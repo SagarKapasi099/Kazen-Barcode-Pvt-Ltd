@@ -30,29 +30,33 @@
         <div class="products-container">
             {{range .Products}}
 
-                <div class="product-container hover-card">
+                <div class="hover-card">
 
-                    <div class="images">
-                        <img src="{{.URL}}" alt="{{.Name}} Image"/>
-                    </div>
-                    <div class="product">
-                        <h3>{{.Name}}</h3>
-                        {{if eq $.Title "Enquired Products With Prices"}}
-                            <h4>Rs {{.Price}}</h4>
-                        {{end}}
-                        <ul>
-                            {{range .Properties}}
-                                <li>{{.}}</li>
+                    <h3>{{.Name}}</h3>
+
+                    <div class="product-container">
+                        <div class="images">
+                            <img src="{{.URL}}" alt="{{.Name}} Image"/>
+                        </div>
+                        <div class="product">
+                            {{if eq $.Title "Enquired Products With Prices"}}
+                                <h4>Rs {{.Price}}</h4>
                             {{end}}
-                        </ul>
-                        <a class="button" data-id="{{.Id}}" data-name="{{.Name}}" role="button">
-                            <span>Interested</span>
-                            <div class="icon">
-                                <i class="fa fa-remove">X</i>
-                                <i class="fa fa-check">✓</i>
-                            </div>
-                        </a>
+                            <ul>
+                                {{range .Properties}}
+                                    <li>{{.}}</li>
+                                {{end}}
+                            </ul>
+                            <a class="button" data-id="{{.Id}}" data-name="{{.Name}}" role="button">
+                                <span>Interested</span>
+                                <div class="icon">
+                                    <i class="fa fa-remove">X</i>
+                                    <i class="fa fa-check">✓</i>
+                                </div>
+                            </a>
+                        </div>
                     </div>
+
 
                 </div>
 

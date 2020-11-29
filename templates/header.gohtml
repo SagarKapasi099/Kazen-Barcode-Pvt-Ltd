@@ -64,7 +64,7 @@
 <!-- Here is our main header that is used across all the pages of our website -->
 
 <header>
-    <img src="/assets/images/logo.png" alt="Logo">
+    <img onclick="window.location='/'" src="/assets/images/logo.png" alt="Logo">
     <nav>
         <ul>
             <li>
@@ -75,6 +75,7 @@
                             <a href="/">HOMEPAGE</a>
                             <a href="#">OUR HISTORY</a>
                             <a href="#">OUR ACCOMPLISHMENT</a>
+                            <a href="/about">ABOUT US</a>
                             <a href="/contact">CONTACT US</a>
                         </div>
                     </div>
@@ -112,4 +113,83 @@
 </header>
 
 <main>
+
+    <style>
+
+        /* The Modal (background) */
+        .modal {
+            display: none; /* Hidden by default */
+            position: fixed; /* Stay in place */
+            z-index: 9999; /* Sit on top */
+            padding-top: 15rem; /* Location of the box */
+            left: 0;
+            top: 0;
+            width: 100%; /* Full width */
+            height: 100%; /* Full height */
+            overflow: auto; /* Enable scroll if needed */
+            background-color: rgb(0, 0, 0); /* Fallback color */
+            background-color: rgba(0, 0, 0, 0.4); /* Black w/ opacity */
+        }
+
+        /* Modal Content */
+        .modal-content {
+            margin: auto;
+            padding: 20px;
+            width: 80%;
+        }
+
+        /* The Close Button */
+        .close {
+            color: #FFFFFF;
+            float: right;
+            font-size: 28px;
+            font-weight: bold;
+            margin-top: 0.5rem;
+        }
+
+        .close:hover,
+        .close:focus {
+            color: #000;
+            text-decoration: none;
+            cursor: pointer;
+        }
+    </style>
+
+    <!-- The Modal -->
+    <div id="myModal" class="modal">
+
+        <!-- Modal content -->
+        <div class="modal-content"
+             style="font-family: 'Rubik', sans-serif; background-color: #4a0e13; border-radius: 0.2rem;">
+            <span class="close">&times;</span>
+            <div style="margin-right: 20px;">
+                <p style="text-transform:uppercase; font-size: 1.5rem; color: #f3762d; margin-bottom: unset !important;"
+                   class="h1-main">we are upgrading our
+                    product list with online shopping
+                    option</p>
+                <p style="text-transform: uppercase; font-size: 1rem; color: #ffffff;" class="p-main">for better
+                    knowledge
+                    of new products with latest
+                    technologies, we are upgrading our website.
+                    <br>
+                    <br>
+                    online shopping option would also be available.</p>
+            </div>
+        </div>
+
+    </div>
+
+    <script>
+        var modal = document.getElementById("myModal");
+        var btn = document.getElementById("myBtn");
+        var span = document.getElementsByClassName("close")[0];
+        span.onclick = function () {
+            modal.style.display = "none";
+        };
+        window.onclick = function (event) {
+            if (event.target == modal) {
+                modal.style.display = "none";
+            }
+        }
+    </script>
     {{end}}

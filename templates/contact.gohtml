@@ -18,68 +18,49 @@
 
     <!-- page content
     ================================================== -->
-    <section class="page-content">
-
-        <div class="row">
-            <div class="column">
-
-                <div class="event-content">
-
-                    <div class="event-title">
-                        <h2 class="display-1">Thank you for your interest in our products and services</h2>
-                    </div>
-
-                    <ul class="event-meta" id="event-meta">
-                    </ul>
+    <section class="section-contact">
 
 
-                </div> <!-- end event-content -->
-
-
-                <h3 id="superText">Please fill-up and send the form to see the prices for the products</h3>
-                <p id="subText"></p>
-
-                <div id="formDiv">
-                    <form name="enquiryForm" id="enquiryForm" class="enquiryForm"
-                          autocomplete="off">
-                        <fieldset>
-
-                            <div class="form-field">
-                                <input name="name" id="name" class="h-full-width h-remove-bottom" placeholder="Name"
-                                       value="Sagar Kapasi" type="text">
-                            </div>
-
-                            <div class="form-field">
-                                <input name="email" id="email" class="h-full-width h-remove-bottom" placeholder="Email"
-                                       value="sagarkapasi099@gmail.com" type="email">
-                            </div>
-
-                            <div class="form-field">
-                                <input name="number" id="mobile_no" class="h-full-width h-remove-bottom"
-                                       placeholder="Mobile Number (Required for OTP)" minlength="10" maxlength="10"
-                                       value="8286525832"
-                                       type="number">
-                            </div>
-
-                            <div class="comments form-field">
-                        <textarea name="comments" id="comments" class="h-full-width h-remove-bottom"
-                                  placeholder="Comments & Questions">comments and questions.</textarea>
-                            </div>
-
-                            <br>
-
-                            <input name="enquirySubmitBtn" id="enquirySubmitBtn"
-                                   class="btn btn--primary btn--large h-full-width"
-                                   value="Submit" type="submit">
-
-                        </fieldset>
-                    </form> <!-- end volunteerForm -->
-                </div>
-
-
-            </div>
+        <div class="event-title">
+            <h2 class="display-1">Thank you for your interest in our products and services</h2>
         </div>
 
-    </section> <!-- end page content -->
+        <ul class="event-meta" id="event-meta">
+        </ul>
+
+
+        <h3 id="mainInfo">Please fill-up and send the form to see the prices for the products</h3>
+        <p id="minorInfo"></p>
+
+        <div id="form-container">
+            <form name="enquiryForm" id="enquiryForm" class="enquiryForm"
+
+                  autocomplete="off">
+                <fieldset>
+                    <input name="name" id="name" placeholder="Name"
+                           type="text">
+
+                    <input name="email" id="email" placeholder="Email"
+                           type="email">
+
+                    <input name="number" id="mobile_no"
+                           placeholder="Mobile Number (Required for OTP)" minlength="10" maxlength="10"
+                           type="number">
+
+
+                    <textarea name="comments" id="comments"
+                              placeholder="Comments & Questions"></textarea>
+
+                    <br>
+
+                    <input name="enquirySubmitBtn" id="enquirySubmitBtn"
+                           value="Submit" type="submit">
+
+                </fieldset>
+            </form>
+        </div>
+
+
+    </section>
     {{template "footer"}}
 {{end}}
