@@ -137,7 +137,7 @@ header {
 }
 
 .blur {
-    background: rgba(0, 0, 0, 0.5);
+    background: rgb(0 0 0 / 83%);
     backdrop-filter: blur(10px) saturate(125%);
 }
 
@@ -147,8 +147,8 @@ header img {
 
     margin-top: 0.4rem;
     padding-left: 20px;
-    max-width: 80%;
-    max-height: 45px;
+    max-width: 100%;
+    max-height: 50px;
     cursor: pointer;
 }
 
@@ -278,11 +278,12 @@ header a, header p {
     overflow: hidden;
     width: 100%;
     height: 50vh;
+    margin-top: 4.6rem;
 }
 
 .hero {
-    height: 90vh !important;
-    /* background: url() no-repeat center center/cover;*/
+    height: 100vh !important;
+    background: url("/assets/images/carousel/carousel-0.jpeg") no-repeat center center/cover;
 }
 
 video {
@@ -297,7 +298,7 @@ video {
     position: absolute;
     top: 0;
     left: 0;
-    background-color: #4a0e13;
+    background-color: #232323;
     background-size: 3px 3px;
     z-index: 2;
 }
@@ -310,7 +311,8 @@ video {
 .bg-video-wrap h1 {
     font-family: 'Montserrat', sans-serif;
     text-align: center;
-    color: #fff;
+    color: #FFFFFF;
+    text-shadow: 2px 2px rgb(0, 0, 0);
     position: absolute;
     top: 60%;
     left: 0;
@@ -325,6 +327,7 @@ video {
 
 .hero h1 {
     top: 40% !important;
+    zoom: 79%;
 }
 
 .h1-main {
@@ -359,6 +362,7 @@ h1 span {
 
     .hero h1 {
         top: 3rem !important;
+        zoom: unset;
     }
 
     h1 span {
@@ -376,7 +380,7 @@ h1 span {
 
     /* making non hero overlay shorter on small mobile devices */
     .bg-video-wrap .h1-main {
-        margin-top: 6rem;
+        /*margin-top: 6rem;*/
     }
 
     .overlay {
@@ -419,16 +423,25 @@ footer {
     }
 }
 
-.section-about, footer {
-    background-color: #4a0e13;
-    color: white;
+footer {
+    background-color: #efefef;
+    color: #000000;
+}
+
+.section-about {
+    background-color: #FFFFFF;
+    color: #000000;
+    font-weight: 300;
+    font-size: 1rem;
+    line-height: 2rem;
 }
 
 .section-heading {
-    color: #f3762d;
+    color: #f44336;
 }
 
 .section-carousel {
+    background-color: #b5b5b5;
     overflow: hidden;
 }
 
@@ -464,7 +477,7 @@ footer {
 
 
 .sub-heading {
-    color: orange;
+    color: #f44336;
 }
 
 .p-top {
@@ -472,7 +485,7 @@ footer {
 }
 
 footer a {
-    color: white;
+    color: #000000;
 }
 
 .clickable {
@@ -527,7 +540,7 @@ footer a {
  * Contact Us Button Float on Bottom Right Corner
  */
 .contact-btn {
-    z-index: 999;
+    z-index: 222;
     position: fixed;
     right: 20px;
     bottom: 20px;
@@ -562,7 +575,7 @@ input, textarea {
 
 #otpSubmitBtn, #enquirySubmitBtn, #otpResendBtn, #showProducts {
     color: white;
-    background-color: #4a0e13;
+    background-color: #000000;
     border-radius: 10px;
     cursor: pointer;
 }
@@ -717,7 +730,7 @@ input, textarea {
 }
 
 .product-container .images img {
-    width: calc(100% - 1rem);
+    width: calc(50% - 1rem);
     margin: auto;
 }
 
@@ -765,10 +778,13 @@ input, textarea {
     margin-top: 1rem;
     width: 100%;
     padding-left: 0;
+    font-weight: 100;
+    font-size: 1.2rem;
 }
 
 .glider-slide {
     margin: 0 1rem;
+    background-color: white;
 }
 
 .glider-slide .button {
@@ -789,7 +805,7 @@ input, textarea {
 .hover-card {
     box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
     transition: all 0.3s cubic-bezier(.25, .8, .25, 1);
-    padding: 2rem;
+    padding: 2rem 1rem;
     margin: 2rem 1rem;
 }
 
@@ -822,4 +838,13 @@ input, textarea {
 
 .selected.hamburger-menu::before {
     content: '✖';
+}
+
+.tagline {
+    text-decoration: underline;
+    text-decoration-color: #C62828;
+    text-transform: uppercase;
+    font-weight: 400;
+    text-align: center;
+    justify-content: center;
 }

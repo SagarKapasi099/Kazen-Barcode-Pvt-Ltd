@@ -6,7 +6,6 @@ import (
 	"database/sql"
 	"encoding/json"
 	"errors"
-	"os"
 	jwtmiddleware "github.com/auth0/go-jwt-middleware"
 	jwt2 "github.com/dgrijalva/jwt-go"
 	_ "github.com/go-sql-driver/mysql"
@@ -15,6 +14,7 @@ import (
 	"go.mongodb.org/mongo-driver/mongo/readpref"
 	"io"
 	"math/rand"
+	"os"
 	"strconv"
 	"time"
 

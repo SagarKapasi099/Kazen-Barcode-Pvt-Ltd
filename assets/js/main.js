@@ -54,7 +54,7 @@ document.addEventListener('DOMContentLoaded', function () {
             })
         });
 
-    const content = document.getElementsByTagName("main")[0];
+    /*const content = document.getElementsByTagName("main")[0];
     document.addEventListener("scroll", (e) => {
 
         let scrolled = document.scrollingElement.scrollTop;
@@ -66,6 +66,7 @@ document.addEventListener('DOMContentLoaded', function () {
             navbar.classList.remove("blur");
         }
     });
+    */
 
 });
 

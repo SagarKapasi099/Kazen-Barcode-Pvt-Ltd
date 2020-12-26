@@ -63,33 +63,20 @@
 </div>
 <!-- Here is our main header that is used across all the pages of our website -->
 
-<header>
-    <img onclick="window.location='/'" src="/assets/images/logo.png" alt="Logo">
+<header class="blur">
+    <img onclick="window.location='/'" src="/assets/images/logo.jpeg" alt="Logo">
     <nav>
         <ul>
-            <li>
-                <div class="dropdown">
-                    <div>
-                        <p class="dropbtn">HOME ></p>
-                        <div class="dropdown-content">
-                            <a href="/">HOMEPAGE</a>
-                            <a href="#">OUR HISTORY</a>
-                            <a href="#">OUR ACCOMPLISHMENT</a>
-                            <a href="/about">ABOUT US</a>
-                            <a href="/contact">CONTACT US</a>
-                        </div>
-                    </div>
-                </div>
-            </li>
+            <li><a href="/">HOME</a></li>
             <li>
                 <div class="dropdown">
                     <div>
                         <p class="dropbtn">SOLUTIONS ></p>
                         <div class="dropdown-content">
-                            <a href="#">MEDICAL PHARMA</a>
-                            <a href="#">INDUSTRIAL</a>
-                            <a href="#">TURN KEY PROJECTS</a>
-                            <a href="#">RETAIL</a>
+                            <a>MEDICAL PHARMA</a>
+                            <a>INDUSTRIAL</a>
+                            <a>TURN KEY PROJECTS</a>
+                            <a>RETAIL</a>
                         </div>
                     </div>
                 </div>
@@ -107,6 +94,8 @@
                 </div>
             </li>
             <li><a href="#">SOFTWARE</a></li>
+            <li><a href="/contact">CONTACT US</a></li>
+            <li><a href="/about">ABOUT US</a></li>
         </ul>
     </nav>
     <button class="hamburger-menu">Menu</button>
@@ -140,9 +129,9 @@
 
         /* The Close Button */
         .close {
-            color: #FFFFFF;
+            color: #000000;
             float: right;
-            font-size: 28px;
+            font-size: 38px;
             font-weight: bold;
             margin-top: 0.5rem;
         }
@@ -160,14 +149,14 @@
 
         <!-- Modal content -->
         <div class="modal-content"
-             style="font-family: 'Rubik', sans-serif; background-color: #4a0e13; border-radius: 0.2rem;">
+             style="font-family: 'Rubik', sans-serif; background-color: #FFFFFF; border-radius: 0.2rem;">
             <span class="close">&times;</span>
             <div style="margin-right: 20px;">
-                <p style="text-transform:uppercase; font-size: 1.5rem; color: #f3762d; margin-bottom: unset !important;"
+                <p style="text-transform:uppercase; font-size: 1.5rem; color: #f12f2f; margin-bottom: unset !important;"
                    class="h1-main">we are upgrading our
                     product list with online shopping
                     option</p>
-                <p style="text-transform: uppercase; font-size: 1rem; color: #ffffff;" class="p-main">for better
+                <p style="text-transform: uppercase; font-size: 1rem; color: #000000;" class="p-main">for better
                     knowledge
                     of new products with latest
                     technologies, we are upgrading our website.

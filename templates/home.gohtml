@@ -3,7 +3,6 @@
 
     <section class="section-null">
         <div class="bg-video-wrap hero">
-            <video src="assets/video/background-video.mp4" loop muted autoplay>
             </video>
             <div class="overlay hero">
             </div>
@@ -18,15 +17,28 @@
 
     <!-- It contains an article -->
     <section class="section-about">
-        <h2 class="section-heading">Total Solutions For</h2>
-        <ul>
-            <li>Barcode System</li>
-            <li>Electronic Article Surveillance</li>
-            <li>RFID</li>
-        </ul>
+        <h2 class="section-heading">About KAZEN BARCODE PVT LTD (KBPL)</h2>
+        <p>KAZEN BARCODE PVT LTD HAS BEEN FORMED IN 2006, BY A GROUP OF PROFESSIONALS HAVING TOTAL & WIDE EXPERIENCE IN BARCODE INDUSTRY FOR MORE THAN 24 YEARS.</p>
+        <p>TEAM KAZEN IS YOUNG, ENERGENTIC & PROMPT - SALES AND SERVICE KBPL FAMILY.</p>
+
+        <p class="tagline">For anything and everything in Barcoding</p>
+
+        <p>KBPL is having an alliance with world renowned automatic capture and electronic security solution providers. Offering around 18+ years of service portfolio that includes support of all types of barcode equipment, RFID, TOUCH POS  . Specialities for turnkey projects that integrate automatic data capture with any ERP system.</p>
+        <p>KBPL has Inhouse label manufacturing facility to offer customised solutions for different types of labels tags and ribbons as per the requirements.</p>
+        <p>KBPL offers Strong technical backup of trained product specialists, top of the line equipments and infrastructure.</p>
+        <p>KBPL offers Inhouse software development division for customised software development and integration.</p>
+        <p>KBPL undertake the Annual Maintenance Contract of all barcode related products which includes scanners, printers, portable data terminals.</p>
+        <p>KBPL believes in Long Term Business relationship with our Suppliers and our focus is to offer a Fair Clean interpersonal relationship, reliability, quality by promoting advance modern technology.</p>
+        <p>KBPL IS INVOLVED IN SUPPLY, SUPPORT OF MAJOR BRANDS LIKE <span class="tagline">ARGOX, CIPHERLAB, DATALOGIC, HONEYWELL, HPRT, HGRT, GAINSHA, TSC, ZEBRA</span></p>
+
+        <p>WE CONSTANTLY STRIVE TO BE A LEADING BARCODE COMPANY WITH FAIR BUSINESS AND FUNCTIONAL KNOWLEDGE.</p>
+
+        <p>OUR SUCCESS OF HAVING MORE THAN 5000 CUSTOMERS IS DUE TO THE CLOSE RELATIONSHIP WITH OUR CLIENTS THROUGH ENSURING THE BEST POSSIBLE SOULTIONS TO THEIR NEEDS BY OFFERING THEM ECONOMICAL AND FEASIBLE PRODUCTS, AFTER UNDERSTANDING THEIR OBJECTIVES TO MAXIMISE THEIR PRODUCTIVITY AND BUSINESS.</p>
     </section>
 
     <section class="section-carousel">
+
+        <p class="section-heading" style="text-decoration: underline; color: black;">New Arrival</p>
 
         {{if .Products}}
             <div class="glider-contain">
@@ -44,8 +56,6 @@
                                     <img src="{{.URL}}"/>
                                 </div>
                                 <div class="product">
-
-                                    <h4>Rs {{.Price}}</h4>
                                     <ul>
                                         {{range .Properties}}
                                             <li>{{.}}</li>
